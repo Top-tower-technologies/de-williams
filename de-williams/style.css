@@ -355,7 +355,7 @@ section .title::after{
 .contact .contact-content .left {
   background: #D3AE00;
  height: 600px;
-  padding: 50px;
+  padding: 70px;
 }
 
 .contact .contact-content .left .book {
@@ -363,6 +363,7 @@ section .title::after{
     background: #fff;
     padding: 30px;
     top: 20%;
+    height: 300px;
     position: relative;
 }
 .contact .contact-content .left .book p{
@@ -375,11 +376,16 @@ section .title::after{
   
 }
 .contact .contact-content .row{
-    display: flex;
     margin-top: 1px;
     align-items: center;
     padding: 5px
 }
+.contact .contact-content .row .text{
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 40px;
+}
+
 .contact .contact-content .row .info{
     margin-left: 25px;
 
