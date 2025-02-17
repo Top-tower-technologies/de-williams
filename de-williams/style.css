@@ -46,7 +46,7 @@ section{
     padding: 100px 0;
 }
 .max-width{
-    max-width: 1300px;
+    max-width: 1500px;
     padding: 0 80px;
     margin: auto;
 }
@@ -332,8 +332,40 @@ section .title::after{
 
 
 
-
-
+.feature {
+    float: left;
+    width: 33.3%;
+    padding: 0 10px;
+  }
+  
+  
+  .rows:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .feature {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  
+ .feature .card {
+    border: 1px solid #EFEFEF;
+    padding: 16px;
+    padding: 45px;
+    text-align: left;
+    background-color: #F2F3F5;
+  }
+  .feature .card h3{
+    font-size: 40px;
+    line-height: 30px;
+    font-weight: 500;
+    text-align: left;
+  }
 
 
 
