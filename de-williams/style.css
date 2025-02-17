@@ -428,14 +428,16 @@ section .title::after{
     font-family: 'Darker Grotesque';
     transition: all 0.3s ease;
 }
-.contact .right form .field input:focus,
-.contact .right form .textarea textarea:focus{
+.contact .right form .field input:focus input::placeholder,
+.contact .right form .textarea textarea:focus textarea::placeholder{
     border-color: #b3b3b3;
+    font-weight: 800;
 }
 .contact .right form .textarea textarea{
   padding-top: 10px;
   resize: none;
 }
+
 .contact .right form .button-area{
   display: flex;
   align-items: center;
