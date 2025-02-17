@@ -354,11 +354,20 @@ section .title::after{
 
 .contact .contact-content .left {
   background: #D3AE00;
-  color: #fff;
-  padding: 30px;
+ height: 600px;
+  padding: 50px;
 }
-.contact .contact-content .left p{
+
+.contact .contact-content .left .book {
+    color: #0000;
+    background: #fff;
+    padding: 30px;
+    top: 20%;
+    position: relative;
+}
+.contact .contact-content .left .book p{
     text-align: left;
+    color: #121227;
 }
 .contact .contact-content .left .icons{
     margin: auto 0;
@@ -382,15 +391,7 @@ section .title::after{
     
    padding-top: 18px ; 
 }
-.contact .contact-content .info .head{
-    font-weight: 500;
-    font-size: 16px;
-    padding: left 5px;
-}
-.contact .contact-content .info .sub-title{
-    color: #ffffff;
-    top: 10px;
-}
+
 .contact .right form .fields{
     display: flex;
     line-height: 20px;
@@ -402,7 +403,7 @@ section .title::after{
     margin-bottom: 20px;
 }
 .contact .right form .textarea{
-    height: 234px;
+    height: 120px;
     width: 100%;
 }
 .contact .right form .name{
