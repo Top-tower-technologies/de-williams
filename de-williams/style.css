@@ -356,7 +356,7 @@ section .title::after{
 
   }
 
-  .homes-content .adds{
+.homes-content .adds{
     width: 400px;
     height: 300px;
     background: #ffffff;
@@ -367,7 +367,21 @@ section .title::after{
     position: relative;
     color: #121227;
     padding: 20px;
-  }
+  }  
+
+  .homes-content .adding{
+    width: 400px;
+    height: 300px;
+    background: #ffffff;
+    font-size: 20px;
+    gap: 10px;
+    top: 20px;
+    left: 900px;
+    text-align: left;
+    position: relative;
+    color: #121227;
+    padding: 20px;
+  }  
 
 .feature {
     float: left;
@@ -655,6 +669,13 @@ footer{
         font-size: 15px;
         width: 250px;
         height: 300px;
+      }
+
+      .homes-content .adding{
+        font-size: 15px;
+        width: 250px;
+        height: 300px;
+        left: 25px;
       }
     }
 
