@@ -333,7 +333,6 @@ section .title::after{
 .homes{
     display: flex;
     background: url("/de-williams/images/image\ 58.png") no-repeat center;
-    height: 75vh;
     color: #fff;
     min-height: 500px;
     background-size: cover;
