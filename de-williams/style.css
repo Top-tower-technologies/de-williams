@@ -588,60 +588,36 @@ h2{
 }
 
 
-footer{
-   
-    background-color: rgb(47, 64, 151);
-    color: var(--white);
-    padding-left: 5px;
-    padding-bottom: 30px;
+.foot-content {
+    float: left;
+    width: 50%;
+    padding: 0 10px;
   }
   
-  footer .footer_content{
-    padding-top: 70px;
+  /* Remove extra left and right margins, due to padding */
+  .foot {margin: 0 -5px;}
+  
+  /* Clear floats after the columns */
+  .foot:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .foot-content .card {
+    padding: 56px;
+    text-align: left;
+    font-weight: bolder;
+    line-height: 50px;
+  }
+  /* Responsive columns */
+  @media screen and (max-width: 600px) {
+    .foot-content {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
   }
   
-  footer .span{
-    background-color: rgba(255, 255, 255, .15);  
-    backdrop-filter: blur(5px);
-    padding: 10px 0px 0px 20px;
-    width: 370px;
-    margin-top: 80px;
-    margin-bottom: 50px;
-    min-height: 200px;
-  }
-  
-  footer .span input{
-    width: 338px;
-    min-height: 280px;
-    position: relative;
-    margin: 13px 0px;
-  }
-  
-  footer .span i{
-    position: absolute;
-    right: 75px;
-    top: 78px;
-    width: 40px;
-    height: 60px;
-    background-color: var(--dark-blue);
-    color: var(--white);
-  }
-  
-  footer .span p{
-    padding-bottom: px;
-    font-size: 12px;
-    font-weight: lighter ;
-    line-height: 30px;
-  }
-
-
-  footer .span h1{
-    
-    font-size: 16px;
-    font-weight: 1000;
-  }
-
-
 
 
 
@@ -657,50 +633,6 @@ footer{
 
 
 @media (max-width: 1104px) {
-    footer .footer_content{
-        padding-top: 70px;
-      }
-      
-      footer .span{
-        background-color: rgba(255, 255, 255, .15);  
-        backdrop-filter: blur(5px);
-        padding: 10px 0px 0px 20px;
-        width: 370px;
-        margin-top: 80px;
-        margin-bottom: 50px;
-        min-height: 200px;
-      }
-      
-      footer .span input{
-        width: 338px;
-        min-height: 280px;
-        position: relative;
-        margin: 13px 0px;
-      }
-      
-      footer .span i{
-        position: absolute;
-        right: 75px;
-        top: 78px;
-        width: 40px;
-        height: 60px;
-        background-color: var(--dark-blue);
-        color: var(--white);
-      }
-      
-      footer .span p{
-        padding-bottom: px;
-        font-size: 12px;
-        font-weight: lighter ;
-        line-height: 30px;
-      }
-    
-    
-      footer .span h1{
-        
-        font-size: 16px;
-        font-weight: 1000;
-      }
       .homes-content .adds{
         font-size: 15px;
         width: 250px;
