@@ -430,9 +430,7 @@ section .title::after{
   .roomsuites {
   margin: 0 -5px;
   background: url("/de-williams/images/image\ 61.png") no-repeat center;
-  height: 75vh;
   color: #fff;
-  min-height: 500px;
   background-size: cover;
   background-attachment: fixed;  }
   
@@ -454,8 +452,7 @@ section .title::after{
   
   /* Style the counter cards */
   .rooms .card {
-    position: relative;
-    top: 250px;
+    margin-top: 400px;
     padding: 16px;
     text-align: left;
     background-color: #ffffff;
@@ -731,7 +728,7 @@ footer{
     .menu-btn{
         display: block;
         z-index: 999;
-        color: #ff9900;
+        color: #D3AE00;
     }
     .menu-btn i.active:before{
         content: "\f00d";
