@@ -35,7 +35,7 @@ $(document).ready(function(){
 
     // typing text animation script
     var typed = new Typed(".typing", {
-        strings: ["ENERGY", "SOLAR", "ENERGY", "SOLAR", "ENERGY"],
+        strings: ["Hotel", "Lounge", "Spa", "Gym", "Service Apartment"],
         typeSpeed: 100,
         backSpeed: 60,
         loop: true
