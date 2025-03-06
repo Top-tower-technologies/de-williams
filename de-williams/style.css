@@ -698,6 +698,47 @@ h2{
 
 
 
+/*spamenu(servmenu)*/
+
+.servmenu{
+  background: #292929;
+  width: 100%;
+  padding: 50px;
+}
+
+.servmenu .first{
+  display: grid;
+  grid-template-columns: auto 150px ;
+}
+
+.servmenu .first h1{
+  color: #fff;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.servmenu .first a{
+  background: #fff;
+  color:#1E1E1E;
+  padding: 12px;
+  text-align: center;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.servmenu .second{
+  display: grid;
+  grid-template-columns: 350px 350px;
+  column-gap: 200px;
+  width: 70%; 
+  line-height: 20px;
+  font-weight: 400;
+  font-size: 18px;
+  color: #fff;
+}
+
+
+
 /* responsive media query start */
 @media (max-width: 1104px) {
     .about .about-content .left img{
