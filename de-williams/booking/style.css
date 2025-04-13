@@ -396,3 +396,278 @@ section .title::after{
             color: #2F4097;
         }
     }
+
+
+
+    .cardo {
+        width: 100%;
+        margin: auto;
+        background: white;
+        border: 1px solid #ddd;
+      }
+  
+      .top-section {
+        display: flex;
+        padding: 20px;
+      }
+  
+      .left-section {
+        flex: 2;
+        display: flex;
+        gap: 20px;
+      }
+  
+      .room-details {
+        flex: 1;
+      }
+  
+      .room-details h2 {
+        font-size: 20px;
+        margin: 0;
+      }
+  
+      .price-per-night {
+        font-size: 14px;
+        color: #333;
+        margin-top: 4px;
+      }
+  
+      .room-description {
+        font-size: 14px;
+        color: #555;
+        margin: 15px 0;
+      }
+  
+      .icons {
+        display: flex;
+        gap: 20px;
+        font-size: 14px;
+        color: #333;
+      }
+  
+      .icons div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+  
+      .room-image {
+        width: 200px;
+        height: 180px;
+        flex-shrink: 0;
+      }
+  
+      .room-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+  
+      .right-section {
+        flex: 1;
+        padding-left: 30px;
+        border-left: 1px solid #eee;
+      }
+  
+      .right-section h3 {
+        font-size: 16px;
+        margin: 0 0 20px;
+      }
+  
+      .right-section p {
+        font-size: 14px;
+        margin: 10px 0;
+        color: #333;
+      }
+  
+      .bottom-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #eee;
+        padding: 20px;
+        flex-wrap: wrap;
+      }
+  
+      .price-info {
+        font-size: 20px;
+        font-weight: bold;
+      }
+  
+      .price-info span {
+        font-size: 14px;
+        font-weight: normal;
+        margin-left: 10px;
+        color: #666;
+      }
+  
+      .action-group {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-top: 10px;
+      }
+  
+      .pay-later {
+        color: green;
+        font-size: 14px;
+      }
+  
+      .book-button {
+        background: #f4c900;
+        color: #000;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+  
+      .book-button:hover {
+        background: #e0b800;
+      }
+  
+      @media (max-width: 768px) {
+        .top-section {
+          flex-direction: column;
+        }
+  
+        .right-section {
+          padding-left: 0;
+          border-left: none;
+          margin-top: 20px;
+        }
+  
+        .bottom-section {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+      }
+
+
+
+      .skincare-wrapper {
+        display: flex;
+        gap: 40px;
+        font-family: 'Roboto', sans-serif;
+      }
+    
+      .skincare-wrapper .left-panel {
+        width: 240px;
+        background: #caa800;
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+    
+      .skincare-wrapper .left-panel button {
+        background: #f8f8f8;
+        border: none;
+        padding: 12px 16px;
+        font-size: 15px;
+        text-align: left;
+        cursor: pointer;
+        font-weight: 500;
+      }
+    
+      .skincare-wrapper .right-panel {
+        flex: 1;
+      }
+    
+      .skincare-wrapper .right-panel h2 {
+        font-size: 22px;
+        margin-bottom: 10px;
+      }
+    
+      .skincare-wrapper .right-panel p {
+        font-size: 14px;
+        color: #444;
+        margin-bottom: 30px;
+        max-width: 500px;
+      }
+    
+      .skincare-wrapper .service-card {
+        margin-bottom: 40px;
+        border: 1px solid #ddd;
+        background: white;
+      }
+    
+      .skincare-wrapper .service-image {
+        height: 140px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+      }
+    
+      .skincare-wrapper .image-placeholder {
+        background: repeating-conic-gradient(#ccc 0% 25%, transparent 0% 50%) 50% / 40px 40px;
+      }
+    
+      .skincare-wrapper .service-image .title,
+      .skincare-wrapper .service-image .price1,
+      .skincare-wrapper .service-image .price {
+        position: absolute;
+        bottom: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+      }
+    
+      .skincare-wrapper .service-image .title {
+        left: 10px;
+      }
+    
+      .skincare-wrapper .service-image .price {
+        right: 10px;
+      }
+
+      .skincare-wrapper .service-image .price1 {
+        left: 10px;
+      }
+    
+      .skincare-wrapper .service-title-bar {
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        background: #f5f5f5;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    
+      .skincare-wrapper .options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 20px;
+      }
+    
+      .skincare-wrapper .option {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ccc;
+        background: white;
+        font-weight: 500;
+        cursor: pointer;
+      }
+    
+      .skincare-wrapper .option.gray {
+        background: #bbb;
+        color: white;
+      }
+    
+      .skincare-wrapper .book-button {
+        background: #caa800;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+        padding: 14px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+    
+      .skincare-wrapper .book-button:hover {
+        background: #b79600;
+      }
