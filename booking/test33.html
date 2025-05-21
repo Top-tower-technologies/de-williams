@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hotel Booking</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .container {
+      display: flex;
+      width: 300%;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .section {
+      width: 100vw;
+      height: 100vh;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    .room-list, .summary, .form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .room {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    button {
+      margin-right: 1rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .book-btn {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .reserve-btn {
+      background-color: #28a745;
+      color: #fff;
+    }
+
+    input, textarea {
+      padding: 0.5rem;
+      width: 100%;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="slider">
+  <!-- Page 1: Room List -->
+  <div class="section room-list" id="page1">
+    <h2>Available Rooms</h2>
+
+    <div class="room">
+      <p><strong>Room 1</strong>: Single Bed - $100/night</p>
+      <button class="book-btn" onclick="goToSummary('Room 1')">Book Now</button>
+      <button class="reserve-btn">Reserve</button>
+    </div>
+
+    <div class="room">
+      <p><strong>Room 2</strong>: Double Bed - $150/night</p>
+      <button class="book-btn" onclick="goToSummary('Room 2')">Book Now</button>
+      <button class="reserve-btn">Reserve</button>
+    </div>
+
+    <div class="room">
+      <p><strong>Room 3</strong>: Deluxe - $200/night</p>
+      <button class="book-btn" onclick="goToSummary('Room 3')">Book Now</button>
+      <button class="reserve-btn">Reserve</button>
+    </div>
+  </div>
+
+  <!-- Page 2: Booking Summary -->
+  <div class="section summary" id="page2">
+    <h2>Booking Summary</h2>
+    <p id="selected-room">Room: </p>
+    <p>Date: <strong>May 15 - May 17</strong></p>
+    <button class="book-btn" onclick="goToForm()">Book Now</button>
+  </div>
+
+  <!-- Page 3: Booking Form -->
+  <div class="section form" id="page3">
+    <h2>Complete Your Booking</h2>
+    <form onsubmit="submitForm(event)">
+      <input type="text" placeholder="Full Name" required />
+      <input type="email" placeholder="Email Address" required />
+      <textarea placeholder="Special requests..." rows="4"></textarea>
+      <br>
+      <button type="submit" class="book-btn">Confirm Booking</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const slider = document.getElementById('slider');
+  const selectedRoomText = document.getElementById('selected-room');
+  let selectedRoom = '';
+
+  function goToSummary(roomName) {
+    selectedRoom = roomName;
+    selectedRoomText.textContent = 'Room: ' + selectedRoom;
+    slider.style.transform = 'translateX(-100vw)';
+  }
+
+  function goToForm() {
+    slider.style.transform = 'translateX(-200vw)';
+  }
+
+  function submitForm(e) {
+    e.preventDefault();
+    alert("Booking Confirmed for " + selectedRoom + "!");
+    // Reset to start
+    slider.style.transform = 'translateX(0vw)';
+  }
+</script>
+
+</body>
+</html>

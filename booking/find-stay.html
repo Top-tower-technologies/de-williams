@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<!-- Developed by Top tower technologies -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DE-WILLIAMS PLACE </title>
+<link rel="stylesheet" href="/de-williams/booking/style.css">
+
+<script src="https://kit.fontawesome.com/c408a3e18e.js" crossorigin="anonymous"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+
+</head>
+<style>
+  .form-section {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  select, input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+  }
+  .booking-summary-container {
+    display: flex;
+    gap: 30px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    align-items: flex-start;
+  }
+  .booking-summary {
+    flex: 1;
+  }
+  .booking-summary h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  .booking-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+  .subtotal {
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+    padding-top: 15px;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  .right-side {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .promo-code {
+    display: flex;
+    gap: 10px;
+  }
+  .promo-code input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .promo-code button {
+    padding: 10px 20px;
+    background-color: #eee;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .pay-button {
+    padding: 15px;
+    background-color: #d4aa00;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .reserve-button {
+    padding: 15px;
+    background-color: #f5f5f5;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+
+
+
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .input-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .input-group div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  select,
+  textarea {
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fafafa;
+  }
+
+  textarea {
+    resize: vertical;
+    height: 100px;
+  }
+
+  .special-request {
+    margin-bottom: 30px;
+  }
+
+  .booking-summary1 {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #eee;
+  }
+
+  .summary-box {
+    flex: 1;
+  }
+
+  .summary-box h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .summary-box p {
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+  }
+
+  .promo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .promo-section input {
+    padding: 10px;
+    font-size: 14px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .promo-section button {
+    padding: 12px;
+    background: #000;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .promo-section button.reserve {
+    background: #f5f5f5;
+    color: #000;
+    border: 1px solid #ddd;
+  }
+  
+</style>
+<body>
+<div class="scroll-up-btn">
+    <i class="fas fa-angle-up"></i>
+</div>
+<nav class="navbar">
+  <div class="max-width">
+      <div class="logo"><a><img src="/de-williams/images/logo.png" style="width: 8rem;"></a></div>
+      <ul class="menu">
+        <li><a href="/de-williams/index.html" class="menu-btn">Home</a></li>
+        <li><a href="/de-williams/rooms.html" class="menu-btn">Rooms</a></li>
+            <li><a href="/de-williams/about.html" class="menu-btn">About</a></li>
+            <li><a href="/de-williams/events.html" class="menu-btn">Events</a></li>
+            <li><a href="/de-williams/apartments.html" class="menu-btn">Apartments</a></li>
+            <li><a href="/de-williams/spa.html" class="menu-btn">Spa</a></li>
+            <li><a href="/de-williams/gym.html" class="menu-btn">Gym</a></li>
+
+
+            <li><a href="/de-williams/booking/find-stay.html" class="menu-btn"  style=" background: #D3AE00; padding: 15px 30px; border: 1px solid rgb(255, 255, 255)"
+              >Find stay</a></li>
+
+              <li><a href="/de-williams/booking/find-stay.html" class="menu-btn"  style="  padding: 15px 30px; border: 1px solid #D3AE00">Join</a></li>
+      </ul>
+      <div class="menu-btn">
+        <i class="fas fa-bars" style="font-weight: light"></i>
+      </div>
+  </div>
+</nav>
+<section class="add">
+
+    <div>
+        <p><b>Email us</b> Reservations@dewilliamshotels.com</p>
+    </div>
+
+    <div>
+        <p><b>Call us</b> +1234567890</p>
+    </div>
+
+    <div>
+        <p><b>Visit us</b> Akala express, opposite bovas fuel station, ibadan</p>
+    </div>
+        
+</section>
+
+<section style="width: 80%; position: relative; margin: auto;">
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Hotel Rooms</button>
+        <button class="tablinks" onclick="openCity(event, 'Paris')">Service Apartment</button>
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')">Spa & Fitness</button>
+      </div>
+      
+      <div id="London" class="tabcontent">
+        <div class="hotel">
+            <!-- Date Picker -->
+            <div class="box">
+                <i class="fa-solid fa-calendar"></i>
+                <input type="date" id="checkInDate"> -
+                <input type="date" id="checkOutDate">
+            </div>
+
+            <!-- Room & Guests -->
+            <div class="box">
+                <i class="fa-solid fa-user"></i>
+                <select id="adults" name="adults">
+                    <option value="1">1 Adult</option>
+                    <option value="2">2 Adults</option>
+                    <option value="3">3 Adults</option>
+                    <option value="4">4 Adults</option>
+                    <option value="5">5 Adults</option>
+                </select>,
+                <select id="children" name="children">
+                    <option value="0">0 Children</option>
+                    <option value="1">1 Child</option>
+                    <option value="2">2 Children</option>
+                    <option value="3">3 Children</option>
+                    <option value="4">4 Children</option>
+                </select>
+            </div>
+
+            <!-- Promo Code -->
+            <div class="promo">
+                <i class="fa-solid fa-ticket"></i> Have a Promo Code?
+            </div>
+
+            <!-- Currency Selection -->
+            <div class="box">
+                <i class="fa-solid fa-money-bill"></i>
+                <select id="currency" name="currency">
+                    <option value="USD">USD</option>
+                    <option value="NGN">NGN</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div id="main-wrapper">
+
+          <!-- PAGE 1: Room List -->
+          <div id="room-list" class="page active">
+            <div class="cardo">
+              <div class="top-section">
+                <div class="left-section">
+                  <div class="room-details">
+                    <h2>Superior Single Room</h2>
+                    <div class="price-per-night">From $375 / Night</div>
+                    <div class="room-description">
+                      Indulge in the perfect blend of luxury and functionality, featuring modern amenities and tasteful décor. Whether you're traveling for business.
+                    </div>
+                    <div class="icons">
+                      <div>🛁 1 Bathroom</div>
+                      <div>🛏️ Twin Beds</div>
+                      <div>🧍‍♂️ Sleeps 2</div>
+                    </div>
+                  </div>
+                  <div class="room-image">
+                    <img src="/de-williams/images/image 6.png" alt="Room Image">
+                  </div>
+                </div>
+                <div class="right-section">
+                  <h3>Booking Details</h3>
+                  <p>📅 Mon, 30 Dec 24 – Tue, 31 Dec 24</p>
+                  <p>👥 2 Adults, 2 Children</p>
+                </div>
+              </div>
+          
+              <div class="bottom-section">
+                <div class="price-info">
+                  USD 87.21 <span>Cost for 1 night, 2 guests</span>
+                </div>
+                <div class="action-group">
+                  <div class="pay-later">✔️ Book now, Pay later</div>
+                  <button class="book-button">Book Now</button>
+                </div>
+              </div>
+            </div>
+          
+            <br>
+  
+            <div class="cardo">
+              <div class="top-section">
+                <div class="left-section">
+                  <div class="room-details">
+                    <h2>Superior Single Room</h2>
+                    <div class="price-per-night">From $375 / Night</div>
+                    <div class="room-description">
+                      Indulge in the perfect blend of luxury and functionality, featuring modern amenities and tasteful décor. Whether you're traveling for business.
+                    </div>
+                    <div class="icons">
+                      <div>🛁 1 Bathroom</div>
+                      <div>🛏️ Twin Beds</div>
+                      <div>🧍‍♂️ Sleeps 2</div>
+                    </div>
+                  </div>
+                  <div class="room-image">
+                    <img src="/de-williams/images/image 6.png" alt="Room Image">
+                  </div>
+                </div>
+                <div class="right-section">
+                  <h3>Booking Details</h3>
+                  <p>📅 Mon, 30 Dec 24 – Tue, 31 Dec 24</p>
+                  <p>👥 2 Adults, 2 Children</p>
+                </div>
+              </div>
+          
+              <div class="bottom-section">
+                <div class="price-info">
+                  USD 87.21 <span>Cost for 1 night, 2 guests</span>
+                </div>
+                <div class="action-group">
+                  <div class="pay-later">✔️ Book now, Pay later</div>
+                  <button class="book-button">Book Now</button>
+                </div>
+              </div>
+            </div>
+  <br>
+  <div class="cardo">
+      <div class="top-section">
+        <div class="left-section">
+          <div class="room-details">
+            <h2>Superior Single Room</h2>
+            <div class="price-per-night">From $375 / Night</div>
+            <div class="room-description">
+              Indulge in the perfect blend of luxury and functionality, featuring modern amenities and tasteful décor. Whether you're traveling for business.
+            </div>
+            <div class="icons">
+              <div>🛁 1 Bathroom</div>
+              <div>🛏️ Twin Beds</div>
+              <div>🧍‍♂️ Sleeps 2</div>
+            </div>
+          </div>
+          <div class="room-image">
+            <img src="/de-williams/images/image 6.png" alt="Room Image">
+          </div>
+        </div>
+        <div class="right-section">
+          <h3>Booking Details</h3>
+          <p>📅 Mon, 30 Dec 24 – Tue, 31 Dec 24</p>
+          <p>👥 2 Adults, 2 Children</p>
+        </div>
+      </div>
+  
+      <div class="bottom-section">
+        <div class="price-info">
+          USD 87.21 <span>Cost for 1 night, 2 guests</span>
+        </div>
+        <div class="action-group">
+          <div class="pay-later">✔️ Book now, Pay later</div>
+          <button class="book-button">Book Now</button>
+        </div>
+      </div>
+    </div>
+  
+          </div>
+      
+          <!-- PAGE 2: Booking Summary -->
+          <div id="booking-summary" class="page">
+            <div class="form-section">
+              <div class="form-group">
+                <label>Room Type</label>
+                <select>
+                  <option>Deluxe Suite</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Room Name</label>
+                <select>
+                  <option>Deluxe Single Room</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Room Number</label>
+                <input type="text" value="# 401">
+              </div>
+            </div>
+      
+            <div class="booking-summary-container">
+              <div class="booking-summary">
+                <h2>Booking Summary</h2>
+                <div class="booking-item">
+                  <span>3 Nights</span>
+                  <span>₦200,000</span>
+                </div>
+                <div class="booking-item">
+                  <span>V.A.T</span>
+                  <span>₦200,000</span>
+                </div>
+                <div class="booking-item">
+                  <span>Discount</span>
+                  <span>₦200,000</span>
+                </div>
+                <div class="subtotal">
+                  Subtotal
+                </div>
+              </div>
+      
+              <div class="right-side">
+                <div class="promo-code">
+                  <input type="text" placeholder="Enter a Promo Code">
+                  <button>Apply Code</button>
+                </div>
+                <button class="pay-button" id="go-to-form">Pay For the Room</button>
+                <button class="reserve-button">Reserve Room</button>
+              </div>
+            </div>
+          </div>
+      
+          <!-- PAGE 3: Booking Form -->
+          <div id="booking-form" class="page">
+            <div class="container">
+              <form class="booking-form">
+                <div class="input-group">
+                  <div>
+                    <label>First Name</label>
+                    <input type="text">
+                  </div>
+                  <div>
+                    <label>Last Name</label>
+                    <input type="text">
+                  </div>
+                  <div>
+                    <label>Email Address</label>
+                    <input type="email">
+                  </div>
+                </div>
+      
+                <div class="special-request">
+                  <label>Special Request</label>
+                  <textarea placeholder="Hey, i want..."></textarea>
+                </div>
+      
+                <div class="input-group">
+                  <div>
+                    <label>Room Type</label>
+                    <select>
+                      <option>Deluxe Suite</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label>Room Name</label>
+                    <select>
+                      <option>Deluxe Single Room</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label>Room Number</label>
+                    <input type="text" value="# 401">
+                  </div>
+                </div>
+      
+                <div class="booking-summary1">
+                  <div class="summary-box">
+                    <h3>Booking Summary</h3>
+                    <p><span>3 Nights</span> <span>₦200,000</span></p>
+                    <p><span>V.A.T</span> <span>₦200,000</span></p>
+                    <p><span>Discount</span> <span>₦200,000</span></p>
+                    <p><span><strong>Subtotal</strong></span> <span></span></p>
+                  </div>
+                  <div class="promo-section">
+                    <input type="text" placeholder="Enter a Promo Code">
+                    <button type="button">Apply Code</button>
+                    <button type="submit">Pay For the Room</button>
+                    <button type="button" class="reserve">Reserve Room</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+        </div>
+      
+        <script>
+          const pages = document.querySelectorAll('.page');
+          const bookButtons = document.querySelectorAll('.book-button');
+          const goToFormBtn = document.getElementById('go-to-form');
+      
+          function navigateTo(pageId) {
+            pages.forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+          }
+      
+          bookButtons.forEach(button => {
+            button.addEventListener('click', () => navigateTo('booking-summary'));
+          });
+      
+          goToFormBtn.addEventListener('click', () => navigateTo('booking-form'));
+        </script>
+      
+        <style>
+          .page {
+            display: none;
+            transition: all 0.4s ease-in-out;
+          }
+          .page.active {
+            display: block;
+          }
+        </style>
+      
+      <div id="Paris" class="tabcontent">
+        <div class="hotel">
+        <div class="box">
+          <i class="fa-solid fa-calendar"></i>
+          <input type="date" id="checkInDate"> -
+          <input type="date" id="checkOutDate">
+      </div>
+
+      <!-- Room & Guests -->
+      <div class="box">
+          <i class="fa-solid fa-user"></i>
+          <select id="adults" name="adults">
+              <option value="1">1 Adult</option>
+              <option value="2">2 Adults</option>
+              <option value="3">3 Adults</option>
+              <option value="4">4 Adults</option>
+              <option value="5">5 Adults</option>
+          </select>,
+          <select id="children" name="children">
+              <option value="0">0 Children</option>
+              <option value="1">1 Child</option>
+              <option value="2">2 Children</option>
+              <option value="3">3 Children</option>
+              <option value="4">4 Children</option>
+          </select>
+      </div>
+
+      <!-- Promo Code -->
+      <div class="promo">
+          <i class="fa-solid fa-ticket"></i> Have a Promo Code?
+      </div>
+
+      <!-- Currency Selection -->
+      <div class="box">
+          <i class="fa-solid fa-money-bill"></i>
+          <select id="currency" name="currency">
+              <option value="USD">USD</option>
+              <option value="NGN">NGN</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+          </select>
+      </div>
+  </div>
+  <br>
+        <div class="cardo">
+        <div class="top-section">
+          <div class="left-section">
+            <div class="room-details">
+              <h2>Superior Single Room</h2>
+              <div class="price-per-night">From $375 / Night</div>
+              <div class="room-description">
+                Indulge in the perfect blend of luxury and functionality, featuring modern amenities and tasteful décor. Whether you're traveling for business.
+              </div>
+              <div class="icons">
+                <div>🛁 1 Bathroom</div>
+                <div>🛏️ Twin Beds</div>
+                <div>🧍‍♂️ Sleeps 2</div>
+              </div>
+            </div>
+            <div class="room-image">
+              <img src="/de-williams/images/image 6.png" alt="Room Image">
+            </div>
+          </div>
+          <div class="right-section">
+            <h3>Booking Details</h3>
+            <p>📅 Mon, 30 Dec 24 – Tue, 31 Dec 24</p>
+            <p>👥 2 Adults, 2 Children</p>
+          </div>
+        </div>
+    
+        <div class="bottom-section">
+          <div class="price-info">
+            USD 87.21 <span>Cost for 1 night, 2 guests</span>
+          </div>
+          <div class="action-group">
+            <div class="pay-later">✔️ Book now, Pay later</div>
+            <button class="book-button">Book Now</button>
+          </div>
+        </div>
+      </div>
+    
+      <br>
+
+      <div class="cardo">
+        <div class="top-section">
+          <div class="left-section">
+            <div class="room-details">
+              <h2>Superior Single Room</h2>
+              <div class="price-per-night">From $375 / Night</div>
+              <div class="room-description">
+                Indulge in the perfect blend of luxury and functionality, featuring modern amenities and tasteful décor. Whether you're traveling for business.
+              </div>
+              <div class="icons">
+                <div>🛁 1 Bathroom</div>
+                <div>🛏️ Twin Beds</div>
+                <div>🧍‍♂️ Sleeps 2</div>
+              </div>
+            </div>
+            <div class="room-image">
+              <img src="/de-williams/images/image 6.png" alt="Room Image">
+            </div>
+          </div>
+          <div class="right-section">
+            <h3>Booking Details</h3>
+            <p>📅 Mon, 30 Dec 24 – Tue, 31 Dec 24</p>
+            <p>👥 2 Adults, 2 Children</p>
+          </div>
+        </div>
+    
+        <div class="bottom-section">
+          <div class="price-info">
+            USD 87.21 <span>Cost for 1 night, 2 guests</span>
+          </div>
+          <div class="action-group">
+            <div class="pay-later">✔️ Book now, Pay later</div>
+            <button class="book-button">Book Now</button>
+          </div>
+        </div>
+      </div>
+<br>
+<div class="cardo">
+<div class="top-section">
+  <div class="left-section">
+    <div class="room-details">
+      <h2>Superior Single Room</h2>
+      <div class="price-per-night">From $375 / Night</div>
+      <div class="room-description">
+        Indulge in the perfect blend of luxury and functionality, featuring modern amenities and tasteful décor. Whether you're traveling for business.
+      </div>
+      <div class="icons">
+        <div>🛁 1 Bathroom</div>
+        <div>🛏️ Twin Beds</div>
+        <div>🧍‍♂️ Sleeps 2</div>
+      </div>
+    </div>
+    <div class="room-image">
+      <img src="/de-williams/images/image 6.png" alt="Room Image">
+    </div>
+  </div>
+  <div class="right-section">
+    <h3>Booking Details</h3>
+    <p>📅 Mon, 30 Dec 24 – Tue, 31 Dec 24</p>
+    <p>👥 2 Adults, 2 Children</p>
+  </div>
+</div>
+
+<div class="bottom-section">
+  <div class="price-info">
+    USD 87.21 <span>Cost for 1 night, 2 guests</span>
+  </div>
+  <div class="action-group">
+    <div class="pay-later">✔️ Book now, Pay later</div>
+    <button class="book-button">Book Now</button>
+  </div>
+</div>
+</div>
+      </div>
+      
+      <div id="Tokyo" class="tabcontent">
+        <div class="skincare-wrapper">
+          <div class="left-panel">
+            <button>1. Skincare</button>
+            <button>2. Bodywork</button>
+            <button>3. Specialty</button>
+          </div>
+        
+          <div class="right-panel">
+            <h2>Select a skincare service</h2>
+            <p>
+              At De-Williams Lounge, we pride ourselves on offering more than just a place to stay –
+              we provide a refined experience tailored to your comfort and convenience.
+            </p>
+        
+            <!-- Card 1 -->
+            <div class="service-card">
+              <div class="service-image image-placeholder"></div>
+              <div class="service-title-bar">
+                <div>Waxing Specialist Services For Body</div>
+                <div>$40</div>
+              </div>
+              <div class="options">
+                <div class="option"><strong>Chest Wax</strong></div>
+                <div class="option">Half harm Wax</div>
+                <div class="option gray">Armpit Wax</div>
+                <div class="option">Shoulder Wax</div>
+              </div>
+              <div class="book-button">Book Treatments</div>
+            </div>
+        
+            <!-- Card 2 -->
+            <div class="service-card">
+              <div class="service-image" style="background-image: url('/de-williams/images/image\ 75.png');">
+                  <div class="price">$40</div>
+
+                  <div class="price1">HydraFacial</div>
+              </div>
+              <div class="options">
+                <div class="option">Chest Wax</div>
+                <div class="option">Half harm Wax</div>
+                <div class="option">Armpit Wax</div>
+                <div class="option">Shoulder Wax</div>
+              </div>
+              <div class="book-button">Book Treatments</div>
+            </div>
+        
+            <!-- Card 3 -->
+            <div class="service-card">
+              <div class="service-image" style="background-image: url('/de-williams/images/image\ 75.png');">
+                  <div class="price">$40</div>
+
+                  <div class="price1">HydraFacial</div>
+              </div>
+              <div class="options">
+                <div class="option">Chest Wax</div>
+                <div class="option">Half harm Wax</div>
+                <div class="option">Armpit Wax</div>
+                <div class="option">Shoulder Wax</div>
+              </div>
+              <div class="book-button">Book Treatments</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    
+</section>
+
+<section>
+    <footer class="max-width">
+        <div class="foot">
+        <div class="foot-content">
+            <div class="card">
+            <p>Home</p>
+            <p>Members Benefits</p>
+            <p>Rooms</p>
+            <p>About Us</p>
+            <p>Service Policy</p>
+            </div>
+        </div>
+        
+        <div class="foot">
+        <div class="foot-content">
+            <div class="card">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.9259484781614!2d3.8476867751168338!3d7.36219779264691!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10398d249afcff9d%3A0x35e2f834f764fae!2sDe-Williams%20Place!5e0!3m2!1sen!2sng!4v1739991468036!5m2!1sen!2sng"  style="border:0; width: 100%; height: 50vh" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+        
+        </div>
+        </div>
+    </footer>
+</section>
+
+<p style="font-size: small; background-color: white; text-align: center; font-family: 'Darker Grotesque'; padding: 10px; color: 
+#676767;">All Rights Reserved - <i class="fa fa-copyright"></i> 2025 <span style="color: #d3ae00;">De-williams luxury hotel</span></p>
+<script src="/de-williams/booking/script.js"></script>
+
+</body>
+</html>
