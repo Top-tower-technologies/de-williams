@@ -1,179 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ThunderPay Waitlist</title>
+  <meta charset="UTF-8">
+  <title>Hotel Room Booking</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-      display: flex;
-      flex-direction: row;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .left {
-      flex: 1;
-      background: linear-gradient(to right, #000000 40%, #003cff);
-      position: relative;
-      color: white;
-      padding: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
-    .left img.rocket {
-      width: 300px;
-      max-width: 90%;
-    }
-
-    .logo {
-      position: absolute;
-      top: 40px;
-      left: 40px;
-      font-size: 32px;
-      font-weight: bold;
-    }
-
-    .logo span {
-      color: #fff;
-    }
-
-    .right {
-      flex: 1;
-      background: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      padding: 20px;
-    }
-
-    .form-container {
-      width: 100%;
-      max-width: 400px;
-      border: 1px solid #0077ff;
-      padding: 30px;
-      border-radius: 10px;
-      background-color: white;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.05);
-      z-index: 1;
-    }
-
-    .form-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #003cff;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    input, textarea {
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f0f6ff;
-      resize: none;
-    }
-
-    .name-group {
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-    }
-
-    .name-group input {
-      flex: 1;
-    }
-
-    button {
-      padding: 12px;
-      background-color: #ffdc3b;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #ffd000;
-    }
-
-    /* Decorative coins background */
-    .right::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://i.ibb.co/Nmf3DcL/coin-bg.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      opacity: 0.07;
-      pointer-events: none;
-    }
-
-    /* Responsive design */
-    @media (max-width: 900px) {
-      body {
-        flex-direction: column;
-        height: auto;
-      }
-
-      .left, .right {
-        flex: none;
-        width: 100%;
-        height: auto;
-        padding: 40px 20px;
-      }
-
-      .left {
-        order: 2;
-      }
-
-      .logo {
-        position: static;
-        margin-bottom: 20px;
-        text-align: center;
-      }
-    }
+    .page { display: none; padding: 20px; }
+    .page.active { display: block; }
+    .cardo { border: 1px solid #ccc; margin: 10px 0; padding: 10px; border-radius: 6px; }
+    .top-section { display: flex; justify-content: space-between; }
+    .right-section, .left-section { width: 48%; }
+    .room-image img { width: 100%; max-height: 200px; object-fit: cover; }
+    .icons div { margin-top: 5px; }
+    .bottom-section { display: flex; justify-content: space-between; margin-top: 10px; }
+    .book-button { padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    .booking-summary { border: 1px solid #ccc; padding: 20px; border-radius: 6px; }
+    .booking-item, .subtotal { margin-top: 10px; display: flex; justify-content: space-between; }
   </style>
 </head>
 <body>
-  <div class="left">
-    <div class="logo">
-      <span>th<span style="color: #00d4ff;">u</span>nder</span>
-    </div>
-    <img src="https://i.ibb.co/j6d6K09/rocket.png" alt="Rocket" class="rocket"/>
+
+  <!-- PAGE 1: Booking Form -->
+  <div class="page active" id="booking-form">
+    <h2>Book a Room</h2>
+    <label>Check-in: <input type="date" id="checkInDate"></label><br><br>
+    <label>Check-out: <input type="date" id="checkOutDate"></label><br><br>
+    <label>Adults: <input type="number" id="adults" min="1" value="1"></label><br><br>
+    <label>Children: <input type="number" id="children" min="0" value="0"></label><br><br>
+    <label>Currency:
+      <select id="currency">
+        <option value="USD">USD</option>
+        <option value="NGN">NGN</option>
+      </select>
+    </label><br><br>
+    <button id="search-rooms">Search Rooms</button>
+    <div id="room-list"></div>
   </div>
 
-  <div class="right">
-    <div class="form-container">
-      <h2>JOIN THE WAITLIST</h2>
-      <form>
-        <div class="name-group">
-          <input type="text" placeholder="First Name" required />
-          <input type="text" placeholder="Last Name" required />
-        </div>
-        <input type="email" placeholder="Email Address" required />
-        <textarea placeholder="What do you expect from Thunderpay?" rows="4" required></textarea>
-        <button type="submit">SUBMIT</button>
-      </form>
-    </div>
+  <!-- PAGE 2: Booking Summary -->
+  <div class="page" id="booking-summary">
+    <h2>Booking Summary</h2>
+    <div class="booking-summary"></div>
+    <br>
+    <button onclick="navigateTo('booking-form')">← Back to Search</button>
   </div>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+
+    function navigateTo(pageId) {
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    document.getElementById('search-rooms').addEventListener('click', async () => {
+      const checkIn = document.getElementById('checkInDate').value;
+      const checkOut = document.getElementById('checkOutDate').value;
+      const adults = parseInt(document.getElementById('adults').value);
+      const children = parseInt(document.getElementById('children').value);
+
+      if (!checkIn || !checkOut || !adults) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      const requestBody = {
+        check_in: checkIn,
+        check_out: checkOut,
+        guests: {
+          adult: adults,
+          children: children,
+          infant: 0
+        }
+      };
+
+      try {
+        const response = await fetch('https://hms-api-okfi.onrender.com/guest/find-stay/room_service/anonymous', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-hotel-domain': 'dewilliams.com'
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          displayAvailableRooms(data.data);
+        } else {
+          alert('No rooms available.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to fetch rooms.');
+      }
+    });
+
+    function displayAvailableRooms(rooms) {
+      const roomList = document.getElementById('room-list');
+      roomList.innerHTML = '';
+
+      rooms.forEach(room => {
+        const card = document.createElement('div');
+        card.className = 'cardo';
+        card.innerHTML = `
+          <div class="top-section">
+            <div class="left-section">
+              <h3>${room.category.name}</h3>
+              <div>${room.category.description}</div>
+              <div class="icons">
+                <div>🛁 ${room.no_of_bathrooms} Bathroom(s)</div>
+                <div>🛏️ ${room.bed_type}</div>
+                <div>🧍‍♂️ Sleeps ${room.max_guest_no}</div>
+              </div>
+            </div>
+            <div class="right-section room-image">
+              <img src="/de-williams/images/image 6.png" alt="Room Image">
+              <p>From $${room.category.price.base_price} / night</p>
+              <button class="book-button" data-room-id="${room.id}">Book Now</button>
+            </div>
+          </div>
+        `;
+        roomList.appendChild(card);
+      });
+
+      document.querySelectorAll('.book-button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const roomId = btn.getAttribute('data-room-id');
+          navigateToBookingSummary(roomId);
+        });
+      });
+    }
+
+    async function navigateToBookingSummary(roomId) {
+      const checkIn = document.getElementById('checkInDate').value;
+      const checkOut = document.getElementById('checkOutDate').value;
+      const adults = document.getElementById('adults').value;
+      const currency = document.getElementById('currency').value;
+
+      try {
+        const res = await fetch(`https://hms-api-okfi.onrender.com/guest/find-stay/room_service/${roomId}/summary?check_in=${checkIn}&check_out=${checkOut}&adult=${adults}&currency=${currency}`, {
+          headers: {
+            'x-hotel-domain': 'dewilliams.com'
+          }
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          displayBookingSummary(data.data);
+          navigateTo('booking-summary');
+        } else {
+          alert('Unable to load booking summary.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Error loading summary.');
+      }
+    }
+
+    function displayBookingSummary(summary) {
+      const container = document.querySelector('#booking-summary .booking-summary');
+      container.innerHTML = `
+        <div class="booking-item">
+          <span>${summary.pricing.nights} Night(s)</span>
+          <span>${summary.pricing.currency} ${summary.pricing.base_rate_per_night}</span>
+        </div>
+        <div class="booking-item">
+          <span>Additional Guest Charges</span>
+          <span>${summary.pricing.currency} ${summary.pricing.additional_guest_charges}</span>
+        </div>
+        <div class="booking-item">
+          <span>Tax</span>
+          <span>${summary.pricing.currency} ${summary.pricing.tax}</span>
+        </div>
+        <div class="booking-item">
+          <span>Discount</span>
+          <span>${summary.pricing.currency} ${summary.pricing.discount}</span>
+        </div>
+        <div class="subtotal">
+          <strong>Total:</strong> ${summary.pricing.currency} ${summary.pricing.total}
+        </div>
+      `;
+    }
+  </script>
+
 </body>
 </html>
