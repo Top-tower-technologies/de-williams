@@ -404,6 +404,7 @@ section .title::after{
         margin: auto;
         background: white;
         border: 1px solid #ddd;
+        height: 35vh;
       }
   
       .top-section {

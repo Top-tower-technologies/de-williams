@@ -302,8 +302,7 @@
       <select id="currency">
         <option value="USD">USD</option>
         <option value="NGN">NGN</option>
-        <option value="EUR">EUR</option>
-        <option value="GBP">GBP</option>
+      
       </select>
     </div>
 
@@ -392,6 +391,8 @@
     const checkOut = document.getElementById('checkOutDate').value;
     const adults = parseInt(document.getElementById('adults').value);
     const children = parseInt(document.getElementById('children').value);
+    const currency = document.getElementById('currency').value;
+
 
     if (!checkIn || !checkOut || !adults) {
       alert('Please fill in all required fields.');
@@ -430,7 +431,7 @@
               <div class="left-section">
                 <div class="room-details">
                   <h2>${room.category.name}</h2>
-                  <div class="price-per-night">From $${room.category.price.base_price} / Night</div>
+                  <div class="price-per-night">From N${room.category.price.base_price} / Night</div>
                   <div class="room-description">${room.category.description}</div>
                   <div class="icons">
                     <div>🛁 ${room.no_of_bathrooms} Bathroom(s)</div>
