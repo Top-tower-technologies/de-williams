@@ -404,7 +404,7 @@ section .title::after{
         margin: auto;
         background: white;
         border: 1px solid #ddd;
-        height: 35vh;
+        height: auto;
       }
   
       .top-section {
@@ -672,3 +672,59 @@ section .title::after{
       .skincare-wrapper .book-button:hover {
         background: #b79600;
       }
+
+
+      @media (max-width: 991px) {
+  .add {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 20px;
+    font-size: 18px;
+  }
+
+  .tab {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .tab button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .tabcontent .hotel {
+    grid-template-columns: 1fr;
+  }
+
+  .cardo .top-section {
+    flex-direction: column;
+  }
+
+  .room-image {
+    width: 100%;
+    height: 200px;
+  }
+
+  .right-section {
+    padding-left: 0;
+    border-left: none;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .room-details h2 {
+    font-size: 18px;
+  }
+
+  .room-description, .price-per-night, .icons {
+    font-size: 13px;
+  }
+
+  .tab button {
+    padding: 10px;
+    font-size: 15px;
+  }
+}
