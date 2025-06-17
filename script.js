@@ -40,7 +40,7 @@ $(document).ready(function(){
 
     // typing text animation script
     var typed = new Typed(".typing", {
-        strings: ["Hotel", "Lounge", "Spa", "Gym", "Service Apartment"],
+        strings: ["Hotel", "Hotel", "Spa", "Gym", "Service Apartment"],
         typeSpeed: 100,
         backSpeed: 60,
         loop: true
