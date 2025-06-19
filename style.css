@@ -256,7 +256,7 @@ section .title::after{
     padding-top: 40px;
 
   }
-.home-content .add{
+.home-content .add {
   width: 100%;
   background: #D3AE00;
   font-size: 20px;
@@ -267,8 +267,28 @@ section .title::after{
   color: #ffffff;
   padding: 20px;
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns by default */
 }
+
+/* Medium screens (tablets) */
+@media (max-width: 992px) {
+  .home-content .add {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+    font-size: 18px;
+    top: 400px;
+  }
+}
+
+/* Small screens (mobile phones) */
+@media (max-width: 600px) {
+  .home-content .add {
+    grid-template-columns: 1fr; /* Stack vertically */
+    font-size: 16px;
+    top: 300px;
+    padding: 15px;
+  }
+}
+
 
 /* about section styling */
 .about .title::after{
@@ -1007,4 +1027,6 @@ h2{
 
 
 }
+
+
 
