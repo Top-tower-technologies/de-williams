@@ -524,11 +524,11 @@ section .title::after{
   
   /* Style the counter cards */
   .rooms .card {
-    margin-top: 400px;
     padding: 16px;
     text-align: left;
-    background-color: #ffffff;
-    color: #121227;
+background: #ffffff;
+
+ color: #000000;
   }
 
 
