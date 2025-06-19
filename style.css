@@ -382,7 +382,6 @@ section .title::after{
   background-size: cover;
   background-attachment: fixed;
   color: #fff;
-  min-height: 500px;
   font-family: 'Lato', sans-serif;
   padding: 20px;
 }
@@ -416,6 +415,7 @@ section .title::after{
   flex: 1 1 300px;
   max-width: 100%;
   box-sizing: border-box;
+  max-height: 300px;
 }
 
 /* Optional specific heights for larger screens */
