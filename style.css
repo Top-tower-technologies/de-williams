@@ -241,6 +241,12 @@ section .title::after{
     background-attachment: fixed;
     font-family: 'lato', sans-serif;
 }
+@media (max-width: 768px) {
+  .home {
+    background-attachment: scroll;
+  }
+}
+
 .home .max-width{
   width: 100%;
   
