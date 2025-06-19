@@ -504,6 +504,13 @@ section .title::after{
   background-size: cover;
   background-attachment: fixed;  }
   
+
+  @media (max-width: 768px) {
+  .roomsuites {
+    background-attachment: scroll;
+  }
+}
+
   /* Clear floats after the columns */
   .roomsuites:after {
     content: "";
