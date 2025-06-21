@@ -269,242 +269,271 @@
       
 
 <div id="Room" class="tabcontent">
-        <div class="hotel">
-            <!-- Date Picker -->
-            <div class="box">
-                <i class="fa-solid fa-calendar"></i>
-                <input type="date" id="checkInDate"> -
-                <input type="date" id="checkOutDate">
-            </div>
-
-            <!-- Room & Guests -->
-            <div class="box">
-                <i class="fa-solid fa-user"></i>
-                <select id="adults" name="adults">
-                    <option value="1">1 Adult</option>
-                    <option value="2">2 Adults</option>
-                    <option value="3">3 Adults</option>
-                    <option value="4">4 Adults</option>
-                    <option value="5">5 Adults</option>
-                </select>,
-                <select id="children" name="children">
-                    <option value="0">0 Children</option>
-                    <option value="1">1 Child</option>
-                    <option value="2">2 Children</option>
-                    <option value="3">3 Children</option>
-                    <option value="4">4 Children</option>
-                </select>
-            </div>
-
-            <!-- Promo Code -->
-            <div class="promo">
-                <i class="fa-solid fa-ticket"></i> Have a Promo Code?
-            </div>
-
-            <!-- Currency Selection -->
-            <div class="box">
-                <i class="fa-solid fa-money-bill"></i>
-                <select id="currency" name="currency">
-                    <option value="USD">USD</option>
-                    <option value="NGN">NGN</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                </select>
-            </div>
-        </div>
-        <br>
-        <div id="main-wrapper">
-
-          <!-- PAGE 1: Room List -->
-          <div id="room-list" class="page active">
-            <div class="cardo">
-              <div class="top-section">
-                <div class="left-section">
-                  <div class="room-details">
-                    <h2>Superior Single Room</h2>
-                    <div class="price-per-night">From $375 / Night</div>
-                    <div class="room-description">
-                      Indulge in the perfect blend of luxury and functionality, featuring modern amenities and tasteful décor. Whether you're traveling for business.
-                    </div>
-                    <div class="icons">
-                      <div>🛁 1 Bathroom</div>
-                      <div>🛏️ Twin Beds</div>
-                      <div>🧍‍♂️ Sleeps 2</div>
-                    </div>
-                  </div>
-                  <div class="room-image">
-                    <img src="/de-williams/images/image 6.png" alt="Room Image">
-                  </div>
-                </div>
-                <div class="right-section">
-                  <h3>Booking Details</h3>
-                  <p>📅 Mon, 30 Dec 24 – Tue, 31 Dec 24</p>
-                  <p>👥 2 Adults, 2 Children</p>
-                </div>
-              </div>
-          
-              <div class="bottom-section">
-                <div class="price-info">
-                  USD 87.21 <span>Cost for 1 night, 2 guests</span>
-                </div>
-                <div class="action-group">
-                  <div class="pay-later">✔️ Book now, Pay later</div>
-                  <button class="book-button">Book Now</button>
-                </div>
-              </div>
-            </div>
-          
-            <br>
-  
-          
-  <br>
-  
-  
-          </div>
-      
-          <!-- PAGE 2: Booking Summary -->
-          <div id="booking-summary" class="page">
-            <div class="form-section">
-              <div class="form-group">
-                <label>Room Type</label>
-                <select>
-                  <option>Deluxe Suite</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Room Name</label>
-                <select>
-                  <option>Deluxe Single Room</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Room Number</label>
-                <input type="text" value="# 401">
-              </div>
-            </div>
-      
-            <div class="booking-summary-container">
-              <div class="booking-summary">
-                <h2>Booking Summary</h2>
-                <div class="booking-item">
-                  <span>3 Nights</span>
-                  <span>₦200,000</span>
-                </div>
-                <div class="booking-item">
-                  <span>V.A.T</span>
-                  <span>₦200,000</span>
-                </div>
-                <div class="booking-item">
-                  <span>Discount</span>
-                  <span>₦200,000</span>
-                </div>
-                <div class="subtotal">
-                  Subtotal
-                </div>
-              </div>
-      
-              <div class="right-side">
-                <div class="promo-code">
-                  <input type="text" placeholder="Enter a Promo Code">
-                  <button>Apply Code</button>
-                </div>
-                <button class="pay-button" id="go-to-form">Pay For the Room</button>
-                <button class="reserve-button">Reserve Room</button>
-              </div>
-            </div>
-          </div>
-      
-          <!-- PAGE 3: Booking Form -->
-          <div id="booking-form" class="page">
-            <div class="container">
-              <form class="booking-form">
-                <div class="input-group">
-                  <div>
-                    <label>First Name</label>
-                    <input type="text">
-                  </div>
-                  <div>
-                    <label>Last Name</label>
-                    <input type="text">
-                  </div>
-                  <div>
-                    <label>Email Address</label>
-                    <input type="email">
-                  </div>
-                </div>
-      
-                <div class="special-request">
-                  <label>Special Request</label>
-                  <textarea placeholder="Hey, i want..."></textarea>
-                </div>
-      
-                <div class="input-group">
-                  <div>
-                    <label>Room Type</label>
-                    <select>
-                      <option>Deluxe Suite</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label>Room Name</label>
-                    <select>
-                      <option>Deluxe Single Room</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label>Room Number</label>
-                    <input type="text" value="# 401">
-                  </div>
-                </div>
-      
-                <div class="booking-summary1">
-                  <div class="summary-box">
-                    <h3>Booking Summary</h3>
-                    <p><span>3 Nights</span> <span>₦200,000</span></p>
-                    <p><span>V.A.T</span> <span>₦200,000</span></p>
-                    <p><span>Discount</span> <span>₦200,000</span></p>
-                    <p><span><strong>Subtotal</strong></span> <span></span></p>
-                  </div>
-                  <div class="promo-section">
-                    <input type="text" placeholder="Enter a Promo Code">
-                    <button type="button">Apply Code</button>
-                    <button type="submit">Pay For the Room</button>
-                    <button type="button" class="reserve">Reserve Room</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+    <div class="hotel">
+      <!-- Date Picker -->
+      <div class="box">
+        <i class="fa-solid fa-calendar"></i>
+        <input type="date" id="checkInDate"> -
+        <input type="date" id="checkOutDate">
       </div>
+
+      <!-- Room & Guests -->
+      <div class="box">
+        <i class="fa-solid fa-user"></i>
+        <select id="adults" name="adults">
+          <option value="1">1 Adult</option>
+          <option value="2">2 Adults</option>
+          <option value="3">3 Adults</option>
+          <option value="4">4 Adults</option>
+          <option value="5">5 Adults</option>
+        </select>,
+        <select id="children" name="children">
+          <option value="0">0 Children</option>
+          <option value="1">1 Child</option>
+          <option value="2">2 Children</option>
+          <option value="3">3 Children</option>
+          <option value="4">4 Children</option>
+        </select>
+      </div>
+
+      <!-- Promo Code -->
+      <div class="promo">
+        <i class="fa-solid fa-ticket"></i> Have a Promo Code?
+      </div>
+
+      <!-- Currency Selection -->
+      <div class="box">
+        <i class="fa-solid fa-money-bill"></i>
+        <select id="currency" name="currency">
+          <option value="USD">USD</option>
+          <option value="NGN">NGN</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+        </select>
+      </div>
+      <button id="searchButton">Search</button>
+    </div>
+    <br>
+    <div id="main-wrapper">
+
+      <!-- PAGE 1: Room List -->
+      <div id="room-list" class="page active">
+        <!-- Room cards will be injected here -->
+      </div>
+
+      <!-- PAGE 2: Booking Summary -->
+      <div id="booking-summary" class="page">
+        <div class="booking-summary"></div>
+        <button class="pay-button" id="go-to-form">Pay For the Room</button>
+      </div>
+
+      <!-- PAGE 3: Booking Form -->
+      <div id="booking-form" class="page">
+        <div class="container">
+          <form class="booking-form">
+            <div class="input-group">
+              <div>
+                <label>First Name</label>
+                <input type="text">
+              </div>
+              <div>
+                <label>Last Name</label>
+                <input type="text">
+              </div>
+              <div>
+                <label>Email Address</label>
+                <input type="email">
+              </div>
+              <div>
+                <label>Phone Number</label>
+                <input type="text" name="phone">
+              </div>
+            </div>
+
+            <div class="special-request">
+              <label>Special Request</label>
+              <textarea placeholder="Hey, I want..."></textarea>
+            </div>
+
+            <div class="booking-summary1">
+              <div class="promo-section">
+                <button type="submit">Pay For the Room</button>
+              </div>
+            </div>
+          </form>
         </div>
-      
-        <script>
-          const pages = document.querySelectorAll('.page');
-          const bookButtons = document.querySelectorAll('.book-button');
-          const goToFormBtn = document.getElementById('go-to-form');
-      
-          function navigateTo(pageId) {
-            pages.forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-          }
-      
-          bookButtons.forEach(button => {
-            button.addEventListener('click', () => navigateTo('booking-summary'));
-          });
-      
-          goToFormBtn.addEventListener('click', () => navigateTo('booking-form'));
-        </script>
-      
-        <style>
-          .page {
-            display: none;
-            transition: all 0.4s ease-in-out;
-          }
-          .page.active {
-            display: block;
-          }
-        </style>
-      
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .page {
+      display: none;
+      transition: all 0.4s ease-in-out;
+    }
+    .page.active {
+      display: block;
+    }
+  </style>
+
+  
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+
+    function navigateTo(pageId) {
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    async function loadAvailableRooms() {
+      const inDate = document.getElementById('checkInDate').value;
+      const outDate = document.getElementById('checkOutDate').value;
+      const adults = parseInt(document.getElementById('adults').value);
+      const children = parseInt(document.getElementById('children').value);
+
+      const body = {
+        check_in: inDate,
+        check_out: outDate,
+        guests: { adult: adults, children: children, infant: 0 }
+      };
+
+      const res = await fetch('https://hms-api-okfi.onrender.com/guest/find-stay/room_service/anonymous', {
+        method: 'POST',
+  headers: {
+  'Content-Type': 'application/json',
+  'x-hotel-domain': 'dewilliams.com'
+},
+
+
+        body: JSON.stringify(body)
+
+      });
+
+      const json = await res.json();
+      if (!json.success) return alert('Error loading rooms');
+
+      const roomList = document.getElementById('room-list');
+      roomList.innerHTML = '';
+
+      json.data.forEach(room => {
+        const div = document.createElement('div');
+        div.classList.add('cardo');
+        div.innerHTML = `
+          <div class="top-section">
+            <div class="left-section">
+              <div class="room-details">
+                <h2>${room.category.name}</h2>
+                <div class="price-per-night">From ${room.category.price.currency} ${room.category.price.base_price} / Night</div>
+                <div class="icons">
+                  <div>🛁 ${room.no_of_bathrooms} Bathroom</div>
+                  <div>🛏️ ${room.bed_type}</div>
+                  <div>🧍‍♂️ Sleeps ${room.guest_no}</div>
+                </div>
+              </div>
+            </div>
+            <div class="bottom-section">
+              <div class="price-info">
+                ${room.category.price.currency} ${parseFloat(room.category.price.base_price).toFixed(2)} <span>Cost per night</span>
+              </div>
+              <div class="action-group">
+                <button class="book-button" data-room-id="${room.id}">Book Now</button>
+              </div>
+            </div>
+          </div>`;
+        roomList.appendChild(div);
+      });
+
+      document.querySelectorAll('.book-button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const roomId = btn.getAttribute('data-room-id');
+          showBookingSummary(roomId, inDate, outDate, adults, children);
+        });
+      });
+    }
+
+    async function showBookingSummary(roomId, checkIn, checkOut, adults, children) {
+      const url = new URL(`https://hms-api-okfi.onrender.com/guest/find-stay/room_service/${roomId}/summary`);
+      url.searchParams.set('check_in', checkIn);
+      url.searchParams.set('check_out', checkOut);
+      url.searchParams.set('adult', adults);
+      url.searchParams.set('currency', null);
+
+      const res = await fetch(url);
+      const json = await res.json();
+      if (!json.success) return alert('Error loading summary');
+
+      const sum = json.data.pricing;
+      const summaryHTML = `
+        <h2>Booking Summary</h2>
+        <div class="booking-item"><span>${sum.nights} Night(s)</span><span>${sum.currency} ${sum.base_rate_per_night * sum.nights}</span></div>
+        <div class="booking-item"><span>Additional Guest</span><span>${sum.currency} ${sum.additional_guest_charges}</span></div>
+        <div class="booking-item"><span>Tax</span><span>${sum.currency} ${sum.tax}</span></div>
+        <div class="booking-item"><span><strong>Total</strong></span><span>${sum.currency} ${sum.total}</span></div>`;
+
+      document.querySelector('#booking-summary .booking-summary').innerHTML = summaryHTML;
+      const bs = document.getElementById('booking-summary');
+      bs.dataset.roomId = roomId;
+      bs.dataset.checkIn = checkIn;
+      bs.dataset.checkOut = checkOut;
+      bs.dataset.adult = adults;
+      bs.dataset.children = children;
+      navigateTo('booking-summary');
+    }
+
+    document.getElementById('go-to-form').addEventListener('click', () => {
+      const node = document.getElementById('booking-summary');
+      prepareBookingForm(
+        node.dataset.roomId,
+        node.dataset.checkIn,
+        node.dataset.checkOut,
+        node.dataset.adult,
+        node.dataset.children
+      );
+    });
+
+    function prepareBookingForm() {
+      navigateTo('booking-form');
+    }
+
+    document.querySelector('.booking-form').addEventListener('submit', async e => {
+      e.preventDefault();
+
+      const node = document.getElementById('booking-summary');
+      const roomId = node.dataset.roomId;
+      const form = e.target;
+      const data = {
+        check_in: node.dataset.checkIn,
+        check_out: node.dataset.checkOut,
+        first_name: form.querySelectorAll('input[type="text"]')[0].value,
+        last_name: form.querySelectorAll('input[type="text"]')[1].value,
+        email: form.querySelector('input[type="email"]').value,
+        phone: form.querySelector('input[name="phone"]').value,
+        guests: {
+          adult: parseInt(node.dataset.adult),
+          children: parseInt(node.dataset.children),
+          infant: 0
+        },
+        special_request: form.querySelector('textarea').value
+      };
+
+      const res = await fetch(`https://hms-api-okfi.onrender.com/guest/find-stay/room_service/${roomId}/book/anonymous?pay_now=false`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-hotel-domain': window.location.hostname
+        },
+        body: JSON.stringify(data)
+      });
+
+      const json = await res.json();
+      if (!json.success) return alert('Booking failed');
+      alert(`\u2705 Booking confirmed!\nReference: ${json.data.transaction_ref}\nTotal: ${json.data.currency} ${json.data.total}`);
+      navigateTo('room-list');
+    });
+
+    document.getElementById('searchButton').addEventListener('click', loadAvailableRooms);
+  </script>
 
 
 
