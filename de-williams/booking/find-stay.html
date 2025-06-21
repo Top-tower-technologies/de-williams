@@ -15,6 +15,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
 
 </head>
 <style>
@@ -275,7 +279,10 @@
         <i class="fa-solid fa-calendar"></i>
       <input type="text" id="checkInDate" placeholder="Check-in Date">-
 <input type="text" id="checkOutDate" placeholder="Check-out Date">
-
+<script>
+  flatpickr("#checkInDate", { dateFormat: "Y-m-d" });
+  flatpickr("#checkOutDate", { dateFormat: "Y-m-d" });
+</script>
       </div>
 
       <!-- Room & Guests -->
