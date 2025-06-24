@@ -362,6 +362,36 @@
               <label>Special Request</label>
               <textarea name="special_request" placeholder="Hey, i want..."></textarea>
             </div>
+
+                <div class="input-group">
+                  <div>
+                    <label>Room Type</label>
+                    <select>
+                      <option>Deluxe Suite</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label>Room Name</label>
+                    <select>
+                      <option>Deluxe Single Room</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label>Room Number</label>
+                    <input type="text" value="# 401">
+                  </div>
+                </div>
+      
+                <div class="booking-summary1">
+                  <div class="summary-box">
+                    <h3>Booking Summary</h3>
+                    <p><span>3 Nights</span> <span>₦200,000</span></p>
+                    <p><span>V.A.T</span> <span>₦200,000</span></p>
+                    <p><span>Discount</span> <span>₦200,000</span></p>
+                    <p><span><strong>Subtotal</strong></span> <span></span></p>
+                  </div>
+                  </div>
+
             <div class="booking-summary1">
               <div class="promo-section">
                 <input type="text" placeholder="Enter a Promo Code">
@@ -533,13 +563,56 @@ async function fetchBookingSummary(roomId) {
 
 function updateBookingSummaryUI(summary) {
   const summaryBox = bookingSummaryPage.querySelector(".booking-summary");
-  summaryBox.innerHTML = `
-    <h2>Booking Summary</h2>
-    <div class="booking-item"><span>${summary.pricing.nights} Nights</span><span>${summary.pricing.currency} ${summary.pricing.subtotal}</span></div>
-    <div class="booking-item"><span>V.A.T</span><span>${summary.pricing.currency} ${summary.pricing.tax}</span></div>
-    <div class="booking-item"><span>Discount</span><span>${summary.pricing.currency} ${summary.pricing.discount}</span></div>
-    <div class="subtotal">Subtotal: ${summary.pricing.currency} ${summary.pricing.total}</div>
-  `;
+summaryBox.innerHTML = `
+  <div class="form-section">
+    <div class="form-group">
+      <label>Room Type</label>
+      <select disabled>
+        <option>${summary.room_service.category.name}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Room Name</label>
+      <select disabled>
+        <option>${summary.room_service.category.name}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Room Number</label>
+      <input type="text" value="${summary.room_service.inventory_id}" disabled>
+    </div>
+  </div>
+
+  <div class="booking-summary-container">
+    <div class="booking-summary">
+      <h2>Booking Summary</h2>
+      <div class="booking-item">
+        <span>${summary.pricing.nights} Nights</span>
+        <span>₦${Number(summary.pricing.subtotal).toLocaleString()}</span>
+      </div>
+      <div class="booking-item">
+        <span>V.A.T</span>
+        <span>₦${Number(summary.pricing.tax).toLocaleString()}</span>
+      </div>
+      <div class="booking-item">
+        <span>Discount</span>
+        <span>₦${Number(summary.pricing.discount).toLocaleString()}</span>
+      </div>
+      <div class="subtotal">
+        Subtotal
+      </div>
+    </div>
+
+    <div class="right-side">
+      <div class="promo-code">
+        <input type="text" placeholder="Enter a Promo Code">
+        <button>Apply Code</button>
+      </div>
+      <button class="pay-button" id="go-to-form">Pay For the Room</button>
+      <button class="reserve-button">Reserve Room</button>
+    </div>
+  </div>
+`;
 }
 
 goToFormBtn.addEventListener("click", () => {
