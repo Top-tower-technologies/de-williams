@@ -275,31 +275,27 @@
   <div id="Room" class="tabcontent">
     <div class="hotel">
     
-<!-- Date input box -->
-<div class="box">
-  <i class="fa-solid fa-calendar"></i>
-  <input type="text" id="checkInDate" placeholder="Check In" data-input readonly>
-  <span>-</span>
-  <input type="text" id="checkOutDate" placeholder="Check Out" data-input readonly>
-</div>
+  <div class="box">
+    <i class="fa-solid fa-calendar"></i>
+    <input type="text" id="checkInDate" placeholder="Check In" readonly>
+    <span>-</span>
+    <input type="text" id="checkOutDate" placeholder="Check Out" readonly>
+  </div>
 
-<!-- Flatpickr JS -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const checkInCalendar = flatpickr("#checkInDate", {
+        dateFormat: "Y-m-d",
+        onChange: function (selectedDates, dateStr) {
+          checkOutCalendar.set('minDate', dateStr);
+        }
+      });
 
-<script>
-  // Initialize check-in date
-  const checkInCalendar = flatpickr("#checkInDate", {
-    dateFormat: "Y-m-d",
-    onChange: function (selectedDates, dateStr) {
-      checkOutCalendar.set('minDate', dateStr);
-    }
-  });
-
-  // Initialize check-out date
-  const checkOutCalendar = flatpickr("#checkOutDate", {
-    dateFormat: "Y-m-d"
-  });
-</script>
+      const checkOutCalendar = flatpickr("#checkOutDate", {
+        dateFormat: "Y-m-d"
+      });
+    });
+  </script>
 
       <div class="box">
         <i class="fa-solid fa-user"></i>

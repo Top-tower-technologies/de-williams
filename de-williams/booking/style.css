@@ -340,12 +340,15 @@ section .title::after{
 
     .box input,
     .box select {
-        border: none;
-        outline: none;
-        font-size: 1rem;
-        background: transparent;
-        width: 100%;
-    }
+        
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    background-color: #fff;
+  }
+    
 
    .box input[type="text"]::-webkit-calendar-picker-indicator {
     display: none; /* Hide native icon */
