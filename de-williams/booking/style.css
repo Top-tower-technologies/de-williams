@@ -347,7 +347,7 @@ section .title::after{
         width: 100%;
     }
 
-    .box input[type="date"]::-webkit-calendar-picker-indicator {
+    .box input[type="text"]::-webkit-calendar-picker-indicator {
         cursor: pointer;
         filter: invert(0.5);
     }
