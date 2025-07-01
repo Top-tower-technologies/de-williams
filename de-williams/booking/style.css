@@ -347,10 +347,9 @@ section .title::after{
         width: 100%;
     }
 
-    .box input[type="text"]::-webkit-calendar-picker-indicator {
-        cursor: pointer;
-        filter: invert(0.5);
-    }
+   .box input[type="text"]::-webkit-calendar-picker-indicator {
+    display: none; /* Hide native icon */
+  }
 
     .promo {
         color: #6e4d2b;
