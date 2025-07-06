@@ -311,150 +311,131 @@ input[type="text"] {
       
       
 
-  <div id="Room" class="tabcontent">
-    <div class="hotel">
-    
-  <div class="box">
-    <i class="fa-solid fa-calendar"></i>
-    <p>In:</p>
-    <input type="text" id="checkInDate" placeholder="Check In">
-    <span>-</span>
-    <p>Out:</p>
-    <input type="text" id="checkOutDate" placeholder="Check Out">
+<div id="Room" class="tabcontent">
+  <div class="hotel">
+    <div class="box">
+      <i class="fa-solid fa-calendar"></i>
+      <p>In:</p>
+      <input type="text" id="checkInDate" placeholder="Check In">
+      <span>-</span>
+      <p>Out:</p>
+      <input type="text" id="checkOutDate" placeholder="Check Out">
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const checkInCalendar = flatpickr("#checkInDate", {
+          dateFormat: "Y-m-d",
+          onChange: function (selectedDates, dateStr) {
+            checkOutCalendar.set('minDate', dateStr);
+          }
+        });
+
+        const checkOutCalendar = flatpickr("#checkOutDate", {
+          dateFormat: "Y-m-d"
+        });
+      });
+    </script>
+
+    <div class="box">
+      <i class="fa-solid fa-user"></i>
+      <select id="adults" name="adults">
+        <option value="1">1 Adult</option>
+        <option value="2">2 Adults</option>
+        <option value="3">3 Adults</option>
+        <option value="4">4 Adults</option>
+        <option value="5">5 Adults</option>
+      </select>
+      <select id="children" name="children">
+        <option value="0">0 Children</option>
+        <option value="1">1 Child</option>
+        <option value="2">2 Children</option>
+        <option value="3">3 Children</option>
+        <option value="4">4 Children</option>
+      </select>
+    </div>
+
+    <div class="promo">
+      <i class="fa-solid fa-ticket"></i> Have a Promo Code?
+    </div>
+
+    <div class="box">
+      <i class="fa-solid fa-money-bill"></i>
+      <select id="currency" name="currency">
+        <option value="USD">USD</option>
+        <option value="NGN">NGN</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+      </select>
+    </div>
+
+    <div class="box">
+      <button id="searchButton">Search Rooms</button>
+    </div>
   </div>
+  <br>
+  <div id="main-wrapper">
+    <div id="room-list" class="page active">
+      <div id="loadingSpinner" class="loading-spinner">Loading available rooms...</div>
+    </div>
+    <div id="booking-summary" class="page">
+      <div class="booking-summary"></div>
+      <button class="pay-button" id="go-to-form">Pay For the Room</button>
+    </div>
+    <div id="booking-form" class="page">
+      <div class="container">
+        <form class="booking-form">
+          <div class="input-group">
+            <div>
+              <label>First Name</label>
+              <input type="text" name="first_name">
+            </div>
+            <div>
+              <label>Last Name</label>
+              <input type="text" name="last_name">
+            </div>
+            <div>
+              <label>Email Address</label>
+              <input type="email" name="email">
+            </div>
+          </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const checkInCalendar = flatpickr("#checkInDate", {
-        dateFormat: "Y-m-d",
-        onChange: function (selectedDates, dateStr) {
-          checkOutCalendar.set('minDate', dateStr);
-        }
-      });
+          <div class="special-request">
+            <label>Special Request</label>
+            <textarea name="special_request" placeholder="Hey, i want..."></textarea>
+          </div>
 
-      const checkOutCalendar = flatpickr("#checkOutDate", {
-        dateFormat: "Y-m-d"
-      });
-    });
-  </script>
+          <!-- Dynamic summary content -->
+          <div class="form-room-summary"></div>
 
-      <div class="box">
-        <i class="fa-solid fa-user"></i>
-        <select id="adults" name="adults">
-          <option value="1">1 Adult</option>
-          <option value="2">2 Adults</option>
-          <option value="3">3 Adults</option>
-          <option value="4">4 Adults</option>
-          <option value="5">5 Adults</option>
-        </select>,
-        <select id="children" name="children">
-          <option value="0">0 Children</option>
-          <option value="1">1 Child</option>
-          <option value="2">2 Children</option>
-          <option value="3">3 Children</option>
-          <option value="4">4 Children</option>
-        </select>
-      </div>
-      <div class="promo">
-        <i class="fa-solid fa-ticket"></i> Have a Promo Code?
-      </div>
-      <div class="box">
-        <i class="fa-solid fa-money-bill"></i>
-        <select id="currency" name="currency">
-          <option value="USD">USD</option>
-          <option value="NGN">NGN</option>
-          <option value="EUR">EUR</option>
-          <option value="GBP">GBP</option>
-        </select>
-      </div>
-      <div class="box">
-        <button id="searchButton">Search Rooms</button>
+          
+          </div>
+
+          <div class="booking-summary1">
+            <div class="promo-section">
+              <input type="text" placeholder="Enter a Promo Code">
+              <button type="button">Apply Code</button>
+              <button type="submit">Pay For the Room</button>
+              <button type="button" class="reserve">Reserve Room</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
-    <br>
-    <div id="main-wrapper">
-      <div id="room-list" class="page active">
-  <div id="loadingSpinner" class="loading-spinner">Loading available rooms...</div>
+  </div>
 </div>
-      <div id="booking-summary" class="page">
-        <div class="booking-summary"></div>
-        <button class="pay-button" id="go-to-form">Pay For the Room</button>
-      </div>
-      <div id="booking-form" class="page">
-        <div class="container">
-          <form class="booking-form">
-            <div class="input-group">
-              <div>
-                <label>First Name</label>
-                <input type="text" name="first_name">
-              </div>
-              <div>
-                <label>Last Name</label>
-                <input type="text" name="last_name">
-              </div>
-              <div>
-                <label>Email Address</label>
-                <input type="email" name="email">
-              </div>
-            </div>
-            <div class="special-request">
-              <label>Special Request</label>
-              <textarea name="special_request" placeholder="Hey, i want..."></textarea>
-            </div>
 
-                <div class="input-group">
-                  <div>
-                    <label>Room Type</label>
-                    <select>
-                      <option>Deluxe Suite</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label>Room Name</label>
-                    <select>
-                      <option>Deluxe Single Room</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label>Room Number</label>
-                    <input type="text" value="# 401">
-                  </div>
-                </div>
-      
-                <div class="booking-summary1">
-                  <div class="summary-box">
-                    <h3>Booking Summary</h3>
-                    <p><span>3 Nights</span> <span>₦200,000</span></p>
-                    <p><span>V.A.T</span> <span>₦200,000</span></p>
-                    <p><span>Discount</span> <span>₦200,000</span></p>
-                    <p><span><strong>Subtotal</strong></span> <span></span></p>
-                  </div>
-                  </div>
+<style>
+.page {
+  display: none;
+  transition: all 0.4s ease-in-out;
+}
 
-            <div class="booking-summary1">
-              <div class="promo-section">
-                <input type="text" placeholder="Enter a Promo Code">
-                <button type="button">Apply Code</button>
-                <button type="submit">Pay For the Room</button>
-                <button type="button" class="reserve">Reserve Room</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+.page.active {
+  display: block;
+}
 
-  <style>
-    .page {
-      display: none;
-      transition: all 0.4s ease-in-out;
-    }
-
-    .page.active {
-      display: block;
-    }
-  .loading-spinner {
+.loading-spinner {
   text-align: center;
   padding: 20px;
   font-size: 16px;
@@ -465,8 +446,6 @@ input[type="text"] {
 
 
 <script>
-  // Hotel booking script with working 'Book Now' flow
-
 const checkInInput = document.getElementById("checkInDate");
 const checkOutInput = document.getElementById("checkOutDate");
 const adultSelect = document.getElementById("adults");
@@ -477,6 +456,7 @@ const goToFormBtn = document.getElementById("go-to-form");
 const bookingSummaryPage = document.getElementById("booking-summary");
 const bookingFormPage = document.getElementById("booking-form");
 const searchButton = document.getElementById("searchButton");
+const bookingForm = document.querySelector(".booking-form");
 
 let selectedRoomId = null;
 let selectedRoomSummary = null;
@@ -519,8 +499,7 @@ async function fetchRoomList() {
 }
 
 function renderRooms(rooms) {
-  roomListContainer.innerHTML = ""; // clear previous
-
+  roomListContainer.innerHTML = "";
   rooms.forEach(room => {
     const card = document.createElement("div");
     card.className = "cardo";
@@ -557,11 +536,9 @@ function renderRooms(rooms) {
         </div>
       </div>
     `;
-
     roomListContainer.appendChild(card);
 
-    const bookBtn = card.querySelector(".book-button");
-    bookBtn.addEventListener("click", async () => {
+    card.querySelector(".book-button").addEventListener("click", async () => {
       selectedRoomId = room.id;
       await fetchBookingSummary(selectedRoomId);
       navigateTo("booking-summary");
@@ -586,7 +563,6 @@ async function fetchBookingSummary(roomId) {
     });
 
     const data = await res.json();
-
     if (data.success) {
       selectedRoomSummary = data.data;
       updateBookingSummaryUI(data.data);
@@ -594,63 +570,24 @@ async function fetchBookingSummary(roomId) {
       alert("Failed to fetch booking summary.");
     }
   } catch (error) {
-    console.error("Error fetching booking summary:", error);
-    alert("An error occurred while fetching booking summary.");
+    console.error("Summary error:", error);
+    alert("Error fetching booking summary.");
   }
 }
 
-
 function updateBookingSummaryUI(summary) {
   const summaryBox = bookingSummaryPage.querySelector(".booking-summary");
-summaryBox.innerHTML = `
-  <div class="form-section">
-    <div class="form-group">
-      <label>Room Type</label>
-      <select disabled>
-        <option>${summary.room_service.category.name}</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Room Name</label>
-      <select disabled>
-        <option>${summary.room_service.category.name}</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Room Number</label>
-      <input type="text" value="${summary.room_service.inventory_id}" disabled>
-    </div>
+  summaryBox.innerHTML = `
+  <div class="summary-box">
+    <h3>${summary.room_service.category.name}</h3>
+    <p><strong>Room Number:</strong> ${summary.room_service.inventory_id}</p>
+    <p><strong>No Of Nights: </strong>${summary.pricing.nights} Night(s)</p>
+    <p><strong>Subtotal:</strong> ₦${Number(summary.pricing.subtotal).toLocaleString()}</p>
+    <p><strong>Tax:</strong> ₦${Number(summary.pricing.tax).toLocaleString()}</p>
+    <p><strong>Discount:</strong> ₦${Number(summary.pricing.discount).toLocaleString()}</p>
+    <p><strong>Total:</strong> ₦${Number(summary.pricing.total).toLocaleString()}</p>
   </div>
-
-  <div class="booking-summary-container">
-    <div class="booking-summary">
-      <h2>Booking Summary</h2>
-      <div class="booking-item">
-        <span>${summary.pricing.nights} Nights</span>
-        <span>₦${Number(summary.pricing.subtotal).toLocaleString()}</span>
-      </div>
-      <div class="booking-item">
-        <span>V.A.T</span>
-        <span>₦${Number(summary.pricing.tax).toLocaleString()}</span>
-      </div>
-      <div class="booking-item">
-        <span>Discount</span>
-        <span>₦${Number(summary.pricing.discount).toLocaleString()}</span>
-      </div>
-      <div class="subtotal">
-        Subtotal
-      </div>
-    </div>
-
-    <div class="right-side">
-      <div class="promo-code">
-        <input type="text" placeholder="Enter a Promo Code">
-        <button>Apply Code</button>
-      </div>
-      <button class="reserve-button">Reserve Room</button>
-    </div>
-  </div>
-`;
+  `;
 }
 
 goToFormBtn.addEventListener("click", () => {
@@ -667,15 +604,18 @@ function updateBookingFormDetails(summary) {
   if (!formSummaryBox) return;
 
   formSummaryBox.innerHTML = `
-    <h2>Your Selected Room</h2>
-    <div class="booking-item"><strong>Check-in:</strong> ${checkInInput.value}</div>
-    <div class="booking-item"><strong>Check-out:</strong> ${checkOutInput.value}</div>
-    <div class="booking-item"><strong>Guests:</strong> ${adultSelect.value} Adults, ${childrenSelect.value} Children</div>
-    <div class="booking-item"><strong>Total:</strong> ${summary.pricing.currency} ${summary.pricing.total}</div>
+  <div class="summary-box">
+    <h3>Your Selected Room</h3>
+    <p><strong>Room Type:</strong> ${summary.room_service.category.name}</p>
+    <p><strong>Room Number:</strong> ${summary.room_service.inventory_id}</p>
+    <p><strong>Check-in:</strong> ${checkInInput.value}</p>
+    <p><strong>Check-out:</strong> ${checkOutInput.value}</p>
+    <p><strong>Guests:</strong> ${adultSelect.value} Adults, ${childrenSelect.value} Children</p>
+    <p><strong>Total:</strong> ${summary.pricing.currency} ${Number(summary.pricing.total).toLocaleString()}</p>
+  </div>
   `;
 }
 
-const bookingForm = document.querySelector(".booking-form");
 bookingForm.addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -689,22 +629,22 @@ bookingForm.addEventListener("submit", async function(e) {
     check_in: checkInInput.value,
     check_out: checkOutInput.value,
     first_name: formData.get("first_name") || "Anonymous",
-    last_name: formData.get("last_name") || "Mous",
-    email: formData.get("email") || "anonym@mous.com",
+    last_name: formData.get("last_name") || "User",
+    email: formData.get("email") || "email@example.com",
     phone: "1234567890",
     guests: {
       adult: parseInt(adultSelect.value),
       children: parseInt(childrenSelect.value),
       infant: 0
     },
-    special_request: formData.get("special_request") || "Checking for the best"
+    special_request: formData.get("special_request") || ""
   };
 
   const res = await fetch(`https://hms-api-okfi.onrender.com/guest/find-stay/room_service/${selectedRoomId}/book/anonymous?pay_now=false`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-hotel-domain": "gpsignature.com"
+      "x-hotel-domain": "dewilliams.com"
     },
     body: JSON.stringify(payload)
   });
@@ -720,9 +660,7 @@ bookingForm.addEventListener("submit", async function(e) {
 
 window.addEventListener("DOMContentLoaded", fetchRoomList);
 searchButton.addEventListener("click", fetchRoomList);
-
 </script>
-
 
 
 
