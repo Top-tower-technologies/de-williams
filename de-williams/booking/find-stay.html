@@ -388,15 +388,15 @@ input[type="text"] {
           <div class="input-group">
             <div>
               <label>First Name</label>
-              <input type="text" name="first_name">
+              <input type="text" name="first_name" required>
             </div>
             <div>
               <label>Last Name</label>
-              <input type="text" name="last_name">
+              <input type="text" name="last_name" required>
             </div>
             <div>
               <label>Email Address</label>
-              <input type="email" name="email">
+              <input type="email" name="email" required>
             </div>
           </div>
 
@@ -413,10 +413,7 @@ input[type="text"] {
 
           <div class="booking-summary1">
             <div class="promo-section">
-              <input type="text" placeholder="Enter a Promo Code">
-              <button type="button">Apply Code</button>
-              <button type="submit">Pay For the Room</button>
-              <button type="button" class="reserve">Reserve Room</button>
+              <button type="submit">Reserve This Room</button>
             </div>
           </div>
         </form>
@@ -651,7 +648,7 @@ bookingForm.addEventListener("submit", async function(e) {
 
   const result = await res.json();
   if (result.success) {
-    alert(`Booking Successful!\nRef: ${result.data.transaction_ref}\nTotal: ${result.data.currency} ${result.data.total}`);
+    alert(`Thank you for reserving a room with us at dewilliams place hotel. Please come to the hotel to confirm your booking and check in\nRef: ${result.data.transaction_ref}\nTotal: ${result.data.currency} ${result.data.total}`);
     location.reload();
   } else {
     alert("Booking failed. Please try again.");
