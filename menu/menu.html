@@ -1,0 +1,171 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De Williams Menu</title>
+<link rel="stylesheet" href="style.css">
+<style>
+    /* style.css */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: #f8f8f8;
+  color: #333;
+  padding: 2rem;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+#menuItems {
+  margin-top: 1rem;
+}
+
+.category {
+  margin-bottom: 2rem;
+}
+
+.category h2 {
+  font-size: 1.5rem;
+  color: gold;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 0.3rem;
+}
+
+.category ul {
+  list-style-type: none;
+}
+
+.category li {
+  display: flex;
+  justify-content: space-between;
+  background: #ffffff;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.category li:hover {
+  background: #dce4ea;
+}
+
+.category li span:first-child {
+  font-weight: 500;
+}
+
+.category li span:last-child {
+  font-weight: 600;
+  color: gold;
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+<h1>De Williams Menu</h1>
+<marquee>Dear customers, you are welcome to de-williams place, please under any circumstance should you pay to any personal account</marquee>
+<br>
+<input type="text" id="search" placeholder="Search item...">
+<select id="categoryFilter"></select>
+
+<div id="menuItems"></div>
+</div>
+
+<script>
+let menuData = {};
+
+async function loadMenu() {
+    try {
+        const url = 'https://www.toptowertechnologies.online/menu/menu.json';
+        const proxyURL = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+
+        const res = await fetch(proxyURL);
+        if (!res.ok) throw new Error('Failed to load menu data.');
+
+        menuData = await res.json();
+        renderMenu(menuData);
+        populateCategories(menuData);
+    } catch (error) {
+        console.error("Error loading menu:", error);
+        document.getElementById('menuItems').innerHTML = `<p style="color:red">⚠ Unable to load menu. Please try again later.</p>`;
+    }
+}
+
+function renderMenu(data, filter = '', category = '') {
+    const container = document.getElementById('menuItems');
+    container.innerHTML = '';
+    for (const cat in data) {
+        if (category && cat !== category) continue;
+
+        const section = document.createElement('div');
+        section.classList.add('category');
+        section.innerHTML = `<h2>${cat}</h2>`;
+
+        const list = document.createElement('ul');
+        data[cat].forEach(item => {
+            if (!filter || item.name.toLowerCase().includes(filter.toLowerCase())) {
+                list.innerHTML += `<li><span>${item.name}</span> <span>₦${item.price?.toLocaleString() || '—'}</span></li>`;
+            }
+        });
+
+        if (list.children.length) {
+            section.appendChild(list);
+            container.appendChild(section);
+        }
+    }
+}
+
+function populateCategories(data) {
+    const filter = document.getElementById('categoryFilter');
+    filter.innerHTML = '<option value="">All Categories</option>';
+    for (const cat in data) {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        filter.appendChild(opt);
+    }
+}
+
+document.getElementById('search').addEventListener('input', e => {
+    renderMenu(menuData, e.target.value, document.getElementById('categoryFilter').value);
+});
+
+document.getElementById('categoryFilter').addEventListener('change', e => {
+    renderMenu(menuData, document.getElementById('search').value, e.target.value);
+});
+
+loadMenu();
+
+</script>
+</body>
+</html>
