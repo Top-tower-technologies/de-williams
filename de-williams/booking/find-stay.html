@@ -362,10 +362,7 @@ input[type="text"] {
     <div class="box">
       <i class="fa-solid fa-money-bill"></i>
       <select id="currency" name="currency">
-        <option value="USD">USD</option>
         <option value="NGN">NGN</option>
-        <option value="EUR">EUR</option>
-        <option value="GBP">GBP</option>
       </select>
     </div>
 
@@ -441,7 +438,6 @@ input[type="text"] {
 }
 </style>
 
-
 <script>
 const checkInInput = document.getElementById("checkInDate");
 const checkOutInput = document.getElementById("checkOutDate");
@@ -458,12 +454,37 @@ const bookingForm = document.querySelector(".booking-form");
 let selectedRoomId = null;
 let selectedRoomSummary = null;
 
+// Navigation helper
 function navigateTo(pageId) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById(pageId).classList.add("active");
 }
 
+// Validation helper
+function isValidSearchData() {
+  const check_in = checkInInput.value;
+  const check_out = checkOutInput.value;
+  const adult = parseInt(adultSelect.value);
+
+  // Basic validation: all fields filled and at least 1 adult
+  if (!check_in || !check_out || isNaN(adult) || adult < 1) {
+    alert("Please make sure to fill in valid Check-in date, Check-out date, and number of Adults (at least 1).");
+    return false;
+  }
+
+  // Check that check-in is before check-out
+  if (new Date(check_in) >= new Date(check_out)) {
+    alert("Check-out date must be after Check-in date.");
+    return false;
+  }
+
+  return true;
+}
+
+// Search function
 async function fetchRoomList() {
+  if (!isValidSearchData()) return;
+
   const loadingSpinner = document.getElementById("loadingSpinner");
   loadingSpinner.style.display = "block";
 
@@ -472,28 +493,39 @@ async function fetchRoomList() {
   const adult = parseInt(adultSelect.value);
   const children = parseInt(childrenSelect.value);
 
-  const response = await fetch("https://hms-api-okfi.onrender.com/guest/find-stay/room_service/anonymous", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-hotel-domain': 'dewilliams.com'
-    },
-    body: JSON.stringify({
-      check_in,
-      check_out,
-      guests: { adult, children, infant: 0 }
-    })
-  });
+  try {
+    const response = await fetch("https://hms-api-okfi.onrender.com/guest/find-stay/room_service/anonymous", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-hotel-domain': 'dewilliams.com'
+      },
+      body: JSON.stringify({
+        check_in,
+        check_out,
+        guests: { adult, children, infant: 0 }
+      })
+    });
 
-  const data = await response.json();
-  if (data.success) {
-    renderRooms(data.data);
-    navigateTo("room-list");
-  } else {
-    alert("Failed to load rooms");
+    const data = await response.json();
+
+    if (data.success) {
+      renderRooms(data.data);
+      navigateTo("room-list");
+    } else {
+      alert("Failed to load rooms: " + (data.message || "Unknown error"));
+    }
+
+  } catch (error) {
+    alert("An error occurred while fetching rooms. Please try again.");
+    console.error(error);
+  } finally {
+    loadingSpinner.style.display = "none";
   }
-  loadingSpinner.style.display = "none";
 }
+
+// Attach search to button click
+searchButton.addEventListener("click", fetchRoomList);
 
 function renderRooms(rooms) {
   roomListContainer.innerHTML = "";
@@ -637,7 +669,7 @@ bookingForm.addEventListener("submit", async function(e) {
     special_request: formData.get("special_request") || ""
   };
 
-  const res = await fetch(`https://hms-api-okfi.onrender.com/guest/find-stay/room_service/${selectedRoomId}/book/anonymous?pay_now=false`, {
+  const res = await fetch(`https://hms-api-okfi.onrender.com/guest/find-stay/room_service/${selectedRoomId}/book/anonymous?pay_now=true`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -648,7 +680,7 @@ bookingForm.addEventListener("submit", async function(e) {
 
   const result = await res.json();
   if (result.success) {
-    alert(`Thank you for reserving a room with us at dewilliams place hotel. Please come to the hotel to confirm your booking and check in\nRef: ${result.data.transaction_ref}\nTotal: ${result.data.currency} ${result.data.total}`);
+    alert(`Thank you for reserving a room with us at dewilliams place hotel. Please come to the hotel to confirm your booking and check in\nRef: ${result.data.transaction_ref}\nTotal: ${result.data.currency} ${result.data.total} \nYour name: ${result.data.guest.name} \nYour email address: ${result.data.guest.email}`);
     location.reload();
   } else {
     alert("Booking failed. Please try again.");
