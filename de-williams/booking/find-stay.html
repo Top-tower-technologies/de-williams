@@ -409,9 +409,11 @@ input[type="text"] {
           </div>
 
           <div class="booking-summary1">
-            <div class="promo-section">
-              <button type="submit">Reserve This Room</button>
-            </div>
+          <div class="promo-section">
+  <button type="submit" id="reserveBtn">Reserve This Room</button>
+  <button type="submit" id="payNowBtn">Pay now</button>
+</div>
+
           </div>
         </form>
       </div>
@@ -645,47 +647,70 @@ function updateBookingFormDetails(summary) {
   `;
 }
 
-bookingForm.addEventListener("submit", async function(e) {
-  e.preventDefault();
+  const reserveBtn = document.querySelector("button#reserveBtn");
+  const payNowBtn = document.querySelector("button#payNowBtn");
 
-  if (!selectedRoomId) {
-    alert("No room selected for booking.");
-    return;
+  async function handleBooking(payNow = false) {
+    if (!selectedRoomId) {
+      alert("No room selected for booking.");
+      return;
+    }
+
+    const formData = new FormData(bookingForm);
+    const payload = {
+      check_in: checkInInput.value,
+      check_out: checkOutInput.value,
+      first_name: formData.get("first_name") || "Anonymous",
+      last_name: formData.get("last_name") || "User",
+      email: formData.get("email") || "email@example.com",
+      phone: "1234567890",
+      guests: {
+        adult: parseInt(adultSelect.value),
+        children: parseInt(childrenSelect.value),
+        infant: 0
+      },
+      special_request: formData.get("special_request") || ""
+    };
+
+    const res = await fetch(`https://hms-api-okfi.onrender.com/guest/find-stay/room_service/${selectedRoomId}/book/anonymous?pay_now=${payNow}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-hotel-domain": "dewilliams.com"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      const guest = result.data.guest;
+      const total = result.data.total.toLocaleString();
+      const currency = result.data.currency;
+      const ref = result.data.transaction_ref;
+
+      if (payNow) {
+        // Redirect to Paystack link
+        window.location.href = result.data.payment_link;
+      } else {
+        alert(`✅ Room Reserved Successfully!\n\nRef: ${ref}\nTotal: ${currency} ${total}\nName: ${guest.name}\nEmail: ${guest.email}\n\nPlease come to the hotel to confirm and pay.`);
+        location.reload();
+      }
+    } else {
+      alert("Booking failed. Please try again.");
+    }
   }
 
-  const formData = new FormData(bookingForm);
-  const payload = {
-    check_in: checkInInput.value,
-    check_out: checkOutInput.value,
-    first_name: formData.get("first_name") || "Anonymous",
-    last_name: formData.get("last_name") || "User",
-    email: formData.get("email") || "email@example.com",
-    phone: "1234567890",
-    guests: {
-      adult: parseInt(adultSelect.value),
-      children: parseInt(childrenSelect.value),
-      infant: 0
-    },
-    special_request: formData.get("special_request") || ""
-  };
-
-  const res = await fetch(`https://hms-api-okfi.onrender.com/guest/find-stay/room_service/${selectedRoomId}/book/anonymous?pay_now=true`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-hotel-domain": "dewilliams.com"
-    },
-    body: JSON.stringify(payload)
+  reserveBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    handleBooking(false);
   });
 
-  const result = await res.json();
-  if (result.success) {
-    alert(`Thank you for reserving a room with us at dewilliams place hotel. Please come to the hotel to confirm your booking and check in\nRef: ${result.data.transaction_ref}\nTotal: ${result.data.currency} ${result.data.total} \nYour name: ${result.data.guest.name} \nYour email address: ${result.data.guest.email}`);
-    location.reload();
-  } else {
-    alert("Booking failed. Please try again.");
-  }
-});
+  payNowBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    handleBooking(true);
+  });
+
 
 window.addEventListener("DOMContentLoaded", fetchRoomList);
 searchButton.addEventListener("click", fetchRoomList);
