@@ -1,175 +1,195 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-    <meta charset="UTF-8">
-    <title>Invoice & Receipt Generator</title>
-    <style>
-        body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0;
-        padding: 0;
-        background: #f5f5f5;
-        }
-        .container {
-        width: 90%;
-        max-width: 800px;
-        margin: 40px auto;
-        background: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h2, h3 {
-        text-align: center;
-        }
-        input, select, button {
-        padding: 10px;
-        width: 100%;
-        margin: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        }
-        table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        }
-        table, th, td {
-        border: 1px solid #ddd;
-        }
-        th, td {
-        padding: 10px;
-        text-align: center;
-        }
-        .receipt-preview {
-        margin-top: 40px;
-        padding: 20px;
-        border: 1px solid #ddd;
-        background: #fefefe;
-        }
-        .buttons {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-        margin-top: 20px;
-        }
-    </style>
-    </head>
-    <body>
-    <div class="container">
-        <h2>DE-WILLIAMS PLACE</h2>
-        <h3>Receipt Generator</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Receipt Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 90%;
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2, h3 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    label, input, select {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .receipt-preview {
+      margin-top: 30px;
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    .receipt-preview h3,
+    .receipt-preview h4 {
+      text-align: center;
+      margin: 0;
+    }
+    .receipt-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    .receipt-table th,
+    .receipt-table td {
+      border: 1px solid #000;
+      padding: 10px;
+      text-align: center;
+    }
+    .footer-note {
+      margin-top: 20px;
+      text-align: center;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>DE-WILLIAMS PLACE</h2>
+    <h3>Receipt Generator</h3>
 
-        <label>Customer Name</label>
-        <input type="text" id="customerName" placeholder="Enter customer name">
+    <label>Customer Name</label>
+    <input type="text" id="customerName" placeholder="Enter customer name">
 
-        <label>Date</label>
-        <input type="date" id="receiptDate">
+    <label>Date</label>
+    <input type="date" id="receiptDate">
 
-        <label>Invoice No</label>
-        <input type="text" id="invoiceNo" placeholder="E.g., 2025/162">
+    <label>Invoice No</label>
+    <input type="text" id="invoiceNo" placeholder="E.g., 2025/162">
 
-        <label>Description</label>
-        <input type="text" id="description" placeholder="E.g., Executive Suite (2 nights)">
+    <label>Description</label>
+    <input type="text" id="description" placeholder="E.g., Executive Suite (2 nights)">
 
-        <label>Stay Duration</label>
-        <input type="text" id="duration" placeholder="E.g., 27th Aug - 29th Aug">
+    <label>Stay Duration</label>
+    <input type="text" id="duration" placeholder="E.g., 27th Aug - 29th Aug">
 
-        <label>Quantity</label>
-        <input type="number" id="qty" value="1">
+    <label>Quantity</label>
+    <input type="number" id="qty" value="1">
 
-        <label>Unit Price (₦)</label>
-        <input type="number" id="unitPrice" value="0">
+    <label>Unit Price (₦)</label>
+    <input type="number" id="unitPrice" value="0">
 
-        <label>Payment Method</label>
-        <select id="paymentMethod">
-        <option value="PAID">PAID</option>
-        <option value="PENDING">PENDING</option>
-        </select>
+    <label>Payment Method</label>
+    <select id="paymentMethod">
+      <option value="PAID">PAID</option>
+      <option value="PENDING">PENDING</option>
+    </select>
 
-        <div class="buttons">
-        <button onclick="generateReceipt()">Generate Receipt</button>
-        <button onclick="downloadReceipt()">Download</button>
-        <button onclick="saveToJSON()">Save</button>
-        </div>
-
-        <div class="receipt-preview" id="receiptDisplay"></div>
+    <div class="buttons">
+      <button onclick="generateReceipt()">Generate Receipt</button>
+      <button onclick="downloadReceipt()">Download</button>
+      <button onclick="saveToJSON()">Save</button>
     </div>
 
-    <script>
-        function formatCurrency(n) {
-        return `N${Number(n).toLocaleString()}`;
-        }
+    <div class="receipt-preview" id="receiptDisplay"></div>
+  </div>
 
-        function generateReceipt() {
-        const name = document.getElementById("customerName").value;
-        const date = document.getElementById("receiptDate").value;
-        const invoice = document.getElementById("invoiceNo").value;
-        const desc = document.getElementById("description").value;
-        const duration = document.getElementById("duration").value;
-        const qty = parseInt(document.getElementById("qty").value);
-        const unit = parseFloat(document.getElementById("unitPrice").value);
-        const payment = document.getElementById("paymentMethod").value;
-        const total = qty * unit;
+  <script>
+    function formatCurrency(n) {
+      return `N${Number(n).toLocaleString()}`;
+    }
 
-        const html = `
-            <h3>DE-WILLIAMS PLACE</h3>
-            <h4>RECEIPT</h4>
-            <p><strong>Receipt to:</strong> ${name}</p>
-            <p><strong>Date:</strong> ${date}</p>
-            <p><strong>Invoice No:</strong> ${invoice}</p>
+    function generateReceipt() {
+      const name = document.getElementById("customerName").value;
+      const date = document.getElementById("receiptDate").value;
+      const invoice = document.getElementById("invoiceNo").value;
+      const desc = document.getElementById("description").value;
+      const duration = document.getElementById("duration").value;
+      const qty = parseInt(document.getElementById("qty").value);
+      const unit = parseFloat(document.getElementById("unitPrice").value);
+      const payment = document.getElementById("paymentMethod").value;
+      const total = qty * unit;
 
-            <table>
-            <thead>
-                <tr><th>Description</th><th>Duration</th><th>Qty</th><th>Unit Price</th><th>Total Price</th></tr>
-            </thead>
-            <tbody>
-                <tr>
-                <td>${desc}</td>
-                <td>${duration}</td>
-                <td>${qty}</td>
-                <td>${formatCurrency(unit)}</td>
-                <td>${formatCurrency(total)}</td>
-                </tr>
-            </tbody>
-            </table>
+      const html = `
+        <h3>DE-WILLIAMS PLACE</h3>
+        <h4>RECEIPT</h4>
+        <p><strong>Receipt to:</strong> ${name}</p>
+        <p><strong>Date:</strong> ${date}</p>
+        <p><strong>Invoice No:</strong> ${invoice}</p>
 
-            <p><strong>SUB-TOTAL:</strong> ${formatCurrency(total)}</p>
-            <p><strong>TOTAL:</strong> ${formatCurrency(total)}</p>
-            <p><strong>Payment Method:</strong> ${payment}</p>
-            <p><strong>Thank you for your purchase!</strong></p>
-        `;
-        document.getElementById("receiptDisplay").innerHTML = html;
-        }
+        <table class="receipt-table">
+          <thead>
+            <tr><th>Description</th><th>Date</th><th>QTY</th><th>UNIT PRICE</th><th>TOTAL PRICE</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>${desc}</td>
+              <td>${duration}</td>
+              <td>${qty}</td>
+              <td>${formatCurrency(unit)}</td>
+              <td>${formatCurrency(total)}</td>
+            </tr>
+          </tbody>
+        </table>
 
-        function downloadReceipt() {
-        const content = document.getElementById("receiptDisplay").innerHTML;
-        const printWindow = window.open('', '', 'height=800,width=600');
-        printWindow.document.write('<html><head><title>Receipt</title></head><body>');
-        printWindow.document.write(content);
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        printWindow.print();
-        }
+        <p><strong>SUB-TOTAL:</strong> ${formatCurrency(total)}</p>
+        <p><strong>TOTAL:</strong> ${formatCurrency(total)}</p>
+        <p><strong>Payment Method:</strong> ${payment}</p>
 
-        function saveToJSON() {
-        const record = {
-            name: document.getElementById("customerName").value,
-            date: document.getElementById("receiptDate").value,
-            invoice: document.getElementById("invoiceNo").value,
-            description: document.getElementById("description").value,
-            duration: document.getElementById("duration").value,
-            qty: document.getElementById("qty").value,
-            unitPrice: document.getElementById("unitPrice").value,
-            paymentMethod: document.getElementById("paymentMethod").value
-        };
+        <div class="footer-note">
+          <p>Thank you for purchase!</p>
+        </div>
+      `;
+      document.getElementById("receiptDisplay").innerHTML = html;
+    }
 
-        const a = document.createElement("a");
-        const file = new Blob([JSON.stringify(record, null, 2)], {type: 'application/json'});
-        a.href = URL.createObjectURL(file);
-        a.download = `receipt-${record.invoice}.json`;
-        a.click();
-        }
-    </script>
-    </body>
-    </html>
+    function downloadReceipt() {
+      const content = document.getElementById("receiptDisplay").innerHTML;
+      const printWindow = window.open('', '', 'height=800,width=600');
+      printWindow.document.write('<html><head><title>Receipt</title></head><body>');
+      printWindow.document.write(content);
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.print();
+    }
+
+    function saveToJSON() {
+      const record = {
+        name: document.getElementById("customerName").value,
+        date: document.getElementById("receiptDate").value,
+        invoice: document.getElementById("invoiceNo").value,
+        description: document.getElementById("description").value,
+        duration: document.getElementById("duration").value,
+        qty: document.getElementById("qty").value,
+        unitPrice: document.getElementById("unitPrice").value,
+        paymentMethod: document.getElementById("paymentMethod").value
+      };
+
+      const a = document.createElement("a");
+      const file = new Blob([JSON.stringify(record, null, 2)], {type: 'application/json'});
+      a.href = URL.createObjectURL(file);
+      a.download = `receipt-${record.invoice}.json`;
+      a.click();
+    }
+  </script>
+</body>
+</html>
