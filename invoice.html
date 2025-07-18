@@ -67,7 +67,7 @@
       padding: 20px;
       border: 1px solid #ccc;
       font-family: 'Courier New', Courier, monospace;
-      background-image: url('https://via.placeholder.com/300x300?text=DE-WILLIAMS');
+      background-image: url('/images/logo.png');
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
@@ -116,7 +116,7 @@
 <body>
   <div class="container">
     <div class="logo-container">
-      <img src="https://via.placeholder.com/150x60?text=LOGO" alt="Logo">
+      <img src="/images/logo.png" alt="Logo">
     </div>
     <h2>DE-WILLIAMS PLACE</h2>
     <h3>Invoice & Receipt Generator</h3>
@@ -221,7 +221,7 @@
 
       const html = `
         <div class='receipt-header'>
-          <img src='https://via.placeholder.com/150x60?text=LOGO' alt='Logo'>
+          <img src='/images/logo.png' alt='Logo'>
           <div>
             <h3>DE-WILLIAMS PLACE</h3>
             <h4>${docType}</h4>
@@ -248,7 +248,7 @@
           <p>Thank you for your business!</p>
         </div>
         <div class="signature">
-          <p>Signed: <img src="https://via.placeholder.com/100x40?text=Signature" alt="Signature"></p>
+          <p>Signed: <img src="/images/logo.png" alt="Signature"></p>
         </div>
       `;
       document.getElementById("receiptDisplay").innerHTML = html;
