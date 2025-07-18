@@ -229,15 +229,57 @@
       document.getElementById("receiptDisplay").innerHTML = html;
     }
 
-    function downloadReceipt() {
-      const content = document.getElementById("receiptDisplay").innerHTML;
-      const printWindow = window.open('', '', 'height=800,width=600');
-      printWindow.document.write('<html><head><title>Document</title></head><body>');
-      printWindow.document.write(content);
-      printWindow.document.write('</body></html>');
-      printWindow.document.close();
-      printWindow.print();
-    }
+  function downloadReceipt() {
+  const content = document.getElementById("receiptDisplay").innerHTML;
+  const style = `
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+      }
+      .receipt-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #000;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+      .receipt-header img {
+        height: 60px;
+      }
+      h3, h4 {
+        margin: 0;
+        text-align: center;
+      }
+      .receipt-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+      .receipt-table th, .receipt-table td {
+        border: 1px solid #000;
+        padding: 10px;
+        text-align: center;
+      }
+      .footer-note {
+        margin-top: 20px;
+        text-align: center;
+        font-style: italic;
+      }
+    </style>
+  `;
+
+  const win = window.open('', '', 'height=800,width=600');
+  win.document.write(`<html><head><title>Document</title>${style}</head><body>`);
+  win.document.write(content);
+  win.document.write('</body></html>');
+  win.document.close();
+  win.focus();
+  win.print();
+  win.close();
+}
+
 
     function saveToJSON() {
       const record = {
