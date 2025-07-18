@@ -65,23 +65,20 @@
       margin-top: 30px;
       background: #fff;
       padding: 20px;
-      border: 1px solid #ccc;
-      font-family: 'Courier New', Courier, monospace;
-      background-image: url('/images/logo.png');
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
+      border: 2px solid #4f2c89;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .receipt-preview h3,
     .receipt-preview h4 {
       text-align: center;
       margin: 0;
+      color: #4f2c89;
     }
     .receipt-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #000;
+      border-bottom: 2px solid #4f2c89;
       padding-bottom: 10px;
       margin-bottom: 20px;
     }
@@ -93,23 +90,24 @@
       border-collapse: collapse;
       margin: 20px 0;
     }
+    .receipt-table th {
+      background-color: #4f2c89;
+      color: #fff;
+    }
     .receipt-table th,
     .receipt-table td {
-      border: 1px solid #000;
+      border: 1px solid #4f2c89;
       padding: 10px;
       text-align: center;
+    }
+    .receipt-table tbody tr:nth-child(odd) {
+      background-color: #f7f3fb;
     }
     .footer-note {
       margin-top: 20px;
       text-align: center;
       font-style: italic;
-    }
-    .signature {
-      margin-top: 40px;
-      text-align: right;
-    }
-    .signature img {
-      height: 50px;
+      color: #4f2c89;
     }
   </style>
 </head>
@@ -161,181 +159,182 @@
 
     <div class="receipt-preview" id="receiptDisplay"></div>
   </div>
+    <script>
+  function addItem() {
+    const container = document.getElementById("itemsContainer");
+    const div = document.createElement("div");
+    div.className = "item-group";
+    div.innerHTML = `
+      <input type="text" placeholder="Description" class="desc">
+      <input type="text" placeholder="Date Range" class="duration">
+      <input type="number" placeholder="No. of Nights" class="nights" value="1">
+      <input type="number" placeholder="Unit Price" class="unit">
+    `;
+    container.appendChild(div);
+  }
 
-  <script>
-    function addItem() {
-      const container = document.getElementById("itemsContainer");
-      const div = document.createElement("div");
-      div.className = "item-group";
-      div.innerHTML = `
-        <input type="text" placeholder="Description" class="desc">
-        <input type="text" placeholder="Date Range" class="duration">
-        <input type="number" placeholder="No. of Nights" class="nights" value="1">
-        <input type="number" placeholder="Unit Price" class="unit">
+  function formatCurrency(n) {
+    return `N${Number(n).toLocaleString()}`;
+  }
+
+  function generateReceipt() {
+    const docType = document.getElementById("docType").value;
+    const name = document.getElementById("customerName").value;
+    const date = document.getElementById("receiptDate").value;
+    const invoice = document.getElementById("invoiceNo").value;
+    const payment = document.getElementById("paymentMethod").value;
+    const items = document.querySelectorAll(".item-group");
+
+    let rows = "";
+    let total = 0;
+
+    items.forEach(group => {
+      const desc = group.querySelector(".desc").value;
+      const duration = group.querySelector(".duration").value;
+      const nights = parseInt(group.querySelector(".nights").value);
+      const unit = parseFloat(group.querySelector(".unit").value);
+      const rowTotal = nights * unit;
+      total += rowTotal;
+      rows += `
+        <tr>
+          <td>${desc}</td>
+          <td>${duration}</td>
+          <td>${nights}</td>
+          <td>${formatCurrency(unit)}</td>
+          <td>${formatCurrency(rowTotal)}</td>
+        </tr>
       `;
-      container.appendChild(div);
-    }
+    });
 
-    function formatCurrency(n) {
-      return `N${Number(n).toLocaleString()}`;
-    }
-
-    function generateReceipt() {
-      const docType = document.getElementById("docType").value;
-      const name = document.getElementById("customerName").value;
-      const date = document.getElementById("receiptDate").value;
-      const invoice = document.getElementById("invoiceNo").value;
-      const payment = document.getElementById("paymentMethod").value;
-      const items = document.querySelectorAll(".item-group");
-
-      let rows = "";
-      let total = 0;
-
-      items.forEach(group => {
-        const desc = group.querySelector(".desc").value;
-        const duration = group.querySelector(".duration").value;
-        const nights = parseInt(group.querySelector(".nights").value);
-        const unit = parseFloat(group.querySelector(".unit").value);
-        const rowTotal = nights * unit;
-        total += rowTotal;
-        rows += `
-          <tr>
-            <td>${desc}</td>
-            <td>${duration}</td>
-            <td>${nights}</td>
-            <td>${formatCurrency(unit)}</td>
-            <td>${formatCurrency(rowTotal)}</td>
-          </tr>
-        `;
-      });
-
-      let paymentNote = `<p><strong>Payment Method:</strong> ${payment}</p>`;
-      if (docType === "INVOICE") {
-        paymentNote = `
+    let paymentNote = `<p><strong>Payment Method:</strong> ${payment}</p>`;
+    if (docType === "INVOICE") {
+      paymentNote = `
         <p><strong>Payment Method :</strong><br>
         BISI WILLIAMS ENTERPRISE -<br>
         DE-WILLIAMS PLACE HOTEL 1<br>
         Bank Name : Moniepoint MFB<br>
         Account No : 4001572176</p>`;
-      }
-
-      const html = `
-        <div class='receipt-header'>
-          <img src='/images/logo.png' alt='Logo'>
-          <div>
-            <h3>DE-WILLIAMS PLACE</h3>
-            <h4>${docType}</h4>
-          </div>
-        </div>
-        <p><strong>${docType} to:</strong> ${name}</p>
-        <p><strong>Date:</strong> ${date}</p>
-        <p><strong>Invoice No:</strong> ${invoice}</p>
-
-        <table class="receipt-table">
-          <thead>
-            <tr><th>Description</th><th>Date</th><th>No. of Nights</th><th>Unit Price</th><th>Total Price</th></tr>
-          </thead>
-          <tbody>
-            ${rows}
-          </tbody>
-        </table>
-
-        <p><strong>SUB-TOTAL:</strong> ${formatCurrency(total)}</p>
-        <p><strong>TOTAL:</strong> ${formatCurrency(total)}</p>
-        ${paymentNote}
-
-        <div class="footer-note">
-          <p>Thank you for your business!</p>
-        </div>
-        <div class="signature">
-          <p>Signed: <img src="/images/logo.png" alt="Signature"></p>
-        </div>
-      `;
-      document.getElementById("receiptDisplay").innerHTML = html;
     }
 
-    function downloadReceipt() {
-      const content = document.getElementById("receiptDisplay").innerHTML;
-      const style = `
-        <style>
-          body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
-          }
-          .receipt-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #000;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-          }
-          .receipt-header img {
-            height: 60px;
-          }
-          h3, h4 {
-            margin: 0;
-            text-align: center;
-          }
-          .receipt-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-          }
-          .receipt-table th, .receipt-table td {
-            border: 1px solid #000;
-            padding: 10px;
-            text-align: center;
-          }
-          .footer-note {
-            margin-top: 20px;
-            text-align: center;
-            font-style: italic;
-          }
-          .signature {
-            margin-top: 40px;
-            text-align: right;
-          }
-          .signature img {
-            height: 50px;
-          }
-        </style>`;
+    const html = `
+      <div class='receipt-header'>
+        <img src="/images/logo.png" alt="Logo">
+        <div>
+          <h3>DE-WILLIAMS PLACE</h3>
+          <h4>${docType}</h4>
+        </div>
+      </div>
+      <p><strong>${docType} to:</strong> ${name}</p>
+      <p><strong>Date:</strong> ${date}</p>
+      <p><strong>Invoice No:</strong> ${invoice}</p>
 
-      const win = window.open('', '', 'height=800,width=600');
-      win.document.write(`<html><head><title>Document</title>${style}</head><body>`);
-      win.document.write(content);
-      win.document.write('</body></html>');
-      win.document.close();
-      win.focus();
-      win.print();
-      win.close();
-    }
+      <table class="receipt-table">
+        <thead>
+          <tr><th>Description</th><th>Date</th><th>No. of Nights</th><th>Unit Price</th><th>Total Price</th></tr>
+        </thead>
+        <tbody>
+          ${rows}
+        </tbody>
+      </table>
 
-    function saveToJSON() {
-      const record = {
-        docType: document.getElementById("docType").value,
-        name: document.getElementById("customerName").value,
-        date: document.getElementById("receiptDate").value,
-        invoice: document.getElementById("invoiceNo").value,
-        paymentMethod: document.getElementById("paymentMethod").value,
-        items: []
-      };
+      <p><strong>SUB-TOTAL:</strong> ${formatCurrency(total)}</p>
+      <p><strong>TOTAL:</strong> ${formatCurrency(total)}</p>
+      ${paymentNote}
 
-      document.querySelectorAll(".item-group").forEach(group => {
-        record.items.push({
-          description: group.querySelector(".desc").value,
-          duration: group.querySelector(".duration").value,
-          nights: group.querySelector(".nights").value,
-          unitPrice: group.querySelector(".unit").value
-        });
+      <div class="footer-note">
+        <p>Thank you for your business!</p>
+      </div>
+    `;
+
+    document.getElementById("receiptDisplay").innerHTML = html;
+  }
+
+  function downloadReceipt() {
+    const content = document.getElementById("receiptDisplay").innerHTML;
+    const style = `
+      <style>
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          padding: 20px;
+        }
+        .receipt-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 2px solid #4f2c89;
+          padding-bottom: 10px;
+          margin-bottom: 20px;
+        }
+        .receipt-header img {
+          height: 60px;
+        }
+        h3, h4 {
+          margin: 0;
+          text-align: center;
+          color: #4f2c89;
+        }
+        .receipt-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 20px 0;
+        }
+        .receipt-table th {
+          background-color: #4f2c89;
+          color: #fff;
+        }
+        .receipt-table th, .receipt-table td {
+          border: 1px solid #4f2c89;
+          padding: 10px;
+          text-align: center;
+        }
+        .receipt-table tbody tr:nth-child(odd) {
+          background-color: #f7f3fb;
+        }
+        .footer-note {
+          margin-top: 20px;
+          text-align: center;
+          font-style: italic;
+          color: #4f2c89;
+        }
+      </style>
+    `;
+
+    const win = window.open('', '', 'height=800,width=600');
+    win.document.write(`<html><head><title>Document</title>${style}</head><body>`);
+    win.document.write(content);
+    win.document.write('</body></html>');
+    win.document.close();
+    win.focus();
+    win.print();
+    win.close();
+  }
+
+  function saveToJSON() {
+    const record = {
+      docType: document.getElementById("docType").value,
+      name: document.getElementById("customerName").value,
+      date: document.getElementById("receiptDate").value,
+      invoice: document.getElementById("invoiceNo").value,
+      paymentMethod: document.getElementById("paymentMethod").value,
+      items: []
+    };
+
+    document.querySelectorAll(".item-group").forEach(group => {
+      record.items.push({
+        description: group.querySelector(".desc").value,
+        duration: group.querySelector(".duration").value,
+        nights: group.querySelector(".nights").value,
+        unitPrice: group.querySelector(".unit").value
       });
+    });
 
-      const a = document.createElement("a");
-      const file = new Blob([JSON.stringify(record, null, 2)], {type: 'application/json'});
-      a.href = URL.createObjectURL(file);
-      a.download = `${record.docType}-${record.invoice}.json`;
-      a.click();
-    }
-  </script>
+    const a = document.createElement("a");
+    const file = new Blob([JSON.stringify(record, null, 2)], {type: 'application/json'});
+    a.href = URL.createObjectURL(file);
+    a.download = `${record.docType}-${record.invoice}.json`;
+    a.click();
+  }
+</script>
+
 </body>
 </html>
