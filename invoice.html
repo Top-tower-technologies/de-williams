@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Receipt Generator</title>
+  <title>Invoice & Receipt Generator</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -12,12 +12,19 @@
     }
     .container {
       width: 90%;
-      max-width: 800px;
+      max-width: 900px;
       margin: 30px auto;
       background: #fff;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .logo-container {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .logo-container img {
+      max-height: 80px;
     }
     h2, h3 {
       text-align: center;
@@ -33,7 +40,6 @@
     button {
       padding: 10px 15px;
       font-size: 16px;
-      margin-top: 10px;
       cursor: pointer;
     }
     .buttons {
@@ -41,6 +47,18 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
+    }
+    .items-container {
+      margin-top: 20px;
+    }
+    .item-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .item-group input {
+      flex: 1;
     }
     .receipt-preview {
       margin-top: 30px;
@@ -53,6 +71,17 @@
     .receipt-preview h4 {
       text-align: center;
       margin: 0;
+    }
+    .receipt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #000;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .receipt-header img {
+      height: 60px;
     }
     .receipt-table {
       width: 100%;
@@ -74,8 +103,17 @@
 </head>
 <body>
   <div class="container">
+    <div class="logo-container">
+      <img src="https://via.placeholder.com/150x60?text=LOGO" alt="Logo">
+    </div>
     <h2>DE-WILLIAMS PLACE</h2>
-    <h3>Receipt Generator</h3>
+    <h3>Invoice & Receipt Generator</h3>
+
+    <label>Document Type</label>
+    <select id="docType">
+      <option value="RECEIPT">Receipt</option>
+      <option value="INVOICE">Invoice</option>
+    </select>
 
     <label>Customer Name</label>
     <input type="text" id="customerName" placeholder="Enter customer name">
@@ -86,17 +124,16 @@
     <label>Invoice No</label>
     <input type="text" id="invoiceNo" placeholder="E.g., 2025/162">
 
-    <label>Description</label>
-    <input type="text" id="description" placeholder="E.g., Executive Suite (2 nights)">
-
-    <label>Stay Duration</label>
-    <input type="text" id="duration" placeholder="E.g., 27th Aug - 29th Aug">
-
-    <label>Quantity</label>
-    <input type="number" id="qty" value="1">
-
-    <label>Unit Price (₦)</label>
-    <input type="number" id="unitPrice" value="0">
+    <div class="items-container" id="itemsContainer">
+      <h4>Items</h4>
+      <div class="item-group">
+        <input type="text" placeholder="Description" class="desc">
+        <input type="text" placeholder="Duration" class="duration">
+        <input type="number" placeholder="Qty" class="qty" value="1">
+        <input type="number" placeholder="Unit Price" class="unit">
+      </div>
+    </div>
+    <button onclick="addItem()">Add Item</button>
 
     <label>Payment Method</label>
     <select id="paymentMethod">
@@ -105,7 +142,7 @@
     </select>
 
     <div class="buttons">
-      <button onclick="generateReceipt()">Generate Receipt</button>
+      <button onclick="generateReceipt()">Generate</button>
       <button onclick="downloadReceipt()">Download</button>
       <button onclick="saveToJSON()">Save</button>
     </div>
@@ -114,25 +151,61 @@
   </div>
 
   <script>
+    function addItem() {
+      const container = document.getElementById("itemsContainer");
+      const div = document.createElement("div");
+      div.className = "item-group";
+      div.innerHTML = `
+        <input type="text" placeholder="Description" class="desc">
+        <input type="text" placeholder="Duration" class="duration">
+        <input type="number" placeholder="Qty" class="qty" value="1">
+        <input type="number" placeholder="Unit Price" class="unit">
+      `;
+      container.appendChild(div);
+    }
+
     function formatCurrency(n) {
       return `N${Number(n).toLocaleString()}`;
     }
 
     function generateReceipt() {
+      const docType = document.getElementById("docType").value;
       const name = document.getElementById("customerName").value;
       const date = document.getElementById("receiptDate").value;
       const invoice = document.getElementById("invoiceNo").value;
-      const desc = document.getElementById("description").value;
-      const duration = document.getElementById("duration").value;
-      const qty = parseInt(document.getElementById("qty").value);
-      const unit = parseFloat(document.getElementById("unitPrice").value);
       const payment = document.getElementById("paymentMethod").value;
-      const total = qty * unit;
+      const items = document.querySelectorAll(".item-group");
+
+      let rows = "";
+      let total = 0;
+
+      items.forEach(group => {
+        const desc = group.querySelector(".desc").value;
+        const duration = group.querySelector(".duration").value;
+        const qty = parseInt(group.querySelector(".qty").value);
+        const unit = parseFloat(group.querySelector(".unit").value);
+        const rowTotal = qty * unit;
+        total += rowTotal;
+        rows += `
+          <tr>
+            <td>${desc}</td>
+            <td>${duration}</td>
+            <td>${qty}</td>
+            <td>${formatCurrency(unit)}</td>
+            <td>${formatCurrency(rowTotal)}</td>
+          </tr>
+        `;
+      });
 
       const html = `
-        <h3>DE-WILLIAMS PLACE</h3>
-        <h4>RECEIPT</h4>
-        <p><strong>Receipt to:</strong> ${name}</p>
+        <div class='receipt-header'>
+          <img src='https://via.placeholder.com/150x60?text=LOGO' alt='Logo'>
+          <div>
+            <h3>DE-WILLIAMS PLACE</h3>
+            <h4>${docType}</h4>
+          </div>
+        </div>
+        <p><strong>${docType} to:</strong> ${name}</p>
         <p><strong>Date:</strong> ${date}</p>
         <p><strong>Invoice No:</strong> ${invoice}</p>
 
@@ -141,13 +214,7 @@
             <tr><th>Description</th><th>Date</th><th>QTY</th><th>UNIT PRICE</th><th>TOTAL PRICE</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td>${desc}</td>
-              <td>${duration}</td>
-              <td>${qty}</td>
-              <td>${formatCurrency(unit)}</td>
-              <td>${formatCurrency(total)}</td>
-            </tr>
+            ${rows}
           </tbody>
         </table>
 
@@ -165,7 +232,7 @@
     function downloadReceipt() {
       const content = document.getElementById("receiptDisplay").innerHTML;
       const printWindow = window.open('', '', 'height=800,width=600');
-      printWindow.document.write('<html><head><title>Receipt</title></head><body>');
+      printWindow.document.write('<html><head><title>Document</title></head><body>');
       printWindow.document.write(content);
       printWindow.document.write('</body></html>');
       printWindow.document.close();
@@ -174,20 +241,27 @@
 
     function saveToJSON() {
       const record = {
+        docType: document.getElementById("docType").value,
         name: document.getElementById("customerName").value,
         date: document.getElementById("receiptDate").value,
         invoice: document.getElementById("invoiceNo").value,
-        description: document.getElementById("description").value,
-        duration: document.getElementById("duration").value,
-        qty: document.getElementById("qty").value,
-        unitPrice: document.getElementById("unitPrice").value,
-        paymentMethod: document.getElementById("paymentMethod").value
+        paymentMethod: document.getElementById("paymentMethod").value,
+        items: []
       };
+
+      document.querySelectorAll(".item-group").forEach(group => {
+        record.items.push({
+          description: group.querySelector(".desc").value,
+          duration: group.querySelector(".duration").value,
+          qty: group.querySelector(".qty").value,
+          unitPrice: group.querySelector(".unit").value
+        });
+      });
 
       const a = document.createElement("a");
       const file = new Blob([JSON.stringify(record, null, 2)], {type: 'application/json'});
       a.href = URL.createObjectURL(file);
-      a.download = `receipt-${record.invoice}.json`;
+      a.download = `${record.docType}-${record.invoice}.json`;
       a.click();
     }
   </script>
