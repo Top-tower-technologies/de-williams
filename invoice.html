@@ -18,6 +18,7 @@
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
     }
     .logo-container {
       text-align: center;
@@ -66,6 +67,10 @@
       padding: 20px;
       border: 1px solid #ccc;
       font-family: 'Courier New', Courier, monospace;
+      background-image: url('https://via.placeholder.com/300x300?text=DE-WILLIAMS');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
     }
     .receipt-preview h3,
     .receipt-preview h4 {
@@ -99,6 +104,13 @@
       text-align: center;
       font-style: italic;
     }
+    .signature {
+      margin-top: 40px;
+      text-align: right;
+    }
+    .signature img {
+      height: 50px;
+    }
   </style>
 </head>
 <body>
@@ -128,8 +140,8 @@
       <h4>Items</h4>
       <div class="item-group">
         <input type="text" placeholder="Description" class="desc">
-        <input type="text" placeholder="Duration" class="duration">
-        <input type="number" placeholder="Qty" class="qty" value="1">
+        <input type="text" placeholder="Date Range" class="duration">
+        <input type="number" placeholder="No. of Nights" class="nights" value="1">
         <input type="number" placeholder="Unit Price" class="unit">
       </div>
     </div>
@@ -157,8 +169,8 @@
       div.className = "item-group";
       div.innerHTML = `
         <input type="text" placeholder="Description" class="desc">
-        <input type="text" placeholder="Duration" class="duration">
-        <input type="number" placeholder="Qty" class="qty" value="1">
+        <input type="text" placeholder="Date Range" class="duration">
+        <input type="number" placeholder="No. of Nights" class="nights" value="1">
         <input type="number" placeholder="Unit Price" class="unit">
       `;
       container.appendChild(div);
@@ -182,20 +194,30 @@
       items.forEach(group => {
         const desc = group.querySelector(".desc").value;
         const duration = group.querySelector(".duration").value;
-        const qty = parseInt(group.querySelector(".qty").value);
+        const nights = parseInt(group.querySelector(".nights").value);
         const unit = parseFloat(group.querySelector(".unit").value);
-        const rowTotal = qty * unit;
+        const rowTotal = nights * unit;
         total += rowTotal;
         rows += `
           <tr>
             <td>${desc}</td>
             <td>${duration}</td>
-            <td>${qty}</td>
+            <td>${nights}</td>
             <td>${formatCurrency(unit)}</td>
             <td>${formatCurrency(rowTotal)}</td>
           </tr>
         `;
       });
+
+      let paymentNote = `<p><strong>Payment Method:</strong> ${payment}</p>`;
+      if (docType === "INVOICE") {
+        paymentNote = `
+        <p><strong>Payment Method :</strong><br>
+        BISI WILLIAMS ENTERPRISE -<br>
+        DE-WILLIAMS PLACE HOTEL 1<br>
+        Bank Name : Moniepoint MFB<br>
+        Account No : 4001572176</p>`;
+      }
 
       const html = `
         <div class='receipt-header'>
@@ -211,7 +233,7 @@
 
         <table class="receipt-table">
           <thead>
-            <tr><th>Description</th><th>Date</th><th>QTY</th><th>UNIT PRICE</th><th>TOTAL PRICE</th></tr>
+            <tr><th>Description</th><th>Date</th><th>No. of Nights</th><th>Unit Price</th><th>Total Price</th></tr>
           </thead>
           <tbody>
             ${rows}
@@ -220,66 +242,74 @@
 
         <p><strong>SUB-TOTAL:</strong> ${formatCurrency(total)}</p>
         <p><strong>TOTAL:</strong> ${formatCurrency(total)}</p>
-        <p><strong>Payment Method:</strong> ${payment}</p>
+        ${paymentNote}
 
         <div class="footer-note">
-          <p>Thank you for purchase!</p>
+          <p>Thank you for your business!</p>
+        </div>
+        <div class="signature">
+          <p>Signed: <img src="https://via.placeholder.com/100x40?text=Signature" alt="Signature"></p>
         </div>
       `;
       document.getElementById("receiptDisplay").innerHTML = html;
     }
 
-  function downloadReceipt() {
-  const content = document.getElementById("receiptDisplay").innerHTML;
-  const style = `
-    <style>
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        padding: 20px;
-      }
-      .receipt-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #000;
-        padding-bottom: 10px;
-        margin-bottom: 20px;
-      }
-      .receipt-header img {
-        height: 60px;
-      }
-      h3, h4 {
-        margin: 0;
-        text-align: center;
-      }
-      .receipt-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-      }
-      .receipt-table th, .receipt-table td {
-        border: 1px solid #000;
-        padding: 10px;
-        text-align: center;
-      }
-      .footer-note {
-        margin-top: 20px;
-        text-align: center;
-        font-style: italic;
-      }
-    </style>
-  `;
+    function downloadReceipt() {
+      const content = document.getElementById("receiptDisplay").innerHTML;
+      const style = `
+        <style>
+          body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+          }
+          .receipt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+          }
+          .receipt-header img {
+            height: 60px;
+          }
+          h3, h4 {
+            margin: 0;
+            text-align: center;
+          }
+          .receipt-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+          }
+          .receipt-table th, .receipt-table td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+          }
+          .footer-note {
+            margin-top: 20px;
+            text-align: center;
+            font-style: italic;
+          }
+          .signature {
+            margin-top: 40px;
+            text-align: right;
+          }
+          .signature img {
+            height: 50px;
+          }
+        </style>`;
 
-  const win = window.open('', '', 'height=800,width=600');
-  win.document.write(`<html><head><title>Document</title>${style}</head><body>`);
-  win.document.write(content);
-  win.document.write('</body></html>');
-  win.document.close();
-  win.focus();
-  win.print();
-  win.close();
-}
-
+      const win = window.open('', '', 'height=800,width=600');
+      win.document.write(`<html><head><title>Document</title>${style}</head><body>`);
+      win.document.write(content);
+      win.document.write('</body></html>');
+      win.document.close();
+      win.focus();
+      win.print();
+      win.close();
+    }
 
     function saveToJSON() {
       const record = {
@@ -295,7 +325,7 @@
         record.items.push({
           description: group.querySelector(".desc").value,
           duration: group.querySelector(".duration").value,
-          qty: group.querySelector(".qty").value,
+          nights: group.querySelector(".nights").value,
           unitPrice: group.querySelector(".unit").value
         });
       });
