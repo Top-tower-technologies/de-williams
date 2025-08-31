@@ -162,7 +162,7 @@ function ensureLogin(){
     e.preventDefault(); 
     localStorage.removeItem("cashierToken"); 
     localStorage.removeItem("cashierName"); 
-    location.href="pos_login.html"; 
+    location.href="/reniks/pos_login.html"; 
   };
 }
 
