@@ -2,17 +2,27 @@ const API = "https://paywiththunder.com/boutique/api/api.php";
 let PRODUCTS = [];
 let CART = [];
 
-function money(n){ return new Intl.NumberFormat('en-NG',{style:'currency',currency:'NGN'}).format(n); }
+function money(n){ 
+  return new Intl.NumberFormat('en-NG',{style:'currency',currency:'NGN'}).format(n); 
+}
 
 async function api(action, params={}, method="GET"){
   const url = new URL(API, window.location.href);
   url.searchParams.set("action", action);
+
   const opt = { method };
+
   if (method !== "GET") {
-    opt.headers = {"Content-Type":"application/json"};
-    opt.body = JSON.stringify(params);
+    // Send as form-urlencoded so PHP $_POST can read it
+    opt.headers = {"Content-Type":"application/x-www-form-urlencoded"};
+    opt.body = new URLSearchParams(params).toString();
   }
-  const res = await fetch(url.toString() + (method==="GET"?"&"+new URLSearchParams(params):""), opt);
+
+  const res = await fetch(
+    url.toString() + (method==="GET" ? "&"+new URLSearchParams(params) : ""), 
+    opt
+  );
+
   return res.json();
 }
 
@@ -84,9 +94,7 @@ function totals(){
   });
   const discount = parseFloat(document.getElementById("discount").value || "0");
   const applied = Math.min(Math.max(0, discount), sub);
-  // Approximate tax/total on UI; final exact calc done on server
   const subAfter = sub - applied;
-  // recompute tax proportionally (approx); server will do exact per-line
   const taxAfter = sub>0 ? tax * (subAfter/sub) : 0;
   const totalAfter = subAfter + taxAfter;
 
@@ -122,12 +130,16 @@ async function checkout(){
   const cashierName = localStorage.getItem("cashierName");
   if (!token || !cashierName) { location.href = "pos_login.html"; return; }
 
+  // IMPORTANT: stringify items so PHP receives it properly
   const payload = {
-    token, cashier_name: cashierName,
-    items: CART.map(it=>({id:it.id, qty:it.qty})),
+    token, 
+    cashier_name: cashierName,
+    items: JSON.stringify(CART.map(it=>({id:it.id, qty:it.qty}))),
     discount_amount: discount,
-    paid, method
+    paid, 
+    method
   };
+
   const res = await api("record_sale", payload, "POST");
   if (!res.ok) { msg.textContent = res.error || "Failed"; return; }
 
@@ -146,13 +158,20 @@ function ensureLogin(){
   const name = localStorage.getItem("cashierName");
   if (!token || !name) { location.href = "pos_login.html"; return; }
   document.getElementById("cashierTag").textContent = "Cashier: " + name;
-  document.getElementById("logout").onclick = (e)=>{ e.preventDefault(); localStorage.removeItem("cashierToken"); localStorage.removeItem("cashierName"); location.href="pos_login.html"; };
+  document.getElementById("logout").onclick = (e)=>{
+    e.preventDefault(); 
+    localStorage.removeItem("cashierToken"); 
+    localStorage.removeItem("cashierName"); 
+    location.href="pos_login.html"; 
+  };
 }
 
 document.addEventListener("DOMContentLoaded", ()=>{
   ensureLogin();
   loadProducts();
-  document.getElementById("search").addEventListener("input", (e)=>{ renderProducts(filterProducts(e.target.value)); });
+  document.getElementById("search").addEventListener("input", (e)=>{ 
+    renderProducts(filterProducts(e.target.value)); 
+  });
   document.getElementById("btn-checkout").addEventListener("click", checkout);
   document.getElementById("discount").addEventListener("input", totals);
 });
