@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>.login{max-width:420px;margin:60px auto;background:#fff;padding:20px;border-radius:12px}
+  @media (prefers-color-scheme: dark){.login{background:#151515;border:1px solid #222}}</style>
+</head>
+<body>
+  <div class="login">
+    <h2>Admin Login</h2>
+    <label>Username <input id="username"/></label><br/>
+    <label>Password <input id="password" type="password"/></label><br/>
+    <button id="login">Login</button>
+    <div id="msg" style="color:#b00020;margin-top:8px;"></div>
+  </div>
+  <script>
+    document.getElementById("login").onclick = async ()=>{
+      const u = document.getElementById("username").value.trim();
+      const p = document.getElementById("password").value.trim();
+      const res = await fetch("../api/api.php?action=login_admin",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:u,password:p})});
+      const j = await res.json();
+      if(!j.ok){ document.getElementById("msg").textContent = j.error||"Login failed"; return; }
+      localStorage.setItem("adminToken", j.token);
+      localStorage.setItem("adminUser", u);
+      location.href = "admin.html";
+    };
+  </script>
+</body>
+</html>

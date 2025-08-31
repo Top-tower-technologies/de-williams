@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>POS Login</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>.login{max-width:420px;margin:60px auto;background:#fff;padding:20px;border-radius:12px}
+  @media (prefers-color-scheme: dark){.login{background:#151515;border:1px solid #222}}</style>
+</head>
+<body>
+  <div class="login">
+    <h2>Cashier Login</h2>
+    <label>Full Name <input id="name" placeholder="e.g., Jane Doe"/></label><br/>
+    <label>PIN <input id="pin" type="password" inputmode="numeric"/></label><br/>
+    <button id="login">Login</button>
+    <div id="msg" style="color:#b00020;margin-top:8px;"></div>
+  </div>
+  <script>
+    async function apiLogin(name, pin){
+      const res = await fetch("../api/api.php?action=login_cashier", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({name, pin})
+      });
+      return res.json();
+    }
+    document.getElementById("login").onclick = async ()=>{
+      const name = document.getElementById("name").value.trim();
+      const pin = document.getElementById("pin").value.trim();
+      const msg = document.getElementById("msg");
+      msg.textContent = "";
+      const res = await apiLogin(name, pin);
+      if(!res.ok){ msg.textContent = res.error || "Login failed"; return; }
+      localStorage.setItem("cashierToken", res.token);
+      localStorage.setItem("cashierName", name);
+      location.href = "index.html";
+    };
+  </script>
+</body>
+</html>

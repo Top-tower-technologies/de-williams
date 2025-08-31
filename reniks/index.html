@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Boutique Cash Register - POS</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Boutique Cash Register</h1>
+    <nav>
+      <span id="cashierTag"></span>
+      <a href="admin.html">Owner / Admin</a>
+      <a href="#" id="logout">Logout</a>
+    </nav>
+  </header>
+
+  <main class="grid">
+    <!-- PRODUCTS -->
+    <section class="panel">
+      <h2>Products</h2>
+      <input id="search" type="search" placeholder="Search by name or scan barcode..."/>
+      <div id="product-list" class="list"></div>
+    </section>
+
+    <!-- CART -->
+    <section class="panel">
+      <h2>Cart</h2>
+      <div id="cart"></div>
+      <div class="summary">
+        <div>Subtotal: <span id="subtotal">0</span></div>
+        <div>Discount: <span id="discountLabel">0</span></div>
+        <div>Tax: <span id="tax">0</span></div>
+        <div class="total">Total: <span id="total">0</span></div>
+      </div>
+      <div class="checkout">
+        <label>Discount (NGN)
+          <input id="discount" type="number" min="0" step="0.01" value="0"/>
+        </label>
+        <label>Payment Method
+          <select id="method">
+            <option value="cash">Cash</option>
+            <option value="card">Card</option>
+            <option value="transfer">Transfer</option>
+          </select>
+        </label>
+        <label>Amount Paid (NGN)
+          <input id="paid" type="number" min="0" step="0.01"/>
+        </label>
+        <button id="btn-checkout">Complete Sale</button>
+        <div id="change"></div>
+        <div id="msg"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Owner / Admin - Boutique</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Owner / Admin</h1>
+    <nav>
+      <span id="adminTag"></span>
+      <a href="index.html">POS</a>
+      <a href="#" id="logout">Logout</a>
+    </nav>
+  </header>
+  <main class="grid">
+    <section class="panel">
+      <h2>Products</h2>
+      <form id="product-form">
+        <div class="grid" style="grid-template-columns:repeat(2,1fr); gap:8px">
+          <input name="id" placeholder="ID (SKU)" required />
+          <input name="name" placeholder="Name" required />
+          <input name="price" type="number" step="0.01" placeholder="Price" required />
+          <input name="barcode" placeholder="Barcode" />
+          <input name="tax_rate" type="number" step="0.001" placeholder="Tax Rate (0.075)" />
+          <input name="stock" type="number" placeholder="Initial Stock" />
+        </div>
+        <button type="submit">Add Product</button>
+      </form>
+      <div id="admin-products"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Sales Report</h2>
+      <div style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap;">
+        <label>From <input type="date" id="from"/></label>
+        <label>To <input type="date" id="to"/></label>
+        <button id="run">Run</button>
+        <button id="download">Download CSV</button>
+      </div>
+      <div id="report" style="margin-top:8px;"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Cashiers</h2>
+      <form id="cashier-form">
+        <div class="grid" style="grid-template-columns:1fr 1fr; gap:8px">
+          <input name="name" placeholder="Full Name" required/>
+          <input name="pin" placeholder="PIN" required/>
+        </div>
+        <button type="submit">Add Cashier</button>
+      </form>
+      <div id="cashier-list" style="margin-top:8px;"></div>
+    </section>
+  </main>
+  <script src="admin.js"></script>
+</body>
+</html>
