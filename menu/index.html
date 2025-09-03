@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Menu</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="title">Hotel Menu</div>
+      <a class="btn secondary" href="admin.html">Admin Panel</a>
+    </div>
+
+    <div class="grid grid-2">
+      <aside class="card">
+        <h3 style="margin:6px 0 12px 0">Categories</h3>
+        <div id="categoryChips" class="chips"></div>
+        <hr>
+        <div class="controls">
+          <input id="searchInput" class="input" placeholder="Search items..." />
+          <select id="availabilityFilter">
+            <option value="all">All</option>
+            <option value="available">Available</option>
+            <option value="na">Not Available</option>
+          </select>
+        </div>
+        <p class="small">Tip: Use the filters to quickly find what you want.</p>
+      </aside>
+
+      <main class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h3 style="margin:6px 0 12px 0">Items</h3>
+          <span id="count" class="badge">0 items</span>
+        </div>
+        <div id="itemsList" class="grid" style="grid-template-columns:1fr"></div>
+      </main>
+    </div>
+
+    <footer class="small">© <span id="year"></span> Your Hotel</footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
