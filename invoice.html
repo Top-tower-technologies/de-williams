@@ -109,6 +109,9 @@
       font-style: italic;
       color: #d3ae00;
     }
+    #amountPaidContainer {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -146,12 +149,16 @@
     <button onclick="addItem()">Add Item</button>
 
     <label>Payment Method</label>
-    <select id="paymentMethod">
+    <select id="paymentMethod" onchange="toggleAmountPaid()">
       <option value="PAID">PAID</option>
       <option value="PENDING">PENDING</option>
-            <option value="PENDING">PART PAYMENT PAID, TO BALANCE N100,000</option>
-
+      <option value="PART">PART PAYMENT</option>
     </select>
+
+    <div id="amountPaidContainer">
+      <label>Amount Paid</label>
+      <input type="number" id="amountPaid" placeholder="Enter amount paid">
+    </div>
 
     <div class="buttons">
       <button onclick="generateReceipt()">Generate</button>
@@ -198,6 +205,12 @@
       return `N${Number(n).toLocaleString()}`;
     }
 
+    function toggleAmountPaid() {
+      const method = document.getElementById("paymentMethod").value;
+      const container = document.getElementById("amountPaidContainer");
+      container.style.display = method === "PART" ? "block" : "none";
+    }
+
     function generateReceipt() {
       const docType = document.getElementById("docType").value;
       const category = document.getElementById("category").value;
@@ -205,6 +218,7 @@
       const date = document.getElementById("receiptDate").value;
       const invoice = document.getElementById("invoiceNo").value;
       const payment = document.getElementById("paymentMethod").value;
+      const amountPaid = parseFloat(document.getElementById("amountPaid").value) || 0;
       const items = document.querySelectorAll(".item-group");
 
       let rows = "";
@@ -247,6 +261,8 @@
         }
       });
 
+      let balance = total - amountPaid;
+
       let paymentNote = `<p><strong>Payment Method:</strong> ${payment}</p>`;
       if (docType === "INVOICE" && category === "hotel") {
         paymentNote = `
@@ -276,6 +292,8 @@
 
         <p><strong>SUB-TOTAL:</strong> ${formatCurrency(total)}</p>
         <p><strong>TOTAL:</strong> ${formatCurrency(total)}</p>
+        ${payment === "PART" ? `<p><strong>AMOUNT PAID:</strong> ${formatCurrency(amountPaid)}</p>
+        <p><strong>AMOUNT REMAINING:</strong> ${formatCurrency(balance)}</p>` : ""}
         ${paymentNote}
 
         <div class="footer-note">
@@ -321,6 +339,7 @@
         date: document.getElementById("receiptDate").value,
         invoice: document.getElementById("invoiceNo").value,
         paymentMethod: document.getElementById("paymentMethod").value,
+        amountPaid: document.getElementById("amountPaid").value,
         items: []
       };
 
