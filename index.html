@@ -117,7 +117,69 @@ Discover the art of fine living at De-Williams place, where elegance, comfort, a
             </div>
         </div>
     </section>
+    <script>
+  const leftColumn = document.querySelector('.column.left');
+  const rightColumn = document.querySelector('.column.right');
+  const aboutSection = document.querySelector('#about');
 
+  function handleScroll() {
+    const sectionTop = aboutSection.getBoundingClientRect().top;
+    const triggerPoint = window.innerHeight * 0.8; // triggers when section is 80% into view
+
+    if (sectionTop < triggerPoint) {
+      leftColumn.classList.add('show');
+      rightColumn.classList.add('show');
+      window.removeEventListener('scroll', handleScroll); // run once
+    }
+  }
+
+  window.addEventListener('scroll', handleScroll);
+</script>
+
+
+<style>
+  .column.left,
+.column.right {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s ease;
+}
+
+.column.left.show {
+  opacity: 1;
+  transform: translateX(0);
+  animation: slideInLeft 1s forwards;
+}
+
+.column.right.show {
+  opacity: 1;
+  transform: translateX(0);
+  animation: slideInRight 1s forwards;
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+</style>
 
     
     <section class="homes" id="home">
