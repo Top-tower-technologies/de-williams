@@ -408,77 +408,86 @@ section .title::after{
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url("/images/herooo.jpg") no-repeat center;
-  background-size: cover;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+              url("/images/landinggg.jpg") no-repeat center center/cover;
   background-attachment: fixed;
   color: #fff;
+  height: 90vh;
   font-family: 'Lato', sans-serif;
-  padding: 20px;
-}
-
-.homes .max-width {
-  width: 100%;
-}
-
-.home .max-width .row {
-  margin-right: 0;
+  padding: 40px 20px;
+  text-align: center;
 }
 
 .homes-content {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
   justify-content: center;
+  max-width: 1200px;
   width: 100%;
-  height: 100%;
-  padding: 30px;
+  gap: 30px;
 }
 
-.homes-content .adds,
-.homes-content .adding,
-.homes-content .addon {
-  background: #ffffff;
-  font-size: 18px;
+.homes-content .adds {
+  background: rgba(255, 255, 255, 0.95);
   color: #121227;
-  padding: 20px;
+  padding: 40px 30px;
   text-align: left;
-  flex: 1 1 300px;
-  max-width: 100%;
-  box-sizing: border-box;
-  max-height: 300px;
+  flex: 1 1 500px;
+  max-width: 700px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Optional specific heights for larger screens */
-@media (min-width: 768px) {
-  .homes-content .adds {
-    height: 400px;
-  }
-  .homes-content .adding {
-    height: 300px;
-  }
-  .homes-content .addon {
-    height: 350px;
-  }
+.homes-content .adds:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
-/* Smaller screens: stack items and adjust padding */
-@media (max-width: 767px) {
+.homes-content .adds .add p b {
+  font-size: 48px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #121227;
+}
+
+.homes-content .adds .add p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-top: 15px;
+  color: #333;
+}
+
+/* Responsive tweaks */
+@media (max-width: 991px) {
   .homes {
-    padding: 10px;
-    background-attachment: scroll;
-  }
-
-  .homes-content {
-    flex-direction: column;
-    padding: 10px;
-  }
-
-  .homes-content .adds,
-  .homes-content .adding,
-  .homes-content .addon {
-    width: 100%;
     height: auto;
+    background-attachment: scroll;
+    padding: 60px 20px;
+  }
+
+  .homes-content .adds .add p b {
+    font-size: 36px;
+  }
+
+  .homes-content .adds .add p {
     font-size: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .homes-content .adds {
+    padding: 25px 20px;
+    border-radius: 15px;
+  }
+
+  .homes-content .adds .add p b {
+    font-size: 30px;
+  }
+
+  .homes-content .adds .add p {
+    font-size: 15px;
   }
 }
 
@@ -520,46 +529,131 @@ section .title::after{
   }
 
 
-  .rooms {
-    float: left;
-    width: 25%;
-    padding: 110px 10px;
-  }
-  
-  /* Remove extra left and right margins, due to padding */
-  .roomsuites {
-  margin: 0 -5px;
-  background: url("/images/herooo.jpg") no-repeat center;
+  /* Section Container */
+.rooms-section {
+  position: relative;
+  padding: 80px 20px;
   color: #fff;
-  background-size: cover;
+  overflow: hidden;
 }
-  
 
-  
-  /* Clear floats after the columns */
-  .roomsuites:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  
-  /* Responsive columns */
-  @media screen and (max-width: 600px) {
-    .rooms {
-      width: 100%;
-      display: block;
-      margin-bottom: 20px;
-    }
-  }
-  
-  /* Style the counter cards */
-  .rooms .card {
-    padding: 16px;
-    text-align: left;
-background: #ffffff;
+/* Background Video */
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
 
- color: #000000;
+/* Dark Overlay */
+.rooms-section .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: -1;
+}
+
+/* Section Title */
+.section-title {
+  font-size: 50px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 50px;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+}
+
+/* Grid Layout for Rooms */
+.rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Room Card */
+.room-card {
+  background: rgba(255, 255, 255, 0.95);
+  color: #121227;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.room-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+.room-card h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: #121227;
+}
+
+.room-card p {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.room-details {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
+.room-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  margin-top: 15px;
+}
+
+.room-footer span {
+  color: #D3AE00;
+}
+
+.book-btn {
+  background-color: #D3AE00;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.book-btn:hover {
+  background-color: #b69000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 36px;
   }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 30px;
+  }
+
+  .room-card {
+    padding: 20px;
+  }
+}
 
 
 

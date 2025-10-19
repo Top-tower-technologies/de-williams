@@ -182,122 +182,132 @@ Discover the art of fine living at De-Williams place, where elegance, comfort, a
 </style>
 
     
-    <section class="homes" id="home">
-      <div class="homes-content">
-          <div class="homes-content">
-          <div class="adds">
-            <div class="add">
-              <div style="font-size: 50px; line-height: 40px; font-weight: 500;">
-                <p><b>Experience<br>Exclusive Luxury</b></p>
-              </div>
-<br>
-              <div>
-                <p>Designed by a team of seasoned architects, designers and connoisseurs </p>
-              </div>
-          </div>
-                <br>
-                <div style="font-weight: 900;">
-                  <p><b>Get Membership</b></p>
-                </div>
-            </div>
-            </div>
-  </div>
-</section>
-<br><br><br>
-
-<section class="max-width">
-  <p style="font-size: 50px; font-weight: 500">Room & Suites</p>
-  <br>
-  <div class="roomsuites">
-    <div style="width: 95%; position: relative; margin: auto;">
-    <div class="rooms">
-      <div class="card">
-        <h1>Presidential Suites</h1>
-        <br>
-        <div>
-          <p><i class="fa-solid fa-toilet"></i> 1 bathroom</p>
+<section class="homes" id="home" >
+  <div class="homes-content">
+    <div class="adds">
+      <div class="add">
+        <div style="font-size: 40px; line-height: 40px; font-weight: 500;">
+          <p><b>Unveil The world Of<br>Exclusive Luxury</b></p>
         </div>
         <br>
-      <div style="display: grid; grid-template-columns: auto auto; width: 70%;">
-        <p><i class="fa-solid fa-bed"></i> Twin Bed</p>
-        <p><i class="fa-solid fa-bed"></i> Sleeps 2</p>
-      </div>    
-      <br>
-      <div style="display: grid; grid-template-columns: auto auto; font-weight: 700;">
-        <p>From N120,000 / Night</p>
-        <a href="#" style="background-color: #D3AE00; color: #fff; padding: 5px; text-align: center">Book Now</a>
-      </div>    
-  </div>
+        <div>
+<p>
+  Behind every curve, texture, and finish lies the vision of seasoned architects, talented designers, and passionate connoisseurs—working together to bring you an experience that feels as grand as it looks.
+</p>
+        </div>
+      </div>     
     </div>
+  </div>
+</section>
 
-    <div class="roomsuites">
-      <div class="rooms">
-        <div class="card" >
-          <hr style="border: 0.5px solid #fff;">
+<style>
+  /* Initially hide the content */
+.homes-content {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 2s ease;
+}
 
-          <h1>Executive Rooms</h1>
-          <br>
-          <p><i class="fa-solid fa-toilet"></i> 1 bathroom</p>
-          <br>
-          <div style="display: grid; grid-template-columns: auto auto; width: 70%;">
-            <p><i class="fa-solid fa-bed"></i> Twin Bed</p>
-            <p><i class="fa-solid fa-bed"></i> Sleeps 2</p>
-          </div>   
-          <br>
-          <div style="display: grid; grid-template-columns: auto auto; font-weight: 700;">
-            <p>From N80,000 / Night</p>
-            <a href="#" style="background-color: #D3AE00; color: #fff; padding: 5px; text-align: center">Book Now</a>
-          </div>     
+/* When the section is visible */
+.homes-content.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const homeContent = document.querySelector('.homes-content');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          homeContent.classList.add('show');
+          observer.unobserve(homeContent);
+        }
+      });
+    }, {
+      threshold: 0.3  // 30% of the section should be visible before triggering
+    });
+
+    observer.observe(homeContent);
+  });
+</script>
+<br><br>
+
+<section class="rooms-section">
+  <!-- Background Video -->
+  <video autoplay muted loop playsinline class="bg-video">
+    <source src="/images/roomvidd.MP4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="overlay"></div>
+
+  <div class="max-width">
+    <h2 class="section-title">Room & Suites</h2>
+
+    <div class="rooms-grid">
+      <!-- 1 -->
+      <div class="room-card">
+        <h3>Presidential Suites</h3>
+        <p><i class="fa-solid fa-toilet"></i> 1 Bathroom</p>
+        <div class="room-details">
+          <p><i class="fa-solid fa-bed"></i> Twin Bed</p>
+          <p><i class="fa-solid fa-user"></i> Sleeps 2</p>
+        </div>
+        <div class="room-footer">
+          <p>From <span>N120,000</span> / Night</p>
+          <a href="#" class="book-btn">Book Now</a>
         </div>
       </div>
 
-      <div class="roomsuites">
-        <div class="rooms">
-          <div class="card" >
-            <hr style="border: 0.5px solid #fff;">
-
-            <h1>Standard Rooms</h1>
-            <br>
-            <p><i class="fa-solid fa-toilet"></i> 1 bathroom</p>
-            <br>
-            <div style="display: grid; grid-template-columns: auto auto; width: 70%;">
-              <p><i class="fa-solid fa-bed"></i> Twin Bed</p>
-              <p><i class="fa-solid fa-bed"></i> Sleeps 2</p>
-            </div>   
-            <br>
-            <div style="display: grid; grid-template-columns: auto auto; font-weight: 700;">
-              <p>From N60,000 / Night</p>
-              <a href="#" style="background-color: #D3AE00; color: #fff; padding: 5px; text-align: center">Book Now</a>
-            </div>     
-          </div>
+      <!-- 2 -->
+      <div class="room-card">
+        <h3>Executive Rooms</h3>
+        <p><i class="fa-solid fa-toilet"></i> 1 Bathroom</p>
+        <div class="room-details">
+          <p><i class="fa-solid fa-bed"></i> Twin Bed</p>
+          <p><i class="fa-solid fa-user"></i> Sleeps 2</p>
         </div>
-    
-        <div class="roomsuites">
-          <div class="rooms">
-            <div class="card" >
-              <hr style="border: 0.5px solid #fff;">
+        <div class="room-footer">
+          <p>From <span>N80,000</span> / Night</p>
+          <a href="#" class="book-btn">Book Now</a>
+        </div>
+      </div>
 
-              <h1>Deluxe Rooms</h1>
-              <br>
-              <p><i class="fa-solid fa-toilet"></i> 1 bathroom</p>
-              <br>
-              <div style="display: grid; grid-template-columns: auto auto; width: 70%;">
-                <p><i class="fa-solid fa-bed"></i> Twin Bed</p>
-                <p><i class="fa-solid fa-bed"></i> Sleeps 2</p>
-              </div>   
-              <br>
-              <div style="display: grid; grid-template-columns: auto auto; font-weight: 700;">
-                <p>From N45,000 / Night</p>
-                <a href="#" style="background-color: #D3AE00; color: #fff; padding: 5px; text-align: center">Book Now</a>
-              </div>     
-            </div>
-          </div>
+      <!-- 3 -->
+      <div class="room-card">
+        <h3>Standard Rooms</h3>
+        <p><i class="fa-solid fa-toilet"></i> 1 Bathroom</p>
+        <div class="room-details">
+          <p><i class="fa-solid fa-bed"></i> Twin Bed</p>
+          <p><i class="fa-solid fa-user"></i> Sleeps 2</p>
+        </div>
+        <div class="room-footer">
+          <p>From <span>N60,000</span> / Night</p>
+          <a href="#" class="book-btn">Book Now</a>
+        </div>
+      </div>
 
+      <!-- 4 -->
+      <div class="room-card">
+        <h3>Deluxe Rooms</h3>
+        <p><i class="fa-solid fa-toilet"></i> 1 Bathroom</p>
+        <div class="room-details">
+          <p><i class="fa-solid fa-bed"></i> Twin Bed</p>
+          <p><i class="fa-solid fa-user"></i> Sleeps 2</p>
+        </div>
+        <div class="room-footer">
+          <p>From <span>N45,000</span> / Night</p>
+          <a href="#" class="book-btn">Book Now</a>
+        </div>
+      </div>
     </div>
-   </div>
   </div>
-  </section>
-</div>
+</section>
+
 
 
 <!--FEATURE AND AMENITIES-->
