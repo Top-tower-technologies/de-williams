@@ -47,26 +47,42 @@
 
 
 <!-- home section start -->
-<section class="home" id="home" >
-        <div class="home-content">
-            <div class="home-content">
-                <div class="add">
-                <div>
-                    <p><b>Email us</b> Reservations@dewilliamshotels.com</p>
-                </div>
-
-                <div>
-                    <p><b>Whatsapp</b> +234 706 235 0574</p>
-                </div>
-
-                <div>
-                      <p><b>Visit us</b> Akala Express, Opposite Bovas Filling Station, Ibadan, Oyo State</p>
-                </div>
-                    
-                </div>
+  <section class="home" id="home">
+  <div class="home-content">
+    <div class="add">
+      <div>
+        <p><b>Email us</b> Reservations@dewilliamshotels.com</p>
+      </div>
+      <div>
+        <p><b>Whatsapp</b> +234 706 235 0574</p>
+      </div>
+      <div>
+        <p><b>Visit us</b> Akala Express, Opposite Bovas Filling Station, Ibadan, Oyo State</p>
+      </div>
     </div>
+  </div>
 </section>
 
+<script>
+  const images = [
+    '/images/delounge.jpg',
+    '/images/apart12.jpg',
+    '/images/cinema.jpg',
+    '/images/gym12.jpg',
+    '/images/rooms12.jpg',
+    '/images/lil.jpg',
+    '/images/recep.jpg'
+  ];
+
+  let current = 0;
+  const homeSection = document.querySelector('.home');
+
+  setInterval(() => {
+    current = (current + 1) % images.length;
+    homeSection.style.backgroundImage = `url('${images[current]}')`;
+    homeSection.style.transition = 'background-image 1s ease-in-out';
+  }, 4000); // Change image every 4 seconds
+</script>
 <br>
 
 <!-- about section start -->

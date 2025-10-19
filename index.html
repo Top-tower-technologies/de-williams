@@ -277,13 +277,39 @@ Discover the art of fine living at De-Williams place, where elegance, comfort, a
   </div>
 </section>
 
-<section>
-  <img 
-    src="/images/room.jpg" 
-    alt="Room Image"
+<section class="video-section">
+  <video 
+    id="roomVideo" 
+    muted 
+    loop 
+    playsinline 
     style="width: 100%; height: 100vh; object-fit: cover; display: block;"
   >
+    <source src="/images/video.MP4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const video = document.getElementById('roomVideo');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            video.play();  // Play when section is in view
+          } else {
+            video.pause(); // Pause when you scroll away
+          }
+        });
+      },
+      { threshold: 0.5 } // play when at least 50% of the section is visible
+    );
+
+    observer.observe(video);
+  });
+</script>
+
 
     <!-- contact section start -->
 
