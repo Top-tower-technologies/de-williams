@@ -412,7 +412,7 @@ section .title::after{
               url("/images/landinggg.jpg") no-repeat center center/cover;
   background-attachment: fixed;
   color: #fff;
-  height: 90vh;
+  height: 100vh;
   font-family: 'Lato', sans-serif;
   padding: 40px 20px;
   text-align: center;
@@ -438,7 +438,15 @@ section .title::after{
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(5px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  /* ✅ Add these for a perfect height */
+  height: 100%;
+  min-height: 400px; /* you can adjust this value to fit your design */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centers content vertically */
 }
+
 
 .homes-content .adds:hover {
   transform: translateY(-10px);
