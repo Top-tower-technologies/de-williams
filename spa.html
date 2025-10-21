@@ -47,25 +47,42 @@
 
 
 <!-- home section start -->
-<section class="home2" id="home" style="background-image: url(/de-williams/images/DSC_1558\ 1.png) ;">
-        <div class="home-content2">
-            <div class="home-content2">
-                <div class="add2">
-                <div>
-                    <p><b>Email us</b> Reservations@dewilliamshotels.com</p>
-                </div>
-
-                <div>
-                    <p><b>Whatsapp</b> +234 706 235 0574</p>
-                </div>
-
-                <div>
-                      <p><b>Visit us</b> Akala Express, Opposite Bovas Filling Station, Ibadan, Oyo State</p>
-                </div>
-                    
-                </div>
+ <section class="home" id="home">
+  <div class="home-content">
+    <div class="add">
+      <div>
+        <p><b>Email us</b> Reservations@dewilliamshotels.com</p>
+      </div>
+      <div>
+        <p><b>Whatsapp</b> +234 706 235 0574</p>
+      </div>
+      <div>
+        <p><b>Visit us</b> Akala Express, Opposite Bovas Filling Station, Ibadan, Oyo State</p>
+      </div>
     </div>
+  </div>
 </section>
+
+<script>
+  const images = [
+    '/images/delounge.jpg',
+    '/images/apart12.jpg',
+    '/images/cinema.jpg',
+    '/images/gym12.jpg',
+    '/images/rooms12.jpg',
+    '/images/lil.jpg',
+    '/images/recep.jpg'
+  ];
+
+  let current = 0;
+  const homeSection = document.querySelector('.home');
+
+  setInterval(() => {
+    current = (current + 1) % images.length;
+    homeSection.style.backgroundImage = `url('${images[current]}')`;
+    homeSection.style.transition = 'background-image 1s ease-in-out';
+  }, 4000); // Change image every 4 seconds
+</script>
 
 <br><br><br>
 <br><br><br>
@@ -75,19 +92,22 @@
 <section class="services">
   <div class="servmenu">
     <div class="first">
-      <h1>1. Bodywork</h1>
+      <h1>The Spa – Relaxation Redefined</h1>
       <a href="#">Book Treatment</a>
     </div>
     <div class="second">
       <div>
-        Direct, hands-on relief applied by Licensed Massage Therapists that blends modalities
-        such as stretching, trigger point therapy, myofascial release, and more.
+      Step into pure serenity. Our spa offers a range of soothing massages and body treatments designed to 
+      relieve stress, rejuvenate your body, and restore your inner balance.
       </div>
+      <br>
       <div>
         <span>Includes:</span><br>
-        <li>BodyWork</li>
-        <li>Bodywork (SC)</li>
-        <li>Master Therapist Bodywork</li>
+        <li>Swedish Massage – Perfect for relaxation and improved circulation.</li>
+        <li>Deep Tissue Massage – Targets muscle tension and chronic stress points.</li>
+        <li>Hot Stone Therapy – Melts away tension with warm stones and calming oils.</li>
+        <li>Aromatherapy – Combines essential oils and gentle strokes for total wellness.</li>
+        <li>Body Scrubs & Wraps – Refresh your skin with exfoliating and detoxifying treatments.</li>
       </div>
     </div>
     <img src="/de-williams/images/image 61.png" alt="service image">
@@ -95,19 +115,21 @@
 
   <div class="servmenu">
     <div class="first">
-      <h1>2. Skincare</h1>
+      <h1>Unisex Salon – Style Without Limits</h1>
       <a href="#">Book Treatment</a>
     </div>
     <div class="second">
       <div>
-        Direct, hands-on relief applied by Licensed Massage Therapists that blends modalities
-        such as stretching, trigger point therapy, myofascial release, and more.
+       Our unisex salon is where beauty meets creativity. Whether you’re male or female, 
+       we’ve got professionals who know how to bring out your best look.
       </div>
+      <br>
       <div>
         <span>Includes:</span><br>
-        <li>BodyWork</li>
-        <li>Bodywork (SC)</li>
-        <li>Master Therapist Bodywork</li>
+        <li>Haircuts & Styling – From trendy fades to elegant curls, we style it all.</li>
+        <li>Hair Coloring & Highlights – Express yourself with rich tones and expert touch.</li>
+        <li>Hair Treatment & Care – Rejuvenate dry or damaged hair with nourishing treatments.</li>
+        <li>Bridal & Special Occasion Styling – Look flawless for your big day or event.</li>
       </div>
     </div>
     <img src="/de-williams/images/image 61.png" alt="service image">
@@ -115,19 +137,19 @@
 
   <div class="servmenu">
     <div class="first">
-      <h1>3. Specialty</h1>
+      <h1>Manicure & Pedicure Lounge – Hands & Feet Perfection</h1>
       <a href="#">Book Treatment</a>
     </div>
     <div class="second">
       <div>
-        Direct, hands-on relief applied by Licensed Massage Therapists that blends modalities
-        such as stretching, trigger point therapy, myofascial release, and more.
+       Pamper yourself with detailed hand and foot care in our peaceful nail lounge.
       </div>
+      <br>
       <div>
         <span>Includes:</span><br>
-        <li>BodyWork</li>
-        <li>Bodywork (SC)</li>
-        <li>Master Therapist Bodywork</li>
+        <li>Classic & Luxury Manicure/Pedicure – Clean, shape, and polish to perfection.</li>
+        <li>Gel & Acrylic Nails – Long-lasting shine with your choice of color or design.</li>
+        <li>Foot Massage & Spa Soaks – Relieve tension while keeping your skin soft and smooth.</li>
       </div>
     </div>
     <img src="/de-williams/images/image 61.png" alt="service image">

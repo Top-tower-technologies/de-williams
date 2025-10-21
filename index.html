@@ -21,6 +21,70 @@
     <div class="scroll-up-btn">
         <i class="fas fa-angle-up"></i>
     </div>
+
+
+    <div id="adPopup" class="ad-popup">
+  <div class="ad-content">
+    <span class="close-btn" onclick="closeAd()">&times;</span>
+    <img src="/images/whitecarn.jpg" alt="Ad" style="width:100%; border-radius:10px;">
+  </div>
+</div>
+
+<style>
+  /* Popup background */
+  .ad-popup {
+    display: none; /* hidden by default */
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Ad box */
+  .ad-content {
+    position: relative;
+    background: #fff;
+    padding: 10px;
+    max-width: 500px;
+    width: 90%;
+    border-radius: 10px;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  /* Close button */
+  .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  /* Fade in animation */
+  @keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.9);}
+    to {opacity: 1; transform: scale(1);}
+  }
+</style>
+
+<script>
+  // Show popup when page loads
+  window.onload = function() {
+    document.getElementById("adPopup").style.display = "flex";
+  }
+
+  // Close popup
+  function closeAd() {
+    document.getElementById("adPopup").style.display = "none";
+  }
+</script>
     <nav class="navbar">
       <div class="max-width">
           <div class="logo"><a><img src="/images/logo.png" style="width: 8rem;"></a></div>
@@ -311,43 +375,135 @@ Discover the art of fine living at De-Williams place, where elegance, comfort, a
 
 
 <!--FEATURE AND AMENITIES-->
-<section>
-  <div class="rows">
-    <div class="max-width">
-      <h3 style="font-size: 60px;">Amenities & Features</h3>
-      <br><br>
-      <div class="feature">
-        <div class="card">
-          <h3>Elite Gym &<br>Fitness Studio</h3>
-          <br><br>
-          <p>Unleash your best self in our state-of-the-art fitness arena, curated for strength, serenity, and style.</p>
-          <br><br>
-          <p><b>Discover More</b></p>
-        </div>
+<section class="amenities" id="amenities">
+  <div class="max-width">
+    <h2 class="section-title">Our Amenities</h2>
+    <p class="section-subtitle">Luxury and comfort, redefined.</p>
+
+    <div class="amenities-grid">
+      <div class="amenity">
+        <i class="fa-solid fa-dumbbell"></i>
+        <h3>Gym</h3>
       </div>
 
-      <div class="feature">
-        <div class="card">
-          <h3>Luxurious Spa &<br>Body Rituals</h3>
-          <br><br>
-          <p>Indulge in world-class spa experiences designed to rejuvenate your body and elevate your soul.</p>
-          <br><br>
-          <p><b>Discover More</b></p>
-        </div>
+      <div class="amenity">
+        <i class="fa-solid fa-glass-cheers"></i>
+        <h3>Rooftop Bar</h3>
       </div>
 
-      <div class="feature">
-        <div class="card">
-          <h3>Live the<br>Luxury Lifestyle</h3>
-          <br><br>
-          <p>Immerse yourself in opulence, where elegance meets exceptional service and unforgettable moments.</p>
-          <br><br>
-          <p><b>Discover More</b></p>
-        </div>
+      <div class="amenity">
+        <i class="fa-solid fa-utensils"></i>
+        <h3>Dining</h3>
+      </div>
+
+      <div class="amenity">
+        <i class="fa-solid fa-concierge-bell"></i>
+        <h3>Restaurant</h3>
+      </div>
+
+      <div class="amenity">
+        <i class="fa-solid fa-person-swimming"></i>
+        <h3>Swimming Pool</h3>
+      </div>
+
+      <div class="amenity">
+        <i class="fa-solid fa-martini-glass-citrus"></i>
+        <h3>Open Lounge Bar</h3>
+      </div>
+
+      <div class="amenity">
+        <i class="fa-solid fa-wine-bottle"></i>
+        <h3>Wine Store</h3>
+      </div>
+
+      <div class="amenity">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <h3>Boutique</h3>
+      </div>
+
+      <div class="amenity">
+        <i class="fa-solid fa-champagne-glasses"></i>
+        <h3>VIP Bar</h3>
+      </div>
+
+      <div class="amenity">
+        <i class="fa-solid fa-people-group"></i>
+        <h3>Conference Room</h3>
       </div>
     </div>
   </div>
 </section>
+<style>
+  .amenities {
+  background-color: #111;
+  color: #fff;
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #D3AE00;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 50px;
+}
+
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.amenity {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 40px 20px;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(6px);
+}
+
+.amenity:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #D3AE00;
+  box-shadow: 0 10px 25px rgba(211, 174, 0, 0.3);
+}
+
+.amenity i {
+  font-size: 40px;
+  color: #D3AE00;
+  margin-bottom: 15px;
+}
+
+.amenity h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  .amenity {
+    padding: 30px 15px;
+  }
+}
+
+</style>
+
+
+
+
+
 
 
 

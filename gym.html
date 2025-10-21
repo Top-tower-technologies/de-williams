@@ -46,16 +46,64 @@
 </nav>
 
 
-<!-- home section start -->
-<section class="home2" id="home">
-        <div class="home-content2">
-            <div class="home-content2">
-                <marquee style="font-size: 100px; color: #fff;">COMING SOON</marquee>
-                <div class="add2">
-               
-                </div>
+<section class="home" id="home">
+  <video autoplay muted loop playsinline class="background-video">
+    <source src="/images/content.MP4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="home-content">
+    <div class="add">
+      <div>
+        <p><b>Email us</b> Reservations@dewilliamshotels.com</p>
+      </div>
+      <div>
+        <p><b>Whatsapp</b> +234 706 235 0574</p>
+      </div>
+      <div>
+        <p><b>Visit us</b> Akala Express, Opposite Bovas Filling Station, Ibadan, Oyo State</p>
+      </div>
     </div>
+  </div>
 </section>
+<style>
+  .home {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.home-content {
+  position: relative;
+  z-index: 1;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 100%;
+  padding-bottom: 40px;
+  text-align: center;
+}
+
+.add p {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+</style>
+
+
+
 
 
     <!--Start of Tawk.to Script-->
