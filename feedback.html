@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>De Williams Place – Guest Feedback</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      width: 90%;
+      max-width: 600px;
+      background: #111;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.1);
+      padding: 30px;
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    h2 { font-family: 'Playfair Display', serif; color: #D3AE00; }
+    .step { display: none; }
+    .step.active { display: block; }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 10px;
+      border: 1px solid #333;
+      background: #222;
+      color: #fff;
+    }
+    .rating span {
+      font-size: 25px;
+      cursor: pointer;
+      color: #555;
+      transition: color 0.3s;
+    }
+    .rating span.active { color: #D3AE00; }
+    button {
+      padding: 10px 20px;
+      background: #D3AE00;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      color: #111;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    button:hover { background: #c09c00; }
+    .success-message {
+      display: none;
+      color: #D3AE00;
+      font-size: 22px;
+      font-family: 'Playfair Display', serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <img src="/images/logo.png">
+    <h2>We’d Love Your Feedback</h2>
+    <marquee>Dear Guests, please fill this form truthfully, this will help us serve you better</marquee>
+    <form id="feedbackForm">
+      <div class="step active" id="step1">
+        <p>Kindly fill in your details</p>
+        <input type="text" name="full_name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <button type="button" onclick="nextStep(2)">Next</button>
+      </div>
+      <div class="step" id="step2">
+        <p>Select the amenities you used</p>
+        <label><input type="checkbox" name="amenities[]" value="Open Lounge"> Open Lounge</label><br>
+        <label><input type="checkbox" name="amenities[]" value="VIP Bar"> VIP Bar</label><br>
+        <label><input type="checkbox" name="amenities[]" value="Rooms"> Rooms</label><br>
+        <label><input type="checkbox" name="amenities[]" value="Restaurant"> Restaurant</label><br>
+        <label><input type="checkbox" name="amenities[]" value="Dining"> Dining</label><br><br>
+        <button type="button" onclick="nextStep(3)">Next</button>
+      </div>
+      <div class="step" id="step3">
+        <div id="ratingsContainer"></div>
+        <button type="button" onclick="nextStep(4)">Next</button>
+      </div>
+      <div class="step" id="step4">
+        <p>Additional Comments</p>
+        <textarea name="comments" rows="4" placeholder="Write your feedback..."></textarea>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+    <div class="success-message" id="successMsg">
+      🎉 Thank you for your feedback! We truly appreciate you choosing De Williams Place.
+    </div>
+  </div>
+
+  <script>
+    let currentStep = 1;
+
+    function nextStep(step) {
+      document.querySelector(`#step${currentStep}`).classList.remove('active');
+      document.querySelector(`#step${step}`).classList.add('active');
+      currentStep = step;
+
+      if (step === 3) {
+        generateRatings();
+      }
+    }
+
+    function generateRatings() {
+      const selected = Array.from(document.querySelectorAll('input[name="amenities[]"]:checked')).map(i => i.value);
+      const container = document.getElementById('ratingsContainer');
+      container.innerHTML = '';
+      selected.forEach(amenity => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <h3 style="color:#D3AE00">${amenity}</h3>
+          <p>Cleanliness:</p> ${createRatingHTML(`${amenity}_cleanliness`)}
+          <p>Staff Service:</p> ${createRatingHTML(`${amenity}_staff`)}
+          <p>Comfortability:</p> ${createRatingHTML(`${amenity}_comfort`)}
+          <textarea name="${amenity}_comment" rows="2" placeholder="Comments on ${amenity}"></textarea>
+          <hr style='opacity:0.2;'>
+        `;
+        container.appendChild(div);
+      });
+      function createRatingHTML(name) {
+        let html = '<div class="rating">';
+        for (let i = 1; i <= 5; i++) {
+          html += `<span onclick=\"rate(this,${i},'${name}')\">★</span>`;
+        }
+        html += `<input type='hidden' name='${name}' value='0'>`;
+        html += '</div>';
+        return html;
+      }
+    }
+
+    function rate(el, value, name) {
+      const parent = el.parentElement;
+      const stars = parent.querySelectorAll('span');
+      stars.forEach((s, idx) => s.classList.toggle('active', idx < value));
+      parent.querySelector(`input[name='${name}']`).value = value;
+    }
+
+    document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      try {
+        const res = await fetch('https://toptowertechnologies.com/feedback.php', {
+          method: 'POST',
+          body: formData
+        });
+        if (res.ok) {
+          document.getElementById('feedbackForm').style.display = 'none';
+          document.getElementById('successMsg').style.display = 'block';
+        }
+      } catch (err) {
+        alert('Error sending feedback. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>
