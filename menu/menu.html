@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DE-WILLIAMS PLACE HOTEL MENU</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>De-Williams · Menu</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div class="title">De-williams place</div>
-      <a class="btn secondary" href="/de-williams/booking/find-stay.html">Book room</a>
+      <div class="title" id="headerTitle">Hotel Menu</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div id="outletLabel" class="small">Outlet: <strong id="currentOutlet">—</strong></div>
+        <a class="btn secondary" href="https://www.dewilliamsplace.com">Our Website</a>
+      </div>
     </div>
-<marquee>Dear esteemed guests, Welcome to de-williams place hotel, restaurant, and lounge. Please do not transfer to any personal account.
-   Always transfer to the account that begin with bisi williams enterprise or de-williams place</marquee>
+
     <div class="grid grid-2">
       <aside class="card">
         <h3 style="margin:6px 0 12px 0">Categories</h3>
@@ -28,18 +30,36 @@
           </select>
         </div>
         <p class="small">Tip: Use the filters to quickly find what you want.</p>
+        <hr>
+        <button id="changeOutletBtn" class="btn secondary">Change Outlet</button>
       </aside>
 
       <main class="card">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <h3 style="margin:6px 0 12px 0">Items</h3>
+          <h3 style="margin:6px 0 12px 0" id="itemsTitle">Items</h3>
           <span id="count" class="badge">0 items</span>
         </div>
         <div id="itemsList" class="grid" style="grid-template-columns:1fr"></div>
       </main>
     </div>
 
-    <footer class="small">© <span id="year"></span> Dewilliams place hotel</footer>
+    <footer class="small">© <span id="year"></span> De-Williams Luxury Hotel</footer>
+  </div>
+
+  <!-- outlet selector overlay -->
+  <div id="overlay" class="card" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0);z-index:9999">
+    <div style="max-width:720px;width:100%;padding:28px;border-radius:18px;">
+      <h2 style="margin:0 0 8px 0; color: white;">Welcome to De-Williams Luxury Hotel</h2>
+      <p class="small" style="margin:0 0 18px 0">Please pick the outlet you are in.</p>
+      <div id="outletButtons" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+        <button class="btn" data-outlet="restaurant">Restaurant</button>
+        <button class="btn" data-outlet="dining_poolside">Dining / Poolside</button>
+        <button class="btn" data-outlet="rooftop_bar">Rooftop Bar</button>
+        <button class="btn" data-outlet="open_lounge_bar">Open Lounge Bar</button>
+        <button class="btn" data-outlet="vip_bar">VIP Bar</button>
+      </div>
+      <p class="small" style="margin-top:12px">Your selection will be remembered for this device. You can change it later from the menu.</p>
+    </div>
   </div>
 
   <script src="script.js"></script>

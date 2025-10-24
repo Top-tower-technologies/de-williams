@@ -1,12 +1,12 @@
-
-const api = 'https://paywiththunder.com/hotel-menu/api.php';
+const api = 'api.php';
 
 let state = {
   categories: [],
   products: [],
   activeCategoryId: 'all',
   search: '',
-  availability: 'all'
+  availability: 'all',
+  outlet: null
 };
 
 function fmtCurrency(n){
@@ -17,14 +17,28 @@ function fmtCurrency(n){
   }
 }
 
-async function loadData(){
-  const res = await fetch(`${api}?action=getMenu`,{cache:'no-store'});
+async function loadDataForOutlet(outlet){
+  // fetch menu from API and pass outlet; API will return merged products (food + drinks) for the outlet
+  const res = await fetch(`${api}?action=getMenu&outlet=${encodeURIComponent(outlet)}`,{cache:'no-store'});
   const data = await res.json();
   if(!data.success){ alert('Failed to load menu'); return; }
   state.categories = data.data.categories;
   state.products = data.data.products;
+  state.outlet = outlet;
+  document.getElementById('currentOutlet').textContent = prettifyOutlet(outlet);
+  localStorage.setItem('dw_outlet', outlet);
   renderCategories();
   renderItems();
+}
+
+function prettifyOutlet(key){
+  return ({
+    restaurant: 'Restaurant',
+    dining_poolside: 'Dining / Poolside',
+    rooftop_bar: 'Rooftop Bar',
+    open_lounge_bar: 'Open Lounge Bar',
+    vip_bar: 'VIP Bar'
+  })[key] || key;
 }
 
 function renderCategories(){
@@ -44,14 +58,14 @@ function renderCategories(){
 function renderItems(){
   const list = document.getElementById('itemsList');
   const search = state.search.toLowerCase();
-  let items = state.products;
+  let items = state.products.slice();
 
   if(state.activeCategoryId!=='all'){
     items = items.filter(p=> String(p.category_id)===String(state.activeCategoryId));
   }
   if(state.availability==='available') items = items.filter(p=> !!p.available);
   if(state.availability==='na') items = items.filter(p=> !p.available);
-  if(search) items = items.filter(p=> p.name.toLowerCase().includes(search));
+  if(search) items = items.filter(p=> (p.name||'').toLowerCase().includes(search) );
 
   document.getElementById('count').textContent = `${items.length} item${items.length!==1?'s':''}`;
   list.innerHTML = '';
@@ -64,7 +78,10 @@ function renderItems(){
     div.className = 'item';
     div.innerHTML = `
       <div style="display:flex;gap:10px;align-items:center">
-        <div class="item-name">${p.name}</div>
+        <div>
+          <div class="item-name">${p.name}</div>
+          <div class="small" style="opacity:.8">${p.description?p.description:''}</div>
+        </div>
       </div>
       <div style="display:flex;gap:10px;align-items:center">
         <span class="price">${fmtCurrency(p.price)}</span>
@@ -83,4 +100,30 @@ document.getElementById('availabilityFilter').addEventListener('change', (e)=>{
 });
 document.getElementById('year').textContent = new Date().getFullYear();
 
-loadData();
+// outlet selection
+const overlay = document.getElementById('overlay');
+const outletButtons = document.getElementById('outletButtons');
+outletButtons.addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const outlet = btn.getAttribute('data-outlet');
+  overlay.style.display = 'none';
+  loadDataForOutlet(outlet);
+});
+
+// change outlet button
+document.getElementById('changeOutletBtn').addEventListener('click', ()=>{
+  document.getElementById('overlay').style.display = 'flex';
+});
+
+// on load check localStorage
+window.addEventListener('DOMContentLoaded', ()=>{
+  const chosen = localStorage.getItem('dw_outlet');
+  if(chosen){
+    // hide overlay and load
+    overlay.style.display = 'none';
+    loadDataForOutlet(chosen);
+  }else{
+    overlay.style.display = 'flex';
+  }
+});
