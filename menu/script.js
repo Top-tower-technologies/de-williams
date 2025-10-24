@@ -1,4 +1,4 @@
-const api = 'api.php';
+const api = 'https://toptowertechnologies.com/hotel-menu/api.php';
 
 let state = {
   categories: [],
