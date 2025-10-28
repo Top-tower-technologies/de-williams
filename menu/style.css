@@ -259,3 +259,51 @@ footer {
     width: 100%;
   }
 }
+
+
+
+/* Collapsible drink group styles */
+.drink-group {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.02);
+}
+
+.drink-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.04);
+  font-weight: 600;
+  color: var(--accent);
+  user-select: none;
+  border-bottom: 1px solid var(--border);
+}
+
+.drink-header:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.toggle-icon {
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+.drink-content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.25s ease;
+}
+
+.drink-group.open .drink-content {
+  border-top: 1px solid var(--border);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

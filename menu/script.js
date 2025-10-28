@@ -11,19 +11,23 @@ let state = {
   outlet: null
 };
 
-function fmtCurrency(n){
-  try{
-    return new Intl.NumberFormat(undefined,{style:'currency',currency:'NGN',maximumFractionDigits:0}).format(n);
-  }catch(e){
+// Format prices to NGN currency
+function fmtCurrency(n) {
+  try {
+    return new Intl.NumberFormat(undefined, { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(n);
+  } catch (e) {
     return '₦' + Number(n).toFixed(0);
   }
 }
 
-async function loadDataForOutlet(outlet){
-  // fetch menu from API and pass outlet; API will return merged products (food + drinks) for the outlet
-  const res = await fetch(`${api}?action=getMenu&outlet=${encodeURIComponent(outlet)}`,{cache:'no-store'});
+// Load menu data from backend based on selected outlet
+async function loadDataForOutlet(outlet) {
+  const res = await fetch(`${api}?action=getMenu&outlet=${encodeURIComponent(outlet)}`, { cache: 'no-store' });
   const data = await res.json();
-  if(!data.success){ alert('Failed to load menu'); return; }
+  if (!data.success) {
+    alert('Failed to load menu');
+    return;
+  }
   state.categories = data.data.categories;
   state.products = data.data.products;
   state.outlet = outlet;
@@ -33,7 +37,8 @@ async function loadDataForOutlet(outlet){
   renderItems();
 }
 
-function prettifyOutlet(key){
+// Pretty print outlet name
+function prettifyOutlet(key) {
   return ({
     restaurant: 'Restaurant',
     dining_poolside: 'Dining / Poolside',
@@ -43,89 +48,150 @@ function prettifyOutlet(key){
   })[key] || key;
 }
 
-function renderCategories(){
+// Render menu categories as clickable chips
+function renderCategories() {
   const wrap = document.getElementById('categoryChips');
   wrap.innerHTML = '';
-  const mk = (id, name)=>{
+  const mk = (id, name) => {
     const c = document.createElement('div');
-    c.className = 'chip' + (String(state.activeCategoryId)===String(id)?' active':'');
+    c.className = 'chip' + (String(state.activeCategoryId) === String(id) ? ' active' : '');
     c.textContent = name;
-    c.onclick = ()=>{ state.activeCategoryId = id; renderCategories(); renderItems(); };
+    c.onclick = () => {
+      state.activeCategoryId = id;
+      renderCategories();
+      renderItems();
+    };
     return c;
   };
-  wrap.appendChild(mk('all','All'));
-  state.categories.forEach(cat=> wrap.appendChild(mk(cat.id, cat.name)));
+  wrap.appendChild(mk('all', 'All'));
+  state.categories.forEach(cat => wrap.appendChild(mk(cat.id, cat.name)));
 }
 
-function renderItems(){
+// Render menu items — with grouping for Drinks
+function renderItems() {
   const list = document.getElementById('itemsList');
   const search = state.search.toLowerCase();
   let items = state.products.slice();
 
-  if(state.activeCategoryId!=='all'){
-    items = items.filter(p=> String(p.category_id)===String(state.activeCategoryId));
+  if (state.activeCategoryId !== 'all') {
+    items = items.filter(p => String(p.category_id) === String(state.activeCategoryId));
   }
-  if(state.availability==='available') items = items.filter(p=> !!p.available);
-  if(state.availability==='na') items = items.filter(p=> !p.available);
-  if(search) items = items.filter(p=> (p.name||'').toLowerCase().includes(search) );
+  if (state.availability === 'available') items = items.filter(p => !!p.available);
+  if (state.availability === 'na') items = items.filter(p => !p.available);
+  if (search) items = items.filter(p => (p.name || '').toLowerCase().includes(search));
 
-  document.getElementById('count').textContent = `${items.length} item${items.length!==1?'s':''}`;
+  document.getElementById('count').textContent = `${items.length} item${items.length !== 1 ? 's' : ''}`;
   list.innerHTML = '';
-  if(items.length===0){
+
+  if (items.length === 0) {
     list.innerHTML = '<div class="small">No items match your filter.</div>';
     return;
   }
-  items.forEach(p=>{
-    const div = document.createElement('div');
-    div.className = 'item';
-    div.innerHTML = `
-      <div style="display:flex;gap:10px;align-items:center">
-        <div>
+
+  const currentCat = state.categories.find(c => String(c.id) === String(state.activeCategoryId));
+  const isDrinks = currentCat && currentCat.name.toLowerCase().includes('drink');
+
+  if (isDrinks) {
+    // Group drinks by sub_category
+    const grouped = {};
+    items.forEach(item => {
+      const key = item.sub_category || 'Others';
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(item);
+    });
+
+    // Render each drink group with collapsible section
+    Object.keys(grouped).forEach(subCat => {
+      const section = document.createElement('div');
+      section.className = 'drink-group';
+      const header = document.createElement('div');
+      header.className = 'drink-header';
+      header.innerHTML = `
+        <div class="drink-header-title">${subCat}</div>
+        <div class="toggle-icon">▼</div>
+      `;
+      const content = document.createElement('div');
+      content.className = 'drink-content';
+
+      grouped[subCat].forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.style.animation = 'fadeIn .25s ease';
+        div.innerHTML = `
+          <div>
+            <div class="item-name">${p.name}</div>
+            <div class="small" style="opacity:.8">${p.description || ''}</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <span class="price">${fmtCurrency(p.price)}</span>
+            <span class="status ${p.available ? 'ok' : 'na'}">${p.available ? 'Available' : 'Not Available'}</span>
+          </div>
+        `;
+        content.appendChild(div);
+      });
+
+      header.addEventListener('click', () => {
+        const open = section.classList.toggle('open');
+        content.style.maxHeight = open ? content.scrollHeight + 'px' : '0px';
+        header.querySelector('.toggle-icon').textContent = open ? '▲' : '▼';
+      });
+
+      section.appendChild(header);
+      section.appendChild(content);
+      list.appendChild(section);
+    });
+  } else {
+    // Regular food categories
+    items.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.style.animation = 'fadeIn .25s ease';
+      div.innerHTML = `
+        <div style="display:flex;gap:10px;align-items:center">
           <div class="item-name">${p.name}</div>
-          <div class="small" style="opacity:.8">${p.description?p.description:''}</div>
         </div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:center">
-        <span class="price">${fmtCurrency(p.price)}</span>
-        <span class="status ${p.available?'ok':'na'}">${p.available?'Available':'Not Available'}</span>
-      </div>
-    `;
-    list.appendChild(div);
-  });
+        <div style="display:flex;gap:10px;align-items:center">
+          <span class="price">${fmtCurrency(p.price)}</span>
+          <span class="status ${p.available ? 'ok' : 'na'}">${p.available ? 'Available' : 'Not Available'}</span>
+        </div>
+      `;
+      list.appendChild(div);
+    });
+  }
 }
 
-document.getElementById('searchInput').addEventListener('input', (e)=>{
-  state.search = e.target.value; renderItems();
+// Event listeners
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  state.search = e.target.value;
+  renderItems();
 });
-document.getElementById('availabilityFilter').addEventListener('change', (e)=>{
-  state.availability = e.target.value; renderItems();
+document.getElementById('availabilityFilter').addEventListener('change', (e) => {
+  state.availability = e.target.value;
+  renderItems();
 });
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// outlet selection
+// Outlet selection logic
 const overlay = document.getElementById('overlay');
 const outletButtons = document.getElementById('outletButtons');
-outletButtons.addEventListener('click', (e)=>{
+outletButtons.addEventListener('click', (e) => {
   const btn = e.target.closest('button');
-  if(!btn) return;
+  if (!btn) return;
   const outlet = btn.getAttribute('data-outlet');
   overlay.style.display = 'none';
   loadDataForOutlet(outlet);
 });
-
-// change outlet button
-document.getElementById('changeOutletBtn').addEventListener('click', ()=>{
+document.getElementById('changeOutletBtn').addEventListener('click', () => {
   document.getElementById('overlay').style.display = 'flex';
 });
 
-// on load check localStorage
-window.addEventListener('DOMContentLoaded', ()=>{
+// Check saved outlet on load
+window.addEventListener('DOMContentLoaded', () => {
   const chosen = localStorage.getItem('dw_outlet');
-  if(chosen){
-    // hide overlay and load
+  if (chosen) {
     overlay.style.display = 'none';
     loadDataForOutlet(chosen);
-  }else{
+  } else {
     overlay.style.display = 'flex';
   }
 });
