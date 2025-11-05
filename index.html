@@ -380,60 +380,61 @@ Discover the art of fine living at De-Williams place, where elegance, comfort, a
     <p class="section-subtitle">Luxury and comfort, redefined.</p>
 
     <div class="amenities-grid">
-      <div class="amenity">
+      <div class="amenity" data-img="images/gym12.jpg">
         <i class="fa-solid fa-dumbbell"></i>
         <h3>Gym</h3>
       </div>
 
-      <div class="amenity">
+      <div class="amenity" data-img="images/rooftop-bar.jpg">
         <i class="fa-solid fa-glass-cheers"></i>
         <h3>Rooftop Bar</h3>
       </div>
 
-      <div class="amenity">
+      <div class="amenity" data-img="images/diningggg.jpg">
         <i class="fa-solid fa-utensils"></i>
         <h3>Dining</h3>
       </div>
 
-      <div class="amenity">
+      <div class="amenity" data-img="images/restaurant.jpg">
         <i class="fa-solid fa-concierge-bell"></i>
         <h3>Restaurant</h3>
       </div>
 
-      <div class="amenity">
+      <div class="amenity" data-img="images/poolll.jpg">
         <i class="fa-solid fa-person-swimming"></i>
         <h3>Swimming Pool</h3>
       </div>
 
-      <div class="amenity">
+      <div class="amenity" data-img="images/openbar.jpg">
         <i class="fa-solid fa-martini-glass-citrus"></i>
         <h3>Open Lounge Bar</h3>
       </div>
 
-      <div class="amenity">
+      <div class="amenity" data-img="images/cinema.jpg">
         <i class="fa-solid fa-wine-bottle"></i>
-        <h3>Wine Store</h3>
+        <h3>Cinema</h3>
       </div>
 
-      <div class="amenity">
+      <div class="amenity" data-img="images/boutique.jpg">
         <i class="fa-solid fa-bag-shopping"></i>
         <h3>Boutique</h3>
       </div>
 
-      <div class="amenity">
+      <div class="amenity" data-img="images/vip.png">
         <i class="fa-solid fa-champagne-glasses"></i>
         <h3>VIP Bar</h3>
       </div>
 
-      <div class="amenity">
+      <div class="amenity" data-img="images/conference.jpg">
         <i class="fa-solid fa-people-group"></i>
         <h3>Conference Room</h3>
       </div>
     </div>
   </div>
 </section>
+
 <style>
-  .amenities {
+.amenities {
   background-color: #111;
   color: #fff;
   padding: 100px 20px;
@@ -461,17 +462,56 @@ Discover the art of fine living at De-Williams place, where elegance, comfort, a
 }
 
 .amenity {
+  position: relative;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
-  padding: 40px 20px;
+  aspect-ratio: 1 / 1; /* makes it perfectly square */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   transition: all 0.4s ease;
   backdrop-filter: blur(6px);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.amenity::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  border-radius: 20px;
+  z-index: 0;
+}
+
+.amenity.show-image::before {
+  opacity: 1;
+}
+
+.amenity i,
+.amenity h3 {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.amenity.show-image i {
+  transform: scale(0.7);
+  opacity: 0;
+}
+
+.amenity.show-image h3 {
+  transform: translateY(30px);
+  opacity: 0;
 }
 
 .amenity:hover {
   transform: translateY(-10px);
-  background: rgba(255, 255, 255, 0.1);
   border-color: #D3AE00;
   box-shadow: 0 10px 25px rgba(211, 174, 0, 0.3);
 }
@@ -479,11 +519,11 @@ Discover the art of fine living at De-Williams place, where elegance, comfort, a
 .amenity i {
   font-size: 40px;
   color: #D3AE00;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .amenity h3 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: 1px;
 }
@@ -493,11 +533,31 @@ Discover the art of fine living at De-Williams place, where elegance, comfort, a
     font-size: 2rem;
   }
   .amenity {
-    padding: 30px 15px;
+    aspect-ratio: 1 / 1;
   }
 }
-
 </style>
+
+<script>
+  document.querySelectorAll(".amenity").forEach(amenity => {
+    const img = amenity.getAttribute("data-img");
+    const style = document.createElement("style");
+    style.innerHTML = `
+      .amenity[data-img="${img}"]::before {
+        background-image: url(${img});
+      }
+    `;
+    document.head.appendChild(style);
+
+    amenity.addEventListener("mouseenter", () => {
+      amenity.classList.add("show-image");
+    });
+    amenity.addEventListener("mouseleave", () => {
+      amenity.classList.remove("show-image");
+    });
+  });
+</script>
+
 
 
 
