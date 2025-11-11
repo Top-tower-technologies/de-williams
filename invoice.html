@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Invoice & Receipt Generator</title>
+  <title>De-Williams Invoice & Receipt Generator</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f8f8f8;
+      font-family: 'Poppins', sans-serif;
+      background: #f8f8f8;
       margin: 0;
       padding: 0;
     }
-
     .container {
       width: 90%;
       max-width: 900px;
@@ -18,56 +18,46 @@
       background: #fff;
       padding: 25px;
       border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
-
-    .logo-container {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    .logo-container img {
-      max-height: 80px;
-    }
-
     h2, h3 {
       text-align: center;
-      margin: 5px 0;
-    }
-
-    label, input, select {
-      display: block;
-      width: 100%;
+      color: #d4af37;
       margin-bottom: 10px;
+    }
+    label {
+      font-weight: 500;
+      margin-top: 10px;
+      display: block;
+    }
+    input, select {
+      width: 100%;
       padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
       font-size: 15px;
     }
-
     button {
-      padding: 10px 16px;
+      padding: 10px 15px;
       font-size: 16px;
-      cursor: pointer;
       border: none;
       border-radius: 6px;
-      background: #d3ae00;
+      background: #d4af37;
       color: #fff;
-      transition: 0.3s;
+      cursor: pointer;
     }
-
-    button:hover {
-      background: #b69700;
-    }
-
+    button:hover { background: #c19c2f; }
     .buttons {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
-    }
-
-    .items-container {
       margin-top: 15px;
     }
-
+    .items-container {
+      margin-top: 20px;
+    }
     .item-group {
       display: flex;
       flex-wrap: wrap;
@@ -77,91 +67,21 @@
     .item-group input {
       flex: 1;
     }
-
-    /* ======= New Elegant Receipt Design ======= */
-    .receipt-preview {
-      margin-top: 35px;
-      padding: 30px;
-      border: 3px solid #d3ae00;
-      border-radius: 12px;
-      background: #fffdf7;
-      color: #333;
-      font-size: 15px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-
-    .receipt-header {
-      text-align: center;
-      border-bottom: 2px solid #d3ae00;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
-    }
-    .receipt-header img {
-      height: 70px;
-      margin-bottom: 5px;
-    }
-    .receipt-header h3 {
-      color: #d3ae00;
-      font-size: 22px;
-      margin: 0;
-    }
-    .receipt-header h4 {
-      color: #333;
-      margin-top: 5px;
-      letter-spacing: 1px;
-    }
-
-    .receipt-info {
-      text-align: left;
-      line-height: 1.6;
-      margin-bottom: 15px;
-    }
-
-    .receipt-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      font-size: 15px;
-    }
-
-    .receipt-table th {
-      background: #d3ae00;
-      color: white;
-    }
-
-    .receipt-table th,
-    .receipt-table td {
-      border: 1px solid #d3ae00;
-      padding: 8px;
-      text-align: center;
-    }
-
-    .totals {
-      text-align: right;
-      margin-top: 20px;
-    }
-
-    .totals p {
-      margin: 5px 0;
-    }
-
-    .footer-note {
-      text-align: center;
-      color: #b59400;
-      font-style: italic;
-      margin-top: 25px;
-    }
-
     #amountPaidContainer {
       display: none;
+    }
+    /* Receipt Preview Container */
+    .receipt-preview {
+      margin-top: 30px;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="logo-container">
-      <img src="/images/logo.png" alt="Logo">
-    </div>
     <h2>DE-WILLIAMS PLACE</h2>
     <h3>Invoice & Receipt Generator</h3>
 
@@ -216,7 +136,8 @@
     window.onload = () => switchCategory();
 
     function switchCategory() {
-      document.getElementById("itemsContainer").innerHTML = `<h4>Items</h4>`;
+      const container = document.getElementById("itemsContainer");
+      container.innerHTML = `<h4>Items</h4>`;
       addItem();
     }
 
@@ -225,7 +146,6 @@
       const container = document.getElementById("itemsContainer");
       const div = document.createElement("div");
       div.className = "item-group";
-
       if (category === "hotel") {
         div.innerHTML = `
           <input type="text" placeholder="Description" class="desc">
@@ -240,7 +160,6 @@
           <input type="number" placeholder="Amount (per head)" class="amount">
         `;
       }
-
       container.appendChild(div);
     }
 
@@ -250,92 +169,98 @@
 
     function toggleAmountPaid() {
       const method = document.getElementById("paymentMethod").value;
-      const container = document.getElementById("amountPaidContainer");
-      container.style.display = method === "PART" ? "block" : "none";
+      document.getElementById("amountPaidContainer").style.display = method === "PART" ? "block" : "none";
     }
 
     function generateReceipt() {
       const docType = document.getElementById("docType").value;
       const category = document.getElementById("category").value;
-      const name = document.getElementById("customerName").value;
-      const date = document.getElementById("receiptDate").value;
-      const invoice = document.getElementById("invoiceNo").value;
+      const name = document.getElementById("customerName").value || "Customer";
+      const date = document.getElementById("receiptDate").value || new Date().toISOString().split('T')[0];
+      const invoice = document.getElementById("invoiceNo").value || "0000";
       const payment = document.getElementById("paymentMethod").value;
       const amountPaid = parseFloat(document.getElementById("amountPaid").value) || 0;
       const items = document.querySelectorAll(".item-group");
 
       let rows = "";
       let total = 0;
-      let headers = "";
+      let tableHeaders = "";
 
       items.forEach(group => {
         const desc = group.querySelector(".desc").value;
-
         if (category === "hotel") {
           const duration = group.querySelector(".duration").value;
           const nights = parseInt(group.querySelector(".nights").value);
           const unit = parseFloat(group.querySelector(".unit").value);
-          const subtotal = nights * unit;
-          total += subtotal;
-          headers = `<tr><th>Description</th><th>Date</th><th>Nights</th><th>Unit Price</th><th>Total</th></tr>`;
-          rows += `<tr>
-            <td>${desc}</td>
-            <td>${duration}</td>
-            <td>${nights}</td>
-            <td>${formatCurrency(unit)}</td>
-            <td>${formatCurrency(subtotal)}</td>
-          </tr>`;
+          const rowTotal = nights * unit;
+          total += rowTotal;
+          tableHeaders = `<tr><th>Description</th><th>Date</th><th>Unit Price</th><th>Total Price</th></tr>`;
+          rows += `
+            <tr>
+              <td>${desc}</td>
+              <td>${duration}</td>
+              <td>${formatCurrency(unit)}</td>
+              <td>${formatCurrency(rowTotal)}</td>
+            </tr>`;
         } else {
           const number = parseInt(group.querySelector(".number").value);
           const amount = parseFloat(group.querySelector(".amount").value);
-          const subtotal = number * amount;
-          total += subtotal;
-          headers = `<tr><th>Description</th><th>Number</th><th>Amount</th><th>Total</th></tr>`;
-          rows += `<tr>
-            <td>${desc}</td>
-            <td>${number}</td>
-            <td>${formatCurrency(amount)}</td>
-            <td>${formatCurrency(subtotal)}</td>
-          </tr>`;
+          const rowTotal = number * amount;
+          total += rowTotal;
+          tableHeaders = `<tr><th>Description</th><th>Number</th><th>Unit Price</th><th>Total</th></tr>`;
+          rows += `
+            <tr>
+              <td>${desc}</td>
+              <td>${number}</td>
+              <td>${formatCurrency(amount)}</td>
+              <td>${formatCurrency(rowTotal)}</td>
+            </tr>`;
         }
       });
 
       let balance = total - amountPaid;
-      let paymentNote = `<p><strong>Payment Method:</strong> ${payment}</p>`;
-      if (docType === "INVOICE" && category === "hotel") {
-        paymentNote = `
-        <p><strong>Payment Information:</strong><br>
-        BISI WILLIAMS ENTERPRISE - DE-WILLIAMS PLACE HOTEL 1<br>
-        Bank Name: Moniepoint MFB<br>
-        Account No: 4001572176</p>`;
-      }
+      let amountDue = payment === "PART" ? formatCurrency(balance) : (payment === "PENDING" ? formatCurrency(total) : "NIL");
 
       const html = `
-        <div class="receipt-header">
-          <img src="/images/logo.png" alt="Logo">
-          <h3>DE-WILLIAMS PLACE</h3>
-          <h4>${docType}</h4>
-        </div>
-        <div class="receipt-info">
-          <p><strong>${docType} To:</strong> ${name}</p>
-          <p><strong>Date:</strong> ${date}</p>
-          <p><strong>Invoice No:</strong> ${invoice}</p>
-        </div>
-        <table class="receipt-table">
-          <thead>${headers}</thead>
-          <tbody>${rows}</tbody>
-        </table>
-        <div class="totals">
-          <p><strong>Sub-Total:</strong> ${formatCurrency(total)}</p>
-          <p><strong>Total:</strong> ${formatCurrency(total)}</p>
-          ${payment === "PART" ? `
-            <p><strong>Amount Paid:</strong> ${formatCurrency(amountPaid)}</p>
-            <p><strong>Balance:</strong> ${formatCurrency(balance)}</p>
-          ` : ""}
-        </div>
-        ${paymentNote}
-        <div class="footer-note">Thank you for your patronage!</div>
-      `;
+        <div class="receipt" style="max-width:800px;margin:auto;border:10px solid #d4af37;padding:40px;border-radius:10px;background:#fff;font-family:'Poppins',sans-serif;">
+          <header style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div>
+              <h1 style="color:#d4af37;font-size:36px;margin:0;">${docType}</h1>
+              <p style="font-size:13px;color:#777;">DE–WILLIAMS PLACE, AKALA EXPRESS,<br>OPPOSITE BOVAS FILLING STATION, IBADAN</p>
+              <p style="margin-top:20px;color:#b58e00;"><strong>${docType} to:</strong><br><span style="color:#d4af37;font-weight:700;font-size:16px;">${name}</span><br>BILL STATEMENT</p>
+            </div>
+            <div style="text-align:right;">
+              <div style="border:2px solid #d4af37;color:#d4af37;display:inline-block;border-radius:50%;padding:12px 16px;font-weight:700;font-size:18px;margin-bottom:8px;">DW</div>
+              <p style="color:#d4af37;font-weight:600;">DE–WILLIAMS PLACE</p>
+              <p>Date: <span>${date}</span></p>
+              <p>${docType} No: <span>${invoice}</span></p>
+              <p>0706 235 0574</p>
+            </div>
+          </header>
+          <table style="width:100%;border-collapse:collapse;margin:40px 0;font-size:14px;">
+            <thead>
+              ${tableHeaders}
+            </thead>
+            <tbody>
+              ${rows}
+            </tbody>
+          </table>
+          <div style="display:flex;justify-content:space-between;margin-top:30px;font-size:14px;">
+            <div><p><strong>Payment Status:</strong> ${payment}</p></div>
+            <div style="text-align:right;">
+              <p>Total: <span style="font-weight:600;color:#d4af37;">${formatCurrency(total)}</span></p>
+              ${payment === "PART" ? `<p>Amount Paid: <span style="color:#d4af37;">${formatCurrency(amountPaid)}</span></p>` : ""}
+              <p>Amount Due: <span style="color:#d4af37;">${amountDue}</span></p>
+            </div>
+          </div>
+          <div style="text-align:center;margin-top:60px;">
+            <p style="font-style:italic;color:#d4af37;font-weight:500;margin-bottom:5px;">@dewilliamsplaceibadan</p>
+            <p><strong>Authorized Signature</strong></p>
+          </div>
+          <footer style="text-align:center;margin-top:40px;color:#d4af37;font-weight:600;font-size:15px;">
+            <p>Thanks for your patronage!</p>
+          </footer>
+        </div>`;
 
       document.getElementById("receiptDisplay").innerHTML = html;
     }
@@ -343,8 +268,7 @@
     function downloadReceipt() {
       const content = document.getElementById("receiptDisplay").innerHTML;
       const win = window.open('', '', 'height=800,width=600');
-      win.document.write('<html><head><title>Receipt</title></head><body>');
-      win.document.write('<style>body{font-family:Segoe UI,Tahoma,sans-serif;padding:25px;} .receipt-header{text-align:center;border-bottom:2px solid #d3ae00;margin-bottom:20px;} .receipt-header h3{color:#d3ae00;margin:0;} .receipt-table{width:100%;border-collapse:collapse;margin:20px 0;} .receipt-table th{background:#d3ae00;color:white;} .receipt-table th,.receipt-table td{border:1px solid #d3ae00;padding:8px;text-align:center;} .footer-note{text-align:center;color:#b59400;font-style:italic;margin-top:25px;}</style>');
+      win.document.write('<html><head><title>De-Williams Receipt</title></head><body>');
       win.document.write(content);
       win.document.write('</body></html>');
       win.document.close();
@@ -363,7 +287,6 @@
         amountPaid: document.getElementById("amountPaid").value,
         items: []
       };
-
       document.querySelectorAll(".item-group").forEach(group => {
         if (category === "hotel") {
           record.items.push({
@@ -380,10 +303,9 @@
           });
         }
       });
-
+      const blob = new Blob([JSON.stringify(record, null, 2)], {type: 'application/json'});
       const a = document.createElement("a");
-      const file = new Blob([JSON.stringify(record, null, 2)], {type: 'application/json'});
-      a.href = URL.createObjectURL(file);
+      a.href = URL.createObjectURL(blob);
       a.download = `${record.docType}-${record.invoice}.json`;
       a.click();
     }
