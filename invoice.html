@@ -2,14 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Invoice & Receipt Generator</title>
+  <title>De-Williams Invoice & Receipt Generator</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Poppins', sans-serif;
       background-color: #f0f0f0;
       margin: 0;
       padding: 0;
+      color: #444;
     }
+
     .container {
       width: 90%;
       max-width: 900px;
@@ -20,97 +24,188 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       position: relative;
     }
+
     .logo-container {
       text-align: center;
       margin-bottom: 10px;
     }
+
     .logo-container img {
       max-height: 80px;
     }
+
     h2, h3 {
       text-align: center;
       margin-bottom: 10px;
+      color: #b58e00;
     }
+
     label, input, select {
       display: block;
       width: 100%;
       margin-bottom: 10px;
       padding: 10px;
       font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
+
     button {
       padding: 10px 15px;
       font-size: 16px;
       cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      background-color: #d4af37;
+      color: white;
+      transition: 0.3s;
     }
+
+    button:hover {
+      background-color: #b58e00;
+    }
+
     .buttons {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
     }
+
     .items-container {
       margin-top: 20px;
     }
+
     .item-group {
       display: flex;
       gap: 10px;
       margin-bottom: 10px;
       flex-wrap: wrap;
     }
+
     .item-group input {
       flex: 1;
     }
+
     .receipt-preview {
-      margin-top: 30px;
-      background: #fff;
-      padding: 20px;
-      border: 2px solid #d3ae00;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-top: 40px;
     }
-    .receipt-preview h3,
-    .receipt-preview h4 {
-      text-align: center;
-      margin: 0;
-      color: #d3ae00;
-    }
-    .receipt-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #d3ae00;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
-    }
-    .receipt-header img {
-      height: 60px;
-    }
-    .receipt-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-    }
-    .receipt-table th {
-      background-color: #d3ae00;
-      color: #fff;
-    }
-    .receipt-table th,
-    .receipt-table td {
-      border: 1px solid #d3ae00;
-      padding: 10px;
-      text-align: center;
-    }
-    .receipt-table tbody tr:nth-child(odd) {
-      background-color: #f7f3fb;
-    }
-    .footer-note {
-      margin-top: 20px;
-      text-align: center;
-      font-style: italic;
-      color: #d3ae00;
-    }
+
     #amountPaidContainer {
       display: none;
+    }
+
+    /* NEW RECEIPT DESIGN */
+    .receipt {
+      max-width: 800px;
+      margin: auto;
+      border: 10px solid #d4af37;
+      padding: 40px;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .header h1 {
+      color: #d4af37;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .header .address {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .header .to {
+      margin-top: 20px;
+      color: #b58e00;
+    }
+
+    .header .to span {
+      font-weight: 700;
+      font-size: 16px;
+      color: #d4af37;
+    }
+
+    .right {
+      text-align: right;
+    }
+
+    .logo {
+      border: 2px solid #d4af37;
+      color: #d4af37;
+      display: inline-block;
+      border-radius: 50%;
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .place-name {
+      color: #d4af37;
+      font-weight: 600;
+    }
+
+    .details {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 40px 0;
+      font-size: 14px;
+    }
+
+    .details th {
+      background: #d4af37;
+      color: white;
+      text-align: left;
+      padding: 10px;
+    }
+
+    .details td {
+      background: #e8efea;
+      padding: 10px;
+    }
+
+    .payment-summary {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      font-size: 14px;
+    }
+
+    .payment-summary .right {
+      text-align: right;
+    }
+
+    .payment-summary span {
+      font-weight: 600;
+      color: #d4af37;
+    }
+
+    .signature {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .signature .sign {
+      font-style: italic;
+      color: #d4af37;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #d4af37;
+      font-weight: 600;
+      font-size: 15px;
     }
   </style>
 </head>
@@ -202,7 +297,7 @@
     }
 
     function formatCurrency(n) {
-      return `N${Number(n).toLocaleString()}`;
+      return `₦${Number(n).toLocaleString()}`;
     }
 
     function toggleAmountPaid() {
@@ -234,12 +329,11 @@
           const unit = parseFloat(group.querySelector(".unit").value);
           const rowTotal = nights * unit;
           total += rowTotal;
-          tableHeaders = `<tr><th>Description</th><th>Date</th><th>No. of Nights</th><th>Unit Price</th><th>Total Price</th></tr>`;
+          tableHeaders = `<tr><th>Description</th><th>Date</th><th>Unit Price</th><th>Total Price</th></tr>`;
           rows += `
             <tr>
               <td>${desc}</td>
               <td>${duration}</td>
-              <td>${nights}</td>
               <td>${formatCurrency(unit)}</td>
               <td>${formatCurrency(rowTotal)}</td>
             </tr>
@@ -249,7 +343,7 @@
           const amount = parseFloat(group.querySelector(".amount").value);
           const rowTotal = number * amount;
           total += rowTotal;
-          tableHeaders = `<tr><th>Description</th><th>Number (per head)</th><th>Amount (per head)</th><th>Total</th></tr>`;
+          tableHeaders = `<tr><th>Description</th><th>Number</th><th>Amount</th><th>Total</th></tr>`;
           rows += `
             <tr>
               <td>${desc}</td>
@@ -262,42 +356,61 @@
       });
 
       let balance = total - amountPaid;
-
-      let paymentNote = `<p><strong>Payment Method:</strong> ${payment}</p>`;
-      if (docType === "INVOICE" && category === "hotel") {
-        paymentNote = `
-          <p><strong>Payment Method :</strong><br>
-          BISI WILLIAMS ENTERPRISE -<br>
-          DE-WILLIAMS PLACE HOTEL 1<br>
-          Bank Name : Moniepoint MFB<br>
-          Account No : 4001572176</p>`;
-      }
+      let paymentText = payment === "PAID" ? "FULLY PAID" : payment === "PENDING" ? "PENDING" : "PART PAYMENT";
 
       const html = `
-        <div class='receipt-header'>
-          <img src="/images/logo.png" alt="Logo">
-          <div>
-            <h3>DE-WILLIAMS PLACE</h3>
-            <h4>${docType}</h4>
+        <div class="receipt">
+          <header class="header">
+            <div class="left">
+              <h1>${docType}</h1>
+              <p class="address">
+                DE–WILLIAMS PLACE, AKALA EXPRESS,<br>
+                OPPOSITE BOVAS FILLING STATION, IBADAN
+              </p>
+              <p class="to">
+                <strong>${docType} to:</strong><br>
+                <span>${name || "Customer"}</span><br>
+                BILL STATEMENT
+              </p>
+            </div>
+            <div class="right">
+              <div class="logo">DW</div>
+              <p class="place-name">DE–WILLIAMS PLACE</p>
+              <p>Date: <span>${date}</span></p>
+              <p>${docType} No: <span>${invoice}</span></p>
+              <p>0706 235 0574</p>
+            </div>
+          </header>
+
+          <table class="details">
+            <thead>${tableHeaders}</thead>
+            <tbody>${rows}</tbody>
+          </table>
+
+          <div class="payment-summary">
+            <div class="left">
+              <p><strong>Payment Method:</strong> ${paymentText}</p>
+            </div>
+            <div class="right">
+              <p>Total: <span>${formatCurrency(total)}</span></p>
+              ${payment === "PART" ? `
+                <p>Amount Paid: <span>${formatCurrency(amountPaid)}</span></p>
+                <p>Amount Due: <span>${formatCurrency(balance)}</span></p>
+              ` : `
+                <p>Amount Paid: <span>${payment === "PAID" ? formatCurrency(total) : "NIL"}</span></p>
+                <p>Amount Due: <span>${payment === "PAID" ? "NIL" : formatCurrency(total)}</span></p>
+              `}
+            </div>
           </div>
-        </div>
-        <p><strong>${docType} to:</strong> ${name}</p>
-        <p><strong>Date:</strong> ${date}</p>
-        <p><strong>Invoice No:</strong> ${invoice}</p>
 
-        <table class="receipt-table">
-          <thead>${tableHeaders}</thead>
-          <tbody>${rows}</tbody>
-        </table>
+          <div class="signature">
+            <p class="sign">@dewilliamsplaceibadan</p>
+            <p><strong>Authorized Signature</strong></p>
+          </div>
 
-        <p><strong>SUB-TOTAL:</strong> ${formatCurrency(total)}</p>
-        <p><strong>TOTAL:</strong> ${formatCurrency(total)}</p>
-        ${payment === "PART" ? `<p><strong>AMOUNT PAID:</strong> ${formatCurrency(amountPaid)}</p>
-        <p><strong>AMOUNT REMAINING:</strong> ${formatCurrency(balance)}</p>` : ""}
-        ${paymentNote}
-
-        <div class="footer-note">
-          <p>Thank you for your business!</p>
+          <footer>
+            <p>Thanks for your patronage!</p>
+          </footer>
         </div>
       `;
 
@@ -306,28 +419,10 @@
 
     function downloadReceipt() {
       const content = document.getElementById("receiptDisplay").innerHTML;
-      const style = `
-        <style>
-          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
-          .receipt-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #d3ae00; padding-bottom: 10px; margin-bottom: 20px; }
-          .receipt-header img { height: 60px; }
-          h3, h4 { margin: 0; text-align: center; color: #d3ae00; }
-          .receipt-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-          .receipt-table th { background-color: #d3ae00; color: #fff; }
-          .receipt-table th, .receipt-table td { border: 1px solid #d3ae00; padding: 10px; text-align: center; }
-          .receipt-table tbody tr:nth-child(odd) { background-color: #f7f3fb; }
-          .footer-note { margin-top: 20px; text-align: center; font-style: italic; color: #d3ae00; }
-        </style>
-      `;
-
       const win = window.open('', '', 'height=800,width=600');
-      win.document.write(`<html><head><title>Document</title>${style}</head><body>`);
-      win.document.write(content);
-      win.document.write('</body></html>');
+      win.document.write(`<html><head><title>Receipt</title></head><body>${content}</body></html>`);
       win.document.close();
-      win.focus();
       win.print();
-      win.close();
     }
 
     function saveToJSON() {
