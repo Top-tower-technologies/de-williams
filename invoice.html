@@ -1,94 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>De-Williams Invoice & Receipt Generator</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>De-Williams Invoice & Receipt Generator (A4)</title>
+
+  <!-- Poppins font (same as your design) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f8f8f8;
-      margin: 0;
-      padding: 0;
+    :root{
+      --gold: #d4af37;
+      --gold-dark: #b58e00;
+      --muted: #777;
+      --accent-bg: #e8efea;
+      --body-bg: #f8f8f8;
+      --text: #444;
     }
+
+    html,body{
+      height:100%;
+      margin:0;
+      background:var(--body-bg);
+      font-family:'Poppins',sans-serif;
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Page container (centered small UI area) */
     .container {
-      width: 90%;
-      max-width: 900px;
-      margin: 30px auto;
+      width: 92%;
+      max-width: 980px;
+      margin: 24px auto;
       background: #fff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      padding: 18px;
+      border-radius: 10px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.08);
     }
-    h2, h3 {
-      text-align: center;
-      color: #d4af37;
-      margin-bottom: 10px;
-    }
-    label {
-      font-weight: 500;
-      margin-top: 10px;
-      display: block;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 15px;
+
+    h2,h3{ margin:6px 0; text-align:center; color:var(--gold); }
+
+    label{ display:block; font-weight:500; margin-top:10px; font-size:14px; }
+    input[type="text"], input[type="date"], input[type="number"], select {
+      width:100%; padding:10px; margin-top:6px; border:1px solid #ddd; border-radius:8px; font-size:14px;
     }
     button {
-      padding: 10px 15px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      background: #d4af37;
-      color: #fff;
-      cursor: pointer;
+      background:var(--gold); color:#fff; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:600;
     }
-    button:hover { background: #c19c2f; }
-    .buttons {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 15px;
+    button.secondary { background:#222; }
+    .buttons { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+
+    .items-container { margin-top:12px; }
+    .item-group { display:flex; gap:10px; margin-bottom:8px; flex-wrap:wrap; }
+    .item-group input { flex:1; min-width:140px; }
+
+    #amountPaidContainer { display:none; margin-top:8px; }
+
+    /* ---------- Receipt (A4) Preview ---------- */
+    .preview-wrap { margin-top:20px; display:flex; justify-content:center; }
+    /* The A4 box */
+    .a4 {
+      width:210mm;              /* A4 width */
+      min-height:297mm;        /* A4 height */
+      box-sizing:border-box;
+      background:#fff;
+      border:10px solid var(--gold);
+      border-radius:6px;
+      padding:40px;
+      overflow:hidden;
+      box-shadow:0 8px 30px rgba(0,0,0,0.10);
+      color:var(--text);
     }
-    .items-container {
-      margin-top: 20px;
+
+    /* Header */
+    .rw-header { display:flex; justify-content:space-between; align-items:flex-start; gap:20px; }
+    .rw-left h1 { margin:0; color:var(--gold); font-size:34px; }
+    .rw-left .address { color:var(--muted); font-size:13px; margin-top:8px; line-height:1.3; }
+    .rw-left .to { margin-top:18px; color:var(--gold-dark); font-weight:600; }
+    .rw-left .to span { display:block; color:var(--gold); font-weight:700; font-size:16px; margin-top:6px; }
+
+    .rw-right { text-align:right; }
+    .logo-circle {
+      border:2px solid var(--gold);
+      color:var(--gold);
+      display:inline-block;
+      border-radius:50%;
+      padding:12px 16px;
+      font-weight:700;
+      font-size:18px;
+      margin-bottom:8px;
     }
-    .item-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 10px;
+    .place-name { color:var(--gold); font-weight:600; margin:6px 0; }
+
+    /* Table */
+    .details { width:100%; border-collapse:collapse; margin:36px 0; font-size:14px; }
+    .details thead tr th {
+      background:var(--gold);
+      color:#fff;
+      text-align:left;
+      padding:10px;
+      font-weight:600;
     }
-    .item-group input {
-      flex: 1;
+    .details tbody td {
+      background:var(--accent-bg);
+      padding:10px;
+      vertical-align:top;
     }
-    #amountPaidContainer {
-      display: none;
-    }
-    /* Receipt Preview Container */
-    .receipt-preview {
-      margin-top: 30px;
-      background: #fff;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .details td, .details th { border: none; }
+
+    /* Payment summary */
+    .payment-summary { display:flex; justify-content:space-between; margin-top:20px; gap:12px; font-size:14px; }
+    .payment-summary .right { text-align:right; min-width:200px; }
+    .payment-summary span { font-weight:600; color:var(--gold); }
+
+    .signature { text-align:center; margin-top:60px; }
+    .signature .sign { font-style:italic; color:var(--gold); font-weight:500; margin-bottom:6px; }
+
+    footer.a4-footer { text-align:center; margin-top:34px; color:var(--gold); font-weight:600; font-size:15px; }
+
+    /* Make the on-screen preview scroll inside the container if too tall */
+    .preview-viewport { width:100%; max-height:620px; overflow:auto; padding:12px; background:#fafafa; border-radius:6px; }
+
+    /* Print styles: ensure A4 and exact colors */
+    @media print {
+      body { background:#fff; -webkit-print-color-adjust:exact; color-adjust: exact; }
+      @page { size: A4; margin: 10mm; }
+      .container { box-shadow:none; }
+      .preview-viewport { max-height: none; overflow: visible; }
+      .a4 { box-shadow:none; border-radius: 0; margin:0; width: auto; min-height: auto; padding: 28mm; } /* keep margins via @page */
     }
   </style>
 </head>
 <body>
+
   <div class="container">
     <h2>DE-WILLIAMS PLACE</h2>
-    <h3>Invoice & Receipt Generator</h3>
+    <h3>Invoice & Receipt Generator — A4 Design</h3>
 
     <label>Document Type</label>
     <select id="docType">
-      <option value="RECEIPT">Receipt</option>
-      <option value="INVOICE">Invoice</option>
+      <option value="RECEIPT">RECEIPT</option>
+      <option value="INVOICE">INVOICE</option>
     </select>
 
     <label>Category</label>
@@ -109,11 +162,13 @@
     <div class="items-container" id="itemsContainer">
       <h4>Items</h4>
     </div>
-    <button onclick="addItem()">Add Item</button>
+    <div style="margin-top:8px;">
+      <button onclick="addItem()">Add Item</button>
+    </div>
 
     <label>Payment Method</label>
     <select id="paymentMethod" onchange="toggleAmountPaid()">
-      <option value="PAID">PAID</option>
+      <option value="PAID">FULLY PAID</option>
       <option value="PENDING">PENDING</option>
       <option value="PART">PART PAYMENT</option>
     </select>
@@ -125,190 +180,260 @@
 
     <div class="buttons">
       <button onclick="generateReceipt()">Generate</button>
-      <button onclick="downloadReceipt()">Download</button>
-      <button onclick="saveToJSON()">Save</button>
+      <button onclick="downloadReceipt()">Download / Print (A4)</button>
+      <button onclick="saveToJSON()">Save (JSON)</button>
     </div>
 
-    <div class="receipt-preview" id="receiptDisplay"></div>
+    <div class="preview-wrap">
+      <div class="preview-viewport" id="previewViewport" aria-live="polite">
+        <!-- Generated A4 receipt will be injected here -->
+      </div>
+    </div>
   </div>
 
-  <script>
-    window.onload = () => switchCategory();
+<script>
+  // initialize
+  window.addEventListener('load', () => {
+    // set default date to today if empty
+    const d = new Date().toISOString().split('T')[0];
+    document.getElementById('receiptDate').value = d;
+    switchCategory();
+  });
 
-    function switchCategory() {
-      const container = document.getElementById("itemsContainer");
-      container.innerHTML = `<h4>Items</h4>`;
-      addItem();
+  function switchCategory(){
+    const container = document.getElementById('itemsContainer');
+    container.innerHTML = '<h4>Items</h4>';
+    addItem();
+  }
+
+  function addItem(){
+    const category = document.getElementById('category').value;
+    const container = document.getElementById('itemsContainer');
+    const div = document.createElement('div');
+    div.className = 'item-group';
+
+    if(category === 'hotel'){
+      div.innerHTML = `
+        <input type="text" class="desc" placeholder="Description (e.g., Standard room)">
+        <input type="text" class="duration" placeholder="Date Range (e.g., 10th – 11th November 2025)">
+        <input type="number" class="nights" placeholder="No. of Nights" min="1" value="1">
+        <input type="number" class="unit" placeholder="Unit Price (₦)" step="0.01">
+      `;
+    } else {
+      div.innerHTML = `
+        <input type="text" class="desc" placeholder="Item Description (e.g., Dinner)">
+        <input type="number" class="number" placeholder="Number (per head)" min="1" value="1">
+        <input type="number" class="amount" placeholder="Amount (per head ₦)" step="0.01">
+      `;
     }
+    container.appendChild(div);
+  }
 
-    function addItem() {
-      const category = document.getElementById("category").value;
-      const container = document.getElementById("itemsContainer");
-      const div = document.createElement("div");
-      div.className = "item-group";
-      if (category === "hotel") {
-        div.innerHTML = `
-          <input type="text" placeholder="Description" class="desc">
-          <input type="text" placeholder="Date Range" class="duration">
-          <input type="number" placeholder="No. of Nights" class="nights" value="1">
-          <input type="number" placeholder="Unit Price" class="unit">
-        `;
-      } else {
-        div.innerHTML = `
-          <input type="text" placeholder="Item Description" class="desc">
-          <input type="number" placeholder="Number (per head)" class="number" value="1">
-          <input type="number" placeholder="Amount (per head)" class="amount">
-        `;
-      }
-      container.appendChild(div);
-    }
+  function formatCurrency(n){
+    if (isNaN(n) || n === null) return '₦0';
+    // ensure two decimals then format thousands
+    const v = Number(n);
+    const fixed = Math.round((v + Number.EPSILON) * 100) / 100;
+    // use toLocaleString for thousands separator
+    return '₦' + fixed.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2});
+  }
 
-    function formatCurrency(n) {
-      return `₦${Number(n).toLocaleString()}`;
-    }
+  function toggleAmountPaid(){
+    const m = document.getElementById('paymentMethod').value;
+    document.getElementById('amountPaidContainer').style.display = m === 'PART' ? 'block' : 'none';
+  }
 
-    function toggleAmountPaid() {
-      const method = document.getElementById("paymentMethod").value;
-      document.getElementById("amountPaidContainer").style.display = method === "PART" ? "block" : "none";
-    }
+  function generateReceipt(){
+    const docType = document.getElementById('docType').value;
+    const category = document.getElementById('category').value;
+    const name = document.getElementById('customerName').value || 'Customer';
+    const date = document.getElementById('receiptDate').value || new Date().toISOString().split('T')[0];
+    const invoice = document.getElementById('invoiceNo').value || '0000';
+    const payment = document.getElementById('paymentMethod').value;
+    const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
 
-    function generateReceipt() {
-      const docType = document.getElementById("docType").value;
-      const category = document.getElementById("category").value;
-      const name = document.getElementById("customerName").value || "Customer";
-      const date = document.getElementById("receiptDate").value || new Date().toISOString().split('T')[0];
-      const invoice = document.getElementById("invoiceNo").value || "0000";
-      const payment = document.getElementById("paymentMethod").value;
-      const amountPaid = parseFloat(document.getElementById("amountPaid").value) || 0;
-      const items = document.querySelectorAll(".item-group");
+    const groups = Array.from(document.querySelectorAll('.item-group'));
+    let rows = '';
+    let total = 0;
 
-      let rows = "";
-      let total = 0;
-      let tableHeaders = "";
-
-      items.forEach(group => {
-        const desc = group.querySelector(".desc").value;
-        if (category === "hotel") {
-          const duration = group.querySelector(".duration").value;
-          const nights = parseInt(group.querySelector(".nights").value);
-          const unit = parseFloat(group.querySelector(".unit").value);
+    if(groups.length === 0){
+      // ensure at least one row shown
+      rows = `<tr><td colspan="4">No items</td></tr>`;
+    } else {
+      groups.forEach(g => {
+        const desc = (g.querySelector('.desc') && g.querySelector('.desc').value) || '';
+        if(category === 'hotel'){
+          const duration = (g.querySelector('.duration') && g.querySelector('.duration').value) || '';
+          const nights = parseInt((g.querySelector('.nights') && g.querySelector('.nights').value) || 0);
+          const unit = parseFloat((g.querySelector('.unit') && g.querySelector('.unit').value) || 0);
           const rowTotal = nights * unit;
           total += rowTotal;
-          tableHeaders = `<tr><th>Description</th><th>Date</th><th>Unit Price</th><th>Total Price</th></tr>`;
-          rows += `
-            <tr>
-              <td>${desc}</td>
-              <td>${duration}</td>
-              <td>${formatCurrency(unit)}</td>
-              <td>${formatCurrency(rowTotal)}</td>
-            </tr>`;
+          rows += `<tr>
+            <td>${escapeHtml(desc)}</td>
+            <td>${escapeHtml(duration)}</td>
+            <td>${formatCurrency(unit)}</td>
+            <td>${formatCurrency(rowTotal)}</td>
+          </tr>`;
         } else {
-          const number = parseInt(group.querySelector(".number").value);
-          const amount = parseFloat(group.querySelector(".amount").value);
+          const number = parseInt((g.querySelector('.number') && g.querySelector('.number').value) || 0);
+          const amount = parseFloat((g.querySelector('.amount') && g.querySelector('.amount').value) || 0);
           const rowTotal = number * amount;
           total += rowTotal;
-          tableHeaders = `<tr><th>Description</th><th>Number</th><th>Unit Price</th><th>Total</th></tr>`;
-          rows += `
-            <tr>
-              <td>${desc}</td>
-              <td>${number}</td>
-              <td>${formatCurrency(amount)}</td>
-              <td>${formatCurrency(rowTotal)}</td>
-            </tr>`;
+          rows += `<tr>
+            <td>${escapeHtml(desc)}</td>
+            <td>${number}</td>
+            <td>${formatCurrency(amount)}</td>
+            <td>${formatCurrency(rowTotal)}</td>
+          </tr>`;
         }
       });
+    }
 
-      let balance = total - amountPaid;
-      let amountDue = payment === "PART" ? formatCurrency(balance) : (payment === "PENDING" ? formatCurrency(total) : "NIL");
+    const balance = total - amountPaid;
+    const amountDue = payment === 'PART' ? formatCurrency(balance) : (payment === 'PENDING' ? formatCurrency(total) : 'NIL');
 
-      const html = `
-        <div class="receipt" style="max-width:800px;margin:auto;border:10px solid #d4af37;padding:40px;border-radius:10px;background:#fff;font-family:'Poppins',sans-serif;">
-          <header style="display:flex;justify-content:space-between;align-items:flex-start;">
-            <div>
-              <h1 style="color:#d4af37;font-size:36px;margin:0;">${docType}</h1>
-              <p style="font-size:13px;color:#777;">DE–WILLIAMS PLACE, AKALA EXPRESS,<br>OPPOSITE BOVAS FILLING STATION, IBADAN</p>
-              <p style="margin-top:20px;color:#b58e00;"><strong>${docType} to:</strong><br><span style="color:#d4af37;font-weight:700;font-size:16px;">${name}</span><br>BILL STATEMENT</p>
-            </div>
-            <div style="text-align:right;">
-              <div style="border:2px solid #d4af37;color:#d4af37;display:inline-block;border-radius:50%;padding:12px 16px;font-weight:700;font-size:18px;margin-bottom:8px;">DW</div>
-              <p style="color:#d4af37;font-weight:600;">DE–WILLIAMS PLACE</p>
-              <p>Date: <span>${date}</span></p>
-              <p>${docType} No: <span>${invoice}</span></p>
-              <p>0706 235 0574</p>
-            </div>
-          </header>
-          <table style="width:100%;border-collapse:collapse;margin:40px 0;font-size:14px;">
-            <thead>
-              ${tableHeaders}
-            </thead>
-            <tbody>
-              ${rows}
-            </tbody>
-          </table>
-          <div style="display:flex;justify-content:space-between;margin-top:30px;font-size:14px;">
-            <div><p><strong>Payment Status:</strong> ${payment}</p></div>
-            <div style="text-align:right;">
-              <p>Total: <span style="font-weight:600;color:#d4af37;">${formatCurrency(total)}</span></p>
-              ${payment === "PART" ? `<p>Amount Paid: <span style="color:#d4af37;">${formatCurrency(amountPaid)}</span></p>` : ""}
-              <p>Amount Due: <span style="color:#d4af37;">${amountDue}</span></p>
-            </div>
+    // Build table headers exactly like your design
+    const tableHeaders = category === 'hotel'
+      ? `<thead><tr><th>Description</th><th>Date</th><th>Unit Price</th><th>Total Price</th></tr></thead>`
+      : `<thead><tr><th>Description</th><th>Date</th><th>Unit Price</th><th>Total Price</th></tr></thead>`; // your example used same columns visually
+
+    // final HTML (matches your provided design)
+    const html = `
+      <div class="a4" id="a4Document">
+        <div class="rw-header">
+          <div class="rw-left">
+            <h1>${escapeHtml(docType)}</h1>
+            <p class="address">DE–WILLIAMS PLACE, AKALA EXPRESS,<br>OPPOSITE BOVAS FILLING STATION, IBADAN</p>
+            <p class="to"><strong>${escapeHtml(docType)} to:</strong><br><span>${escapeHtml(name)}</span><br>BILL STATEMENT</p>
           </div>
-          <div style="text-align:center;margin-top:60px;">
-            <p style="font-style:italic;color:#d4af37;font-weight:500;margin-bottom:5px;">@dewilliamsplaceibadan</p>
-            <p><strong>Authorized Signature</strong></p>
+
+          <div class="rw-right">
+            <div class="logo-circle">DW</div>
+            <p class="place-name">DE–WILLIAMS PLACE</p>
+            <p>Date: <span>${escapeHtml(date)}</span></p>
+            <p>${escapeHtml(docType)} No: <span>${escapeHtml(invoice)}</span></p>
+            <p>0706 235 0574</p>
           </div>
-          <footer style="text-align:center;margin-top:40px;color:#d4af37;font-weight:600;font-size:15px;">
-            <p>Thanks for your patronage!</p>
-          </footer>
-        </div>`;
+        </div>
 
-      document.getElementById("receiptDisplay").innerHTML = html;
+        <table class="details" role="table" aria-label="items table">
+          ${tableHeaders}
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+
+        <div class="payment-summary">
+          <div class="left">
+            <p><strong>Payment Method:</strong> ${escapeHtml(payment === 'PAID' ? 'FULLY PAID' : (payment === 'PENDING' ? 'PENDING' : 'PART PAYMENT'))}</p>
+          </div>
+          <div class="right">
+            <p>Total: <span>${formatCurrency(total)}</span></p>
+            ${payment === 'PART' ? `<p>Amount Paid: <span>${formatCurrency(amountPaid)}</span></p>` : ''}
+            <p>Amount Due: <span>${amountDue}</span></p>
+          </div>
+        </div>
+
+        <div class="signature">
+          <p class="sign">@dewilliamsplaceibadan</p>
+          <p><strong>Authorized Signature</strong></p>
+        </div>
+
+        <footer class="a4-footer">
+          <p>Thanks for your patronage!</p>
+        </footer>
+      </div>
+    `;
+
+    // inject into preview viewport
+    const preview = document.getElementById('previewViewport');
+    preview.innerHTML = html;
+
+    // ensure print color adjust
+    document.body.style.webkitPrintColorAdjust = 'exact';
+  }
+
+  // Open a new window with A4 print-ready content (keeps same layout)
+  function downloadReceipt(){
+    // ensure receipt is generated
+    const preview = document.getElementById('previewViewport');
+    if(!preview.innerHTML.trim()){
+      generateReceipt();
     }
 
-    function downloadReceipt() {
-      const content = document.getElementById("receiptDisplay").innerHTML;
-      const win = window.open('', '', 'height=800,width=600');
-      win.document.write('<html><head><title>De-Williams Receipt</title></head><body>');
-      win.document.write(content);
-      win.document.write('</body></html>');
-      win.document.close();
-      win.print();
-    }
+    // open popup and print with A4 settings and inline styles
+    const docHtml = preview.innerHTML;
+    const win = window.open('', '_blank', 'width=900,height=700');
+    const css = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'))
+      .map(n => n.outerHTML).join('\n');
 
-    function saveToJSON() {
-      const category = document.getElementById("category").value;
-      const record = {
-        docType: document.getElementById("docType").value,
-        category,
-        name: document.getElementById("customerName").value,
-        date: document.getElementById("receiptDate").value,
-        invoice: document.getElementById("invoiceNo").value,
-        paymentMethod: document.getElementById("paymentMethod").value,
-        amountPaid: document.getElementById("amountPaid").value,
-        items: []
-      };
-      document.querySelectorAll(".item-group").forEach(group => {
-        if (category === "hotel") {
-          record.items.push({
-            description: group.querySelector(".desc").value,
-            duration: group.querySelector(".duration").value,
-            nights: group.querySelector(".nights").value,
-            unitPrice: group.querySelector(".unit").value
-          });
-        } else {
-          record.items.push({
-            description: group.querySelector(".desc").value,
-            number: group.querySelector(".number").value,
-            amountPerHead: group.querySelector(".amount").value
-          });
-        }
-      });
-      const blob = new Blob([JSON.stringify(record, null, 2)], {type: 'application/json'});
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = `${record.docType}-${record.invoice}.json`;
-      a.click();
-    }
-  </script>
+    // Add explicit @page A4 to ensure printer uses A4
+    const extra = `<style>
+      @page { size: A4; margin: 10mm; }
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; margin:0; font-family:'Poppins',sans-serif;}
+      /* keep same a4 wrapper sizing but let page margin handle whitespace */
+      .a4 { width: auto; min-height: auto; border:10px solid ${getComputedStyle(document.documentElement).getPropertyValue('--gold') || '#d4af37'}; box-sizing:border-box; padding:28mm; }
+    </style>`;
+
+    win.document.open();
+    win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Print - De-Williams</title>${css}${extra}</head><body>`);
+    win.document.write(docHtml);
+    win.document.write('</body></html>');
+    win.document.close();
+
+    // Give the new window a moment to render then trigger print
+    win.focus();
+    // Some browsers block immediate print; but we call print now
+    setTimeout(()=> { win.print(); /* don't close - let user decide */ }, 500);
+  }
+
+  // Save current invoice/receipt as JSON
+  function saveToJSON(){
+    const category = document.getElementById('category').value;
+    const record = {
+      docType: document.getElementById('docType').value,
+      category,
+      name: document.getElementById('customerName').value,
+      date: document.getElementById('receiptDate').value,
+      invoice: document.getElementById('invoiceNo').value,
+      paymentMethod: document.getElementById('paymentMethod').value,
+      amountPaid: document.getElementById('amountPaid').value || '0',
+      items: []
+    };
+
+    document.querySelectorAll('.item-group').forEach(group => {
+      if(category === 'hotel'){
+        record.items.push({
+          description: (group.querySelector('.desc') && group.querySelector('.desc').value) || '',
+          duration: (group.querySelector('.duration') && group.querySelector('.duration').value) || '',
+          nights: (group.querySelector('.nights') && group.querySelector('.nights').value) || '0',
+          unitPrice: (group.querySelector('.unit') && group.querySelector('.unit').value) || '0'
+        });
+      } else {
+        record.items.push({
+          description: (group.querySelector('.desc') && group.querySelector('.desc').value) || '',
+          number: (group.querySelector('.number') && group.querySelector('.number').value) || '0',
+          amountPerHead: (group.querySelector('.amount') && group.querySelector('.amount').value) || '0'
+        });
+      }
+    });
+
+    const blob = new Blob([JSON.stringify(record, null, 2)], {type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    const invoiceNo = record.invoice || 'unnamed';
+    a.download = `${record.docType}-${invoiceNo}.json`;
+    a.click();
+  }
+
+  // simple HTML escape for inserted user strings
+  function escapeHtml(str){
+    if(typeof str !== 'string') return str;
+    return str.replace(/[&<>"']/g, function(m){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m];
+    });
+  }
+</script>
+
 </body>
 </html>
