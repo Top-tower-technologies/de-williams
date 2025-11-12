@@ -689,7 +689,7 @@ function updateBookingFormDetails(summary) {
         // Redirect to Paystack link
         window.location.href = result.data.payment_link;
       } else {
-        alert(`✅ Room Reserved Successfully!\n\nRef: ${ref}\nTotal: ${currency} ${total}\nName: ${guest.name}\nEmail: ${guest.email}\n\nPlease come to the hotel to confirm and pay. Note that reservation has just 24 hrs validity.`);
+        alert(`✅ Room Reserved Successfully!\n\nRef: ${ref}\nTotal: ${currency} ${total}\nName: ${guest.name}\nEmail: ${guest.email}\n\nPlease come to the hotel to confirm and pay. Note that this reservation has just 24 hrs validity.`);
         location.reload();
       }
     } else {
