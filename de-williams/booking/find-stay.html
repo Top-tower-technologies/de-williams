@@ -391,6 +391,11 @@ input[type="text"] {
               <label>Email Address</label>
               <input type="email" name="email" required>
             </div>
+
+            <div>
+              <label>Phone Number</label>
+              <input type="tel" name="phone" required>
+            </div>
           </div>
 
           <div class="special-request">
@@ -656,10 +661,10 @@ function updateBookingFormDetails(summary) {
     const payload = {
       check_in: checkInInput.value,
       check_out: checkOutInput.value,
-      first_name: formData.get("first_name") || "Anonymous",
-      last_name: formData.get("last_name") || "User",
-      email: formData.get("email") || "email@example.com",
-      phone: "1234567890",
+      first_name: formData.get("first_name") ,
+      last_name: formData.get("last_name") ,
+      email: formData.get("email") ,
+      phone: formData.get ("phone"),
       guests: {
         adult: parseInt(adultSelect.value),
         children: parseInt(childrenSelect.value),
