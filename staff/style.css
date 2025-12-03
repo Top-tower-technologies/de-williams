@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    background: #0e0e0e;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #151515;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+}
+
+.logo-area h1 {
+    margin: 0;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: #d4af37;
+}
+
+.tag {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 5px;
+    opacity: 0.8;
+}
+
+.notice {
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin: 20px 0;
+    border-left: 3px solid #d4af37;
+    padding-left: 12px;
+}
+
+.box {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.box input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #555;
+    background: #1e1e1e;
+    color: #fff;
+    border-radius: 6px;
+}
+
+.box button {
+    padding: 12px 20px;
+    border: none;
+    background: #d4af37;
+    color: #000;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.box button:hover {
+    background: #b99428;
+}
+
+.success-box {
+    margin-top: 20px;
+    border: 1px solid #2d2;
+    padding: 20px;
+    background: #102010;
+    border-radius: 8px;
+    text-align: center;
+    animation: pop 0.4s ease;
+}
+
+.success-box img {
+    width: 120px;
+    height:120px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+.fade-in { animation: fadeIn 1.2s ease forwards; }
+
+@keyframes slideDown { from {transform:translateY(-20px); opacity:0;} to {transform:translateY(0); opacity:1;} }
+.slide-down { animation: slideDown 1s ease; }
+
+@keyframes slideUp { from {transform:translateY(20px); opacity:0;} to {transform:translateY(0); opacity:1;} }
+.slide-up { animation: slideUp 1s ease; }
+
+@keyframes pop { 0%{transform: scale(0.7);} 100%{transform: scale(1);} }
