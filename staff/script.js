@@ -20,9 +20,18 @@ function verifyStaff() {
             result.innerHTML = `<p style='color:#d33;'>${data.message}</p>`;
         } else {
             let s = data.data;
+
+            // Normalize image path
+            let imagePath = s.image.replace(/\\/g, ''); // remove any escaped backslashes
+
+            // Ensure full URL
+            if (!imagePath.startsWith("http")) {
+                imagePath = "https://www.toptowertechnologies.com/id/" + imagePath;
+            }
+
             result.innerHTML = `
                 <div class='success-box'>
-                    <img src='${s.image}' alt='Staff'>
+                    <img src='${imagePath}' alt='Staff'>
                     <h2>${s.name}</h2>
                     <p><b>Staff ID:</b> ${s.staff_id}</p>
                     <p><b>Position:</b> ${s.position}</p>
@@ -30,5 +39,9 @@ function verifyStaff() {
                 </div>
             `;
         }
+    })
+    .catch(err => {
+        console.error(err);
+        result.innerHTML = "<p style='color:#d33;'>Something went wrong. Please try again.</p>";
     });
 }
