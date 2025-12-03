@@ -10,7 +10,7 @@ function verifyStaff() {
     fetch("https://www.toptowertechnologies.com/id/verify.php", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: "name=" + encodeURIComponent(name)
+        body: JSON.stringify({ name: name })
     })
     .then(res => res.json())
     .then(data => {
