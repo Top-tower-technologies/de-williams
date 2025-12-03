@@ -7,10 +7,12 @@ function verifyStaff() {
         return;
     }
 
+    let form = new FormData();
+    form.append("name", name);
+
     fetch("https://www.toptowertechnologies.com/id/verify.php", {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ name: name })
+        body: form
     })
     .then(res => res.json())
     .then(data => {
