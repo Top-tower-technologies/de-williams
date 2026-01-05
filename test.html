@@ -1,195 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>De-Williams Place Receipt</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De-Williams Place Hotel | Facilities</title>
 
-    body {
-      background: #fff;
-      font-family: 'Poppins', sans-serif;
-      color: #444;
-      margin: 0;
-      padding: 40px;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
 
-    .receipt {
-      max-width: 800px;
-      margin: auto;
-      border: 10px solid #d4af37;
-      padding: 40px;
-      border-radius: 10px;
-      background: #fff;
-    }
+        body {
+            background: #ffffff;
+            color: #000;
+        }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
+        /* ---------------- FACILITIES SECTION ---------------- */
+        .facilities-section {
+            padding: 80px 6%;
+        }
 
-    .header h1 {
-      color: #d4af37;
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
+        .facilities-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
 
-    .header .address {
-      font-size: 13px;
-      color: #777;
-    }
+        .facilities-header h2 {
+            font-size: 38px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
 
-    .header .to {
-      margin-top: 20px;
-      color: #b58e00;
-    }
+        .facilities-header h2 span {
+            color: #D3AE00;
+        }
 
-    .header .to span {
-      font-weight: 700;
-      font-size: 16px;
-      color: #d4af37;
-    }
+        .facilities-header p {
+            font-size: 16px;
+            color: #666;
+            max-width: 600px;
+            margin: auto;
+        }
 
-    .right {
-      text-align: right;
-    }
+        .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
 
-    .logo {
-      border: 2px solid #d4af37;
-      color: #d4af37;
-      display: inline-block;
-      border-radius: 50%;
-      padding: 12px 16px;
-      font-weight: 700;
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
+        .facility-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            transform: translateY(40px);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
 
-    .place-name {
-      color: #d4af37;
-      font-weight: 600;
-    }
+        .facility-card.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
 
-    .details {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 40px 0;
-      font-size: 14px;
-    }
+        .facility-card img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+        }
 
-    .details th {
-      background: #d4af37;
-      color: white;
-      text-align: left;
-      padding: 10px;
-    }
+        .facility-content {
+            padding: 26px;
+        }
 
-    .details td {
-      background: #e8efea;
-      padding: 10px;
-    }
+        .facility-content h3 {
+            font-size: 20px;
+            color: #D3AE00;
+            margin-bottom: 10px;
+        }
 
-    .payment-summary {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-      font-size: 14px;
-    }
+        .facility-content p {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.7;
+        }
 
-    .payment-summary .right {
-      text-align: right;
-    }
+        .facility-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 22px 45px rgba(0, 0, 0, 0.12);
+        }
 
-    .payment-summary span {
-      font-weight: 600;
-      color: #d4af37;
-    }
-
-    .signature {
-      text-align: center;
-      margin-top: 60px;
-    }
-
-    .signature .sign {
-      font-style: italic;
-      color: #d4af37;
-      font-weight: 500;
-      margin-bottom: 5px;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      color: #d4af37;
-      font-weight: 600;
-      font-size: 15px;
-    }
-  </style>
+        @media (max-width: 600px) {
+            .facilities-header h2 {
+                font-size: 30px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="receipt">
-    <header class="header">
-      <div class="left">
-        <h1>RECEIPT</h1>
-        <p class="address">
-          DE–WILLIAMS PLACE, AKALA EXPRESS,<br>
-          OPPOSITE BOVAS FILLING STATION, IBADAN
-        </p>
-        <p class="to">
-          <strong>Receipt to:</strong><br>
-          <span>MR ADEBANJO</span><br>
-          BILL STATEMENT
-        </p>
-      </div>
-      <div class="right">
-        <div class="logo">DW</div>
-        <p class="place-name">DE–WILLIAMS PLACE</p>
-        <p>Date: <span>11/11/2025</span></p>
-        <p>Receipt No: <span>2025/1728</span></p>
-        <p>0706 235 0574</p>
-      </div>
-    </header>
 
-    <table class="details">
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Date</th>
-          <th>Unit Price</th>
-          <th>Total Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Standard room for 1 night</td>
-          <td>10th – 11th November 2025</td>
-          <td>₦60,000</td>
-          <td>₦60,000</td>
-        </tr>
-      </tbody>
-    </table>
+    <section class="facilities-section">
+        <div class="facilities-header">
+            <h2>Our <span>Facilities</span></h2>
+            <p>
+                At De-Williams Place Hotel, every space is thoughtfully designed to deliver comfort,
+                elegance, and unforgettable experiences.
+            </p>
+        </div>
 
-    <div class="payment-summary">
-      <div class="left">
-        <p><strong>Payment Method:</strong> FULLY PAID</p>
-      </div>
-      <div class="right">
-        <p>Total: <span>₦60,000</span></p>
-        <p>Amount Paid: <span>₦60,000</span></p>
-        <p>Amount Due: <span>NIL</span></p>
-      </div>
-    </div>
+        <div class="facilities-grid">
+            <div class="facility-card">
+                <img src="images/restaurant.jpg" alt="Restaurant">
+                <div class="facility-content">
+                    <h3>Restaurant</h3>
+                    <p>
+                        Enjoy expertly prepared local and continental dishes made with fresh ingredients,
+                        served in a stylish and welcoming atmosphere.
+                    </p>
+                </div>
+            </div>
 
-    <div class="signature">
-      <p class="sign">@dewilliamsplaceibadan</p>
-      <p><strong>Authorized Signature</strong></p>
-    </div>
+            <div class="facility-card">
+                <img src="images/dining.jpg" alt="Fine Dining">
+                <div class="facility-content">
+                    <h3>Fine Dining</h3>
+                    <p>
+                        A refined dining experience perfect for intimate dinners, special celebrations,
+                        and unforgettable culinary moments.
+                    </p>
+                </div>
+            </div>
 
-    <footer>
-      <p>Thanks for your patronage!</p>
-    </footer>
-  </div>
+            <div class="facility-card">
+                <img src="images/gym.jpg" alt="Gym">
+                <div class="facility-content">
+                    <h3>Modern Gym</h3>
+                    <p>
+                        Stay energized with our fully equipped gym, designed to support your fitness
+                        routine in a calm and refreshing environment.
+                    </p>
+                </div>
+            </div>
+
+            <div class="facility-card">
+                <img src="images/pool.jpg" alt="Pool Side">
+                <div class="facility-content">
+                    <h3>Pool Side</h3>
+                    <p>
+                        Relax and unwind by our serene pool side, ideal for leisure, relaxation,
+                        and peaceful moments under the sun.
+                    </p>
+                </div>
+            </div>
+
+            <div class="facility-card">
+                <img src="images/vip-bar.jpg" alt="VIP Bar">
+                <div class="facility-content">
+                    <h3>VIP Bar</h3>
+                    <p>
+                        An exclusive bar offering premium drinks, soft music, and a calm atmosphere
+                        tailored for refined relaxation.
+                    </p>
+                </div>
+            </div>
+
+            <div class="facility-card">
+                <img src="images/conference.jpg" alt="Conference Room">
+                <div class="facility-content">
+                    <h3>Conference Room</h3>
+                    <p>
+                        Host meetings, conferences, and events in our well-equipped conference room,
+                        designed for productivity and professionalism.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const cards = document.querySelectorAll(".facility-card");
+
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("show");
+                    }
+                });
+            },
+            { threshold: 0.2 }
+        );
+
+        cards.forEach(card => observer.observe(card));
+    </script>
+
 </body>
 </html>
