@@ -1,247 +1,769 @@
 <!DOCTYPE html>
+<!-- Developed by Top tower technologies -->
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hotel Booking</title>
-  <link rel="stylesheet" href="/de-williams/booking/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DE-WILLIAMS PLACE </title>
+<link rel="stylesheet" href="/de-williams/booking/style.css">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://kit.fontawesome.com/c408a3e18e.js" crossorigin="anonymous"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
 
 </head>
-<body>
-<div id="Room" class="tabcontent">
-        <div class="hotel">
-            <!-- Date Picker -->
-            <div class="box">
-                <i class="fa-solid fa-calendar"></i>
-                <input type="date" id="checkInDate"> -
-                <input type="date" id="checkOutDate">
-            </div>
+<style>
+  .form-section {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
 
-            <!-- Room & Guests -->
-            <div class="box">
-                <i class="fa-solid fa-user"></i>
-                <select id="adults" name="adults">
-                    <option value="1">1 Adult</option>
-                    <option value="2">2 Adults</option>
-                    <option value="3">3 Adults</option>
-                    <option value="4">4 Adults</option>
-                    <option value="5">5 Adults</option>
-                </select>,
-                <select id="children" name="children">
-                    <option value="0">0 Children</option>
-                    <option value="1">1 Child</option>
-                    <option value="2">2 Children</option>
-                    <option value="3">3 Children</option>
-                    <option value="4">4 Children</option>
-                </select>
-            </div>
+.form-group {
+  flex: 1 1 100%; /* Default to full width */
+  display: flex;
+  flex-direction: column;
+}
 
-            <!-- Promo Code -->
-            <div class="promo">
-                <i class="fa-solid fa-ticket"></i> Have a Promo Code?
-            </div>
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
 
-            <!-- Currency Selection -->
-            <div class="box">
-                <i class="fa-solid fa-money-bill"></i>
-                <select id="currency" name="currency">
-                    <option value="USD">USD</option>
-                    <option value="NGN">NGN</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                </select>
-            </div>
-        </div>
-        <br>
-        <div id="main-wrapper">
+select,
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  width: 100%;
+}
 
-          <!-- PAGE 1: Room List -->
-          <div id="room-list" class="page active">
-            <div class="cardo">
-              <div class="top-section">
-                <div class="left-section">
-                  <div class="room-details">
-                    <h2>Superior Single Room</h2>
-                    <div class="price-per-night">From $375 / Night</div>
-                    <div class="room-description">
-                      Indulge in the perfect blend of luxury and functionality, featuring modern amenities and tasteful décor. Whether you're traveling for business.
-                    </div>
-                    <div class="icons">
-                      <div>🛁 1 Bathroom</div>
-                      <div>🛏️ Twin Beds</div>
-                      <div>🧍‍♂️ Sleeps 2</div>
-                    </div>
-                  </div>
-                  <div class="room-image">
-                    <img src="/de-williams/images/image 6.png" alt="Room Image">
-                  </div>
-                </div>
-                <div class="right-section">
-                  <h3>Booking Details</h3>
-                  <p>📅 Mon, 30 Dec 24 – Tue, 31 Dec 24</p>
-                  <p>👥 2 Adults, 2 Children</p>
-                </div>
-              </div>
-          
-              <div class="bottom-section">
-                <div class="price-info">
-                  USD 87.21 <span>Cost for 1 night, 2 guests</span>
-                </div>
-                <div class="action-group">
-                  <div class="pay-later">✔️ Book now, Pay later</div>
-                  <button class="book-button">Book Now</button>
-                </div>
-              </div>
-            </div>
-          
-      
+.booking-summary-container {
+  display: flex;
+  gap: 30px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.booking-summary {
+  flex: 1 1 100%;
+}
+
+.booking-summary h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.booking-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.subtotal {
+  border-top: 1px solid #eee;
+  margin-top: 20px;
+  padding-top: 15px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.right-side {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.promo-code {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.promo-code input {
+  flex: 1 1 auto;
+  min-width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.promo-code button {
+  padding: 10px 20px;
+  background-color: #eee;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pay-button,
+.reserve-button {
+  padding: 15px;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.pay-button {
+  background-color: #d4aa00;
+  color: white;
+}
+
+.reserve-button {
+  background-color: #f5f5f5;
+  color: black;
+}
+
+/* MEDIA QUERY for mobile devices */
+@media (min-width: 768px) {
+  .form-group {
+    flex: 1; /* On wider screens, go back to columns */
+  }
+
+  .booking-summary-container {
+    flex-wrap: nowrap;
+  }
+
+  .booking-summary {
+    flex: 1;
+  }
+
+  .right-side {
+    width: 300px;
+  }
+}
+
+
+
+
+
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .input-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .input-group div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  select,
+  textarea {
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fafafa;
+  }
+
+  textarea {
+    resize: vertical;
+    height: 100px;
+  }
+
+  .special-request {
+    margin-bottom: 30px;
+  }
+
+  .booking-summary1 {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #eee;
+  }
+
+  .summary-box {
+    flex: 1;
+  }
+
+  .summary-box h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .summary-box p {
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+  }
+
+  .promo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .promo-section input {
+    padding: 10px;
+    font-size: 14px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .promo-section button {
+    padding: 12px;
+    background: #000;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .promo-section button.reserve {
+    background: #f5f5f5;
+    color: #000;
+    border: 1px solid #ddd;
+  }
   
-          </div>
-      
-          <!-- PAGE 2: Booking Summary -->
-          <div id="booking-summary" class="page">
-            <div class="form-section">
-              <div class="form-group">
-                <label>Room Type</label>
-                <select>
-                  <option>Deluxe Suite</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Room Name</label>
-                <select>
-                  <option>Deluxe Single Room</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Room Number</label>
-                <input type="text" value="# 401">
-              </div>
-            </div>
-      
-            <div class="booking-summary-container">
-              <div class="booking-summary">
-                <h2>Booking Summary</h2>
-                <div class="booking-item">
-                  <span>3 Nights</span>
-                  <span>₦200,000</span>
-                </div>
-                <div class="booking-item">
-                  <span>V.A.T</span>
-                  <span>₦200,000</span>
-                </div>
-                <div class="booking-item">
-                  <span>Discount</span>
-                  <span>₦200,000</span>
-                </div>
-                <div class="subtotal">
-                  Subtotal
-                </div>
-              </div>
-      
-              <div class="right-side">
-                <div class="promo-code">
-                  <input type="text" placeholder="Enter a Promo Code">
-                  <button>Apply Code</button>
-                </div>
-                <button class="pay-button" id="go-to-form">Pay For the Room</button>
-                <button class="reserve-button">Reserve Room</button>
-              </div>
-            </div>
-          </div>
-      
-          <!-- PAGE 3: Booking Form -->
-          <div id="booking-form" class="page">
-            <div class="container">
-              <form class="booking-form">
-                <div class="input-group">
-                  <div>
-                    <label>First Name</label>
-                    <input type="text">
-                  </div>
-                  <div>
-                    <label>Last Name</label>
-                    <input type="text">
-                  </div>
-                  <div>
-                    <label>Email Address</label>
-                    <input type="email">
-                  </div>
-                </div>
-      
-                <div class="special-request">
-                  <label>Special Request</label>
-                  <textarea placeholder="Hey, i want..."></textarea>
-                </div>
-      
-                <div class="input-group">
-                  <div>
-                    <label>Room Type</label>
-                    <select>
-                      <option>Deluxe Suite</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label>Room Name</label>
-                    <select>
-                      <option>Deluxe Single Room</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label>Room Number</label>
-                    <input type="text" value="# 401">
-                  </div>
-                </div>
-      
-                <div class="booking-summary1">
-                  <div class="summary-box">
-                    <h3>Booking Summary</h3>
-                    <p><span>3 Nights</span> <span>₦200,000</span></p>
-                    <p><span>V.A.T</span> <span>₦200,000</span></p>
-                    <p><span>Discount</span> <span>₦200,000</span></p>
-                    <p><span><strong>Subtotal</strong></span> <span></span></p>
-                  </div>
-                  <div class="promo-section">
-                    <input type="text" placeholder="Enter a Promo Code">
-                    <button type="button">Apply Code</button>
-                    <button type="submit">Pay For the Room</button>
-                    <button type="button" class="reserve">Reserve Room</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+</style>
+<body>
+<div class="scroll-up-btn">
+    <i class="fas fa-angle-up"></i>
+</div>
+<nav class="navbar">
+  <div class="max-width">
+      <div class="logo"><a><img src="/de-williams/images/logo.png" style="width: 8rem;"></a></div>
+   <ul class="menu">
+            <li><a href="/index.html" class="menu-btn" >Home</a></li>
+            <li><a href="/rooms.html" class="menu-btn" >Rooms</a></li>
+                <li><a href="/about.html" class="menu-btn" >About</a></li>
+                <li><a href="/events.html" class="menu-btn" >Events</a></li>
+                <li><a href="/apartments.html" class="menu-btn" >Apartments</a></li>
+                <li><a href="/spa.html" class="menu-btn" >Spa</a></li>
+                <li><a href="/gym.html" class="menu-btn">Gym</a></li>
+
+
+                <li><a href="/booking/find-stay.html" class="menu-btn"  style=" background: #D3AE00; padding: 15px 30px; border: 1px solid rgb(255, 255, 255)"
+                  >Find stay</a></li>
+
+                  <li><a href="/booking/find-stay.html" class="menu-btn"  style="  padding: 15px 30px; border: 1px solid #D3AE00">Join</a></li>
+          </ul>
+      <div class="menu-btn">
+        <i class="fas fa-bars" style="font-weight: light"></i>
       </div>
+  </div>
+</nav>
+<section class="add">
+
+    <div>
+        <p><b>Email us</b> Reservations@dewilliamshotels.com</p>
+    </div>
+
+    <div>
+        <p><b>Call us</b> 07049830683</p>
+    </div>
+
+    <div>
+        <p><b>Visit us</b> Akala express, Opposite Bovas Filling Station, ibadan</p>
+    </div>
+        
+</section>
+
+<section style="width: 80%; position: relative; margin: auto;">
+  
+      
+      
+
+<div id="Room" class="tabcontent">
+  <div class="hotel">
+    <div class="box">
+      <i class="fa-solid fa-calendar"></i>
+      <p>In:</p>
+      <input type="text" id="checkInDate" placeholder="Check In">
+      <span>-</span>
+      <p>Out:</p>
+      <input type="text" id="checkOutDate" placeholder="Check Out">
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const checkInCalendar = flatpickr("#checkInDate", {
+          dateFormat: "Y-m-d",
+          onChange: function (selectedDates, dateStr) {
+            checkOutCalendar.set('minDate', dateStr);
+          }
+        });
+
+        const checkOutCalendar = flatpickr("#checkOutDate", {
+          dateFormat: "Y-m-d"
+        });
+      });
+    </script>
+
+    <div class="box">
+      <i class="fa-solid fa-user"></i>
+      <select id="adults" name="adults">
+        <option value="1">1 Adult</option>
+        <option value="2">2 Adults</option>
+        <option value="3">3 Adults</option>
+        <option value="4">4 Adults</option>
+        <option value="5">5 Adults</option>
+      </select>
+      <select id="children" name="children">
+        <option value="0">0 Children</option>
+        <option value="1">1 Child</option>
+        <option value="2">2 Children</option>
+        <option value="3">3 Children</option>
+        <option value="4">4 Children</option>
+      </select>
+    </div>
+
+    <div class="promo">
+      <i class="fa-solid fa-ticket"></i> Have a Promo Code?
+    </div>
+
+    <div class="box">
+      <i class="fa-solid fa-money-bill"></i>
+      <select id="currency" name="currency">
+        <option value="NGN">NGN</option>
+      </select>
+    </div>
+
+    <div class="box">
+      <button id="searchButton">Search Rooms</button>
+    </div>
+  </div>
+  <br>
+  <div id="main-wrapper">
+    <div id="room-list" class="page active">
+      <div id="loadingSpinner" class="loading-spinner">Loading available rooms...</div>
+    </div>
+    <div id="booking-summary" class="page">
+      <div class="booking-summary"></div>
+      <button class="pay-button" id="go-to-form">Pay For the Room</button>
+    </div>
+    <div id="booking-form" class="page">
+      <div class="container">
+        <form class="booking-form">
+          <div class="input-group">
+            <div>
+              <label>First Name</label>
+              <input type="text" name="first_name" required>
+            </div>
+            <div>
+              <label>Last Name</label>
+              <input type="text" name="last_name" required>
+            </div>
+            <div>
+              <label>Email Address</label>
+              <input type="email" name="email" required>
+            </div>
+
+            <div>
+              <label>Phone Number</label>
+              <input type="tel" name="phone" required>
+            </div>
+          </div>
+
+          <div class="special-request">
+            <label>Special Request</label>
+            <textarea name="special_request" placeholder="Hey, i want..."></textarea>
+          </div>
+
+          <!-- Dynamic summary content -->
+          <div class="form-room-summary"></div>
+
+          
+          </div>
+
+          <div class="booking-summary1">
+          <div class="promo-section">
+  <button type="submit" id="reserveBtn">Reserve This Room</button>
+  <button type="submit" id="payNowBtn">Pay now</button>
+</div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.page {
+  display: none;
+  transition: all 0.4s ease-in-out;
+}
+
+.page.active {
+  display: block;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  color: #555;
+  display: none;
+}
+</style>
+
+<script>
+const checkInInput = document.getElementById("checkInDate");
+const checkOutInput = document.getElementById("checkOutDate");
+const adultSelect = document.getElementById("adults");
+const childrenSelect = document.getElementById("children");
+const currencySelect = document.getElementById("currency");
+const roomListContainer = document.getElementById("room-list");
+const goToFormBtn = document.getElementById("go-to-form");
+const bookingSummaryPage = document.getElementById("booking-summary");
+const bookingFormPage = document.getElementById("booking-form");
+const searchButton = document.getElementById("searchButton");
+const bookingForm = document.querySelector(".booking-form");
+
+let selectedRoomId = null;
+let selectedRoomSummary = null;
+
+// Navigation helper
+function navigateTo(pageId) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(pageId).classList.add("active");
+}
+
+// Validation helper
+function isValidSearchData() {
+  const check_in = checkInInput.value;
+  const check_out = checkOutInput.value;
+  const adult = parseInt(adultSelect.value);
+
+  // Basic validation: all fields filled and at least 1 adult
+  if (!check_in || !check_out || isNaN(adult) || adult < 1) {
+    alert("Please make sure to fill in valid Check-in date, Check-out date, and number of Adults (at least 1).");
+    return false;
+  }
+
+  // Check that check-in is before check-out
+  if (new Date(check_in) >= new Date(check_out)) {
+    alert("Check-out date must be after Check-in date.");
+    return false;
+  }
+
+  return true;
+}
+
+// Search function
+async function fetchRoomList() {
+  if (!isValidSearchData()) return;
+
+  const loadingSpinner = document.getElementById("loadingSpinner");
+  loadingSpinner.style.display = "block";
+
+  const check_in = checkInInput.value;
+  const check_out = checkOutInput.value;
+  const adult = parseInt(adultSelect.value);
+  const children = parseInt(childrenSelect.value);
+
+  try {
+    const response = await fetch("https://hms-api-okfi.onrender.com/guest/find-stay/room_service/anonymous", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-hotel-domain': 'dewilliams.com'
+      },
+      body: JSON.stringify({
+        check_in,
+        check_out,
+        guests: { adult, children, infant: 0 }
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      renderRooms(data.data);
+      navigateTo("room-list");
+    } else {
+      alert("Failed to load rooms: " + (data.message || "Unknown error"));
+    }
+
+  } catch (error) {
+    alert("An error occurred while fetching rooms. Please try again.");
+    console.error(error);
+  } finally {
+    loadingSpinner.style.display = "none";
+  }
+}
+
+// Attach search to button click
+searchButton.addEventListener("click", fetchRoomList);
+
+function renderRooms(rooms) {
+  roomListContainer.innerHTML = "";
+  rooms.forEach(room => {
+    const card = document.createElement("div");
+    card.className = "cardo";
+    card.innerHTML = `
+      <div class="top-section">
+        <div class="left-section">
+          <div class="room-details">
+            <h2>${room.category.name}</h2>
+            <div class="price-per-night">From NGN${room.category.price.base_price} / Night</div>
+            <div class="room-description">${room.category.description.split(".")[0]}.</div>
+            <div class="icons">
+              <div>🛁 ${room.no_of_bathrooms} Bathroom</div>
+              <div>🛏️ ${room.bed_type}</div>
+              <div>🧍‍♂️ Sleeps ${room.max_guest_no}</div>
+            </div>
+          </div>
+          <div class="room-image">
+            <img src="/images/room.jpg" alt="Room Image">
+          </div>
         </div>
-      
-        <script>
-          const pages = document.querySelectorAll('.page');
-          const bookButtons = document.querySelectorAll('.book-button');
-          const goToFormBtn = document.getElementById('go-to-form');
-      
-          function navigateTo(pageId) {
-            pages.forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-          }
-      
-          bookButtons.forEach(button => {
-            button.addEventListener('click', () => navigateTo('booking-summary'));
-          });
-      
-          goToFormBtn.addEventListener('click', () => navigateTo('booking-form'));
-        </script>
-      
-        <style>
-          .page {
-            display: none;
-            transition: all 0.4s ease-in-out;
-          }
-          .page.active {
-            display: block;
-          }
-        </style>
+        <div class="right-section">
+          <h3>Booking Details</h3>
+          <p>📅 ${checkInInput.value} – ${checkOutInput.value}</p>
+          <p>👥 ${adultSelect.value} Adults, ${childrenSelect.value} Children</p>
+        </div>
+      </div>
+      <div class="bottom-section">
+        <div class="price-info">NGN ${room.category.price.base_price} 
+          <span>Cost for 1 night, ${room.guest_no} guests</span>
+        </div>
+        <div class="action-group">
+          <div class="pay-later">✔️ Book now, Pay later</div>
+          <button class="book-button" data-room-id="${room.id}">Book Now</button>
+        </div>
+      </div>
+    `;
+    roomListContainer.appendChild(card);
+
+    card.querySelector(".book-button").addEventListener("click", async () => {
+      selectedRoomId = room.id;
+      await fetchBookingSummary(selectedRoomId);
+      navigateTo("booking-summary");
+    });
+  });
+}
+
+async function fetchBookingSummary(roomId) {
+  const check_in = checkInInput.value;
+  const check_out = checkOutInput.value;
+  const adult = adultSelect.value;
+  const currency = currencySelect.value;
+
+  const url = `https://hms-api-okfi.onrender.com/guest/find-stay/room_service/${roomId}/summary/anonymous?check_in=${check_in}&check_out=${check_out}&adult=${adult}&currency=${currency}`;
+
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'x-hotel-domain': 'dewilliams.com'
+      }
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      selectedRoomSummary = data.data;
+      updateBookingSummaryUI(data.data);
+    } else {
+      alert("Failed to fetch booking summary.");
+    }
+  } catch (error) {
+    console.error("Summary error:", error);
+    alert("Error fetching booking summary.");
+  }
+}
+
+function updateBookingSummaryUI(summary) {
+  const summaryBox = bookingSummaryPage.querySelector(".booking-summary");
+  summaryBox.innerHTML = `
+  <div class="summary-box">
+    <h3>${summary.room_service.category.name}</h3>
+    <p><strong>Room Number:</strong> ${summary.room_service.inventory_id}</p>
+    <p><strong>No Of Nights: </strong>${summary.pricing.nights} Night(s)</p>
+    <p><strong>Subtotal:</strong> ₦${Number(summary.pricing.subtotal).toLocaleString()}</p>
+    <p><strong>Tax:</strong> ₦${Number(summary.pricing.tax).toLocaleString()}</p>
+    <p><strong>Discount:</strong> ₦${Number(summary.pricing.discount).toLocaleString()}</p>
+    <p><strong>Total:</strong> ₦${Number(summary.pricing.total).toLocaleString()}</p>
+  </div>
+  `;
+}
+
+goToFormBtn.addEventListener("click", () => {
+  if (!selectedRoomSummary) {
+    alert("Please select a room first.");
+    return;
+  }
+  updateBookingFormDetails(selectedRoomSummary);
+  navigateTo("booking-form");
+});
+
+function updateBookingFormDetails(summary) {
+  const formSummaryBox = bookingFormPage.querySelector(".form-room-summary");
+  if (!formSummaryBox) return;
+
+  formSummaryBox.innerHTML = `
+  <div class="summary-box">
+    <h3>Your Selected Room</h3>
+    <p><strong>Room Type:</strong> ${summary.room_service.category.name}</p>
+    <p><strong>Room Number:</strong> ${summary.room_service.inventory_id}</p>
+    <p><strong>Check-in:</strong> ${checkInInput.value}</p>
+    <p><strong>Check-out:</strong> ${checkOutInput.value}</p>
+    <p><strong>Guests:</strong> ${adultSelect.value} Adults, ${childrenSelect.value} Children</p>
+    <p><strong>Total:</strong> ${summary.pricing.currency} ${Number(summary.pricing.total).toLocaleString()}</p>
+  </div>
+  `;
+}
+
+  const reserveBtn = document.querySelector("button#reserveBtn");
+  const payNowBtn = document.querySelector("button#payNowBtn");
+
+  async function handleBooking(payNow = false) {
+    if (!selectedRoomId) {
+      alert("No room selected for booking.");
+      return;
+    }
+
+    const formData = new FormData(bookingForm);
+    const payload = {
+      check_in: checkInInput.value,
+      check_out: checkOutInput.value,
+      first_name: formData.get("first_name") ,
+      last_name: formData.get("last_name") ,
+      email: formData.get("email") ,
+      phone: formData.get ("phone"),
+      guests: {
+        adult: parseInt(adultSelect.value),
+        children: parseInt(childrenSelect.value),
+        infant: 0
+      },
+      special_request: formData.get("special_request") || ""
+    };
+
+    const res = await fetch(`https://hms-api-okfi.onrender.com/guest/find-stay/room_service/${selectedRoomId}/book/anonymous?pay_now=${payNow}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-hotel-domain": "dewilliams.com"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      const guest = result.data.guest;
+      const total = result.data.total.toLocaleString();
+      const currency = result.data.currency;
+      const ref = result.data.transaction_ref;
+
+      if (payNow) {
+        // Redirect to Paystack link
+        window.location.href = result.data.payment_link;
+      } else {
+        alert(`✅ Room Reserved Successfully!\n\nRef: ${ref}\nTotal: ${currency} ${total}\nName: ${guest.name}\nEmail: ${guest.email}\n\nPlease come to the hotel to confirm and pay. Note that this reservation has just 24 hrs validity.`);
+        location.reload();
+      }
+    } else {
+      alert("Booking failed. Please try again.");
+    }
+  }
+
+  reserveBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    handleBooking(false);
+  });
+
+  payNowBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    handleBooking(true);
+  });
+
+
+window.addEventListener("DOMContentLoaded", fetchRoomList);
+searchButton.addEventListener("click", fetchRoomList);
+</script>
+
+
+
+
+  
+</section>
+
+<section>
+    <footer class="max-width">
+        <div class="foot">
+        <div class="foot-content">
+            <div class="card">
+            <p>Home</p>
+            <p>Members Benefits</p>
+            <p>Rooms</p>
+            <p>About Us</p>
+            <p>Service Policy</p>
+            </div>
+        </div>
+        
+        <div class="foot">
+        <div class="foot-content">
+            <div class="card">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.9259484781614!2d3.8476867751168338!3d7.36219779264691!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10398d249afcff9d%3A0x35e2f834f764fae!2sDe-Williams%20Place!5e0!3m2!1sen!2sng!4v1739991468036!5m2!1sen!2sng"  style="border:0; width: 100%; height: 50vh" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+        
+        </div>
+        </div>
+    </footer>
+</section>
+
+<p style="font-size: small; background-color: white; text-align: center; font-family: 'Darker Grotesque'; padding: 10px; color: 
+#676767;">All Rights Reserved - <i class="fa fa-copyright"></i> 2025 <span style="color: #d3ae00;">De-williams luxury hotel</span></p>
+<script src="/de-williams/booking/script.js"></script>
+
+
+    <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6859499708902e190c9367ea/1iueceu47';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
 </body>
 </html>
