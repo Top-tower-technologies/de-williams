@@ -25,7 +25,7 @@
 <script src="/hms/assets/js/app.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  if (getUser()) window.location.replace('dashboard.html');
+  if (getUser()) window.location.replace('./dashboard.html');
   document.getElementById('loginBtn').addEventListener('click', login);
 });
 document.getElementById('password').addEventListener('keydown', event => {
