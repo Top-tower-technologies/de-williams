@@ -16,7 +16,6 @@
         <input id="username" placeholder="Username" autocomplete="username">
         <input id="password" type="password" placeholder="Password" autocomplete="current-password">
         <button class="btn gold" id="loginBtn" type="button">Login</button>
-        <p>Demo: frontdesk/front123 · accountant/account123 · admin/admin123</p>
       </div>
     </div>
   </div>
@@ -25,7 +24,7 @@
 <script src="/hms/assets/js/app.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  if (getUser()) window.location.replace('./dashboard.html');
+  if (getUser()) window.location.replace('/hms/admin/dashboard.html');
   document.getElementById('loginBtn').addEventListener('click', login);
 });
 document.getElementById('password').addEventListener('keydown', event => {

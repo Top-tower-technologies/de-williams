@@ -24,14 +24,16 @@
       .replace(/'/g, '&#039;');
   }
 
-  function toQuery(params = {}) {
-    const query = new URLSearchParams();
-    Object.keys(params).forEach(key => {
-      const value = params[key];
-      if (value !== undefined && value !== null && String(value) !== '') query.append(key, value);
-    });
-    return query.toString();
-  }
+  window.toQuery = function (params = {}) {
+  const query = new URLSearchParams();
+  Object.keys(params).forEach(key => {
+    const value = params[key];
+    if (value !== undefined && value !== null && String(value) !== '') {
+      query.append(key, value);
+    }
+  });
+  return query.toString();
+};
 
   async function apiRequest(endpoint, options = {}) {
     const hasBody = Object.prototype.hasOwnProperty.call(options, 'body');
