@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Check in Guest</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<div class="app">
+  <div id="side"></div>
+  <main class="main">
+    <h1>Check in Guest</h1>
+    <div class="card">
+      <p>Enter the guest booking ID / check-in code to confirm arrival.</p>
+      <div class="form two">
+        <input id="bookingId" placeholder="Booking ID / Check-in Code">
+        <button class="btn gold" id="checkinBtn" type="button">Check in Guest</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="../assets/js/app.js"></script>
+<script>
+let currentUser = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  currentUser = await loadSidebar(['frontdesk', 'super_admin']);
+  document.getElementById('checkinBtn').addEventListener('click', checkinGuest);
+});
+
+async function checkinGuest() {
+  const bookingId = document.getElementById('bookingId').value.trim();
+  if (!bookingId) return notify('Please enter a booking ID.', 'Booking ID Required', 'error');
+
+  try {
+    const booking = await api('bookings.php', {
+      method: 'PUT',
+      body: JSON.stringify({
+        bookingId,
+        action: 'check_in',
+        actor: currentUser.username
+      })
+    });
+
+    const guest = booking.guest || {};
+    notify(
+      `Guest: ${guest.firstName || ''} ${guest.lastName || ''}\nRoom: ${booking.roomNumber} ${booking.roomType}`,
+      'Checked In Successfully',
+      'success'
+    );
+  } catch (error) {
+    notify(error.message, 'Check-in Failed', 'error');
+  }
+}
+</script>
+</body>
+</html>

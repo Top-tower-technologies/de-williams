@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Revenue</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<div class="app">
+  <div id="side"></div>
+  <main class="main">
+    <div class="topbar">
+      <h1>Revenue</h1>
+      <button class="btn gold" id="downloadBtn" type="button">Download Revenue Report</button>
+    </div>
+    <div class="card">
+      <div class="form two"><input type="date" id="from"><input type="date" id="to"></div>
+    </div>
+    <br>
+    <section class="grid cards" id="cards"></section>
+  </main>
+</div>
+<script src="../assets/js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const currentUser = await loadSidebar(['accountant', 'super_admin']);
+  if (!currentUser) return;
+  document.getElementById('downloadBtn').addEventListener('click', downloadReport);
+  loadRevenue();
+});
+
+async function loadRevenue() {
+  try {
+    const data = await api('dashboard.php');
+    document.getElementById('cards').innerHTML = `
+      <div class="card"><h3>Daily Revenue</h3><div class="value">${money(data.cards.dailyRevenue)}</div></div>
+      <div class="card"><h3>Total Revenue</h3><div class="value">${money(data.cards.totalRevenue)}</div></div>
+      <div class="card"><h3>Occupancy Rate</h3><div class="value">${escapeHtml(data.cards.occupancyRate)}%</div></div>
+    `;
+  } catch (error) {
+    notify(error.message, 'Revenue Error', 'error');
+  }
+}
+</script>
+</body>
+</html>

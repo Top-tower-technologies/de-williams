@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Bookings</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<div class="app">
+  <div id="side"></div>
+
+  <main class="main">
+    <div class="topbar">
+      <h1>Bookings</h1>
+      <button class="btn gold" type="button" id="downloadBtn">Download Excel/CSV</button>
+    </div>
+
+    <div class="card">
+      <div class="form two">
+        <select id="statusFilter">
+          <option value="">All Status</option>
+          <option value="pending_reservation">Pending</option>
+          <option value="partial_reservation">Partial Reservation</option>
+          <option value="reserved">Reserved</option>
+          <option value="checked_in">Checked in</option>
+          <option value="checked_out">Checked out</option>
+          <option value="due_checkout">Due checkout</option>
+          <option value="expired">Expired</option>
+        </select>
+        <input type="date" id="dateFilter">
+        <input id="searchFilter" placeholder="Search name, phone or booking ID">
+        <div>
+          <input type="date" id="from">
+          <input type="date" id="to">
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Full Name</th>
+            <th>Phone</th>
+            <th>Source</th>
+            <th>Issue Date</th>
+            <th>Checkin</th>
+            <th>Checkout</th>
+            <th>Room</th>
+            <th>Occupancy</th>
+            <th>Total</th>
+            <th>Paid</th>
+            <th>Discount</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="bookingsTableBody">
+          <tr><td colspan="14" class="muted">Loading bookings...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<script src="../assets/js/app.js"></script>
+<script>
+const BookingsPage = {
+  records: {},
+  currentUser: null,
+
+  elements: {
+    body: document.getElementById('bookingsTableBody'),
+    status: document.getElementById('statusFilter'),
+    date: document.getElementById('dateFilter'),
+    search: document.getElementById('searchFilter'),
+    download: document.getElementById('downloadBtn')
+  },
+
+  async init() {
+    this.bindEvents();
+    this.currentUser = await loadSidebar();
+    if (!this.currentUser) return;
+    showFlashIfAny();
+    await this.loadBookings();
+  },
+
+  bindEvents() {
+    this.elements.status.addEventListener('change', () => this.loadBookings());
+    this.elements.date.addEventListener('change', () => this.loadBookings());
+    this.elements.search.addEventListener('input', () => this.loadBookings());
+    this.elements.download.addEventListener('click', downloadReport);
+
+    document.addEventListener('click', event => {
+      const button = event.target.closest('[data-booking-action]');
+      if (!button) return;
+
+      const bookingId = button.getAttribute('data-booking-id');
+      const action = button.getAttribute('data-booking-action');
+      this.handleAction(action, bookingId);
+    });
+  },
+
+  async loadBookings() {
+    try {
+      this.elements.body.innerHTML = '<tr><td colspan="14" class="muted">Loading bookings...</td></tr>';
+
+      const query = new URLSearchParams({
+        status: this.elements.status.value,
+        date: this.elements.date.value,
+        search: this.elements.search.value.trim()
+      }).toString();
+
+      const bookings = await api('bookings.php?' + query);
+      this.records = {};
+
+      bookings.forEach(booking => {
+        this.records[booking.bookingId] = booking;
+      });
+
+      this.elements.body.innerHTML = bookings.length
+        ? bookings.map(booking => this.renderRow(booking)).join('')
+        : '<tr><td colspan="14" class="muted">No booking found.</td></tr>';
+
+      applyRole(this.currentUser.role);
+    } catch (error) {
+      this.elements.body.innerHTML = '<tr><td colspan="14" class="muted">Unable to load bookings.</td></tr>';
+      notify(error.message, 'Unable to Load Bookings', 'error');
+    }
+  },
+
+  renderRow(booking) {
+    const guest = booking.guest || {};
+    const fullName = `${guest.firstName || ''} ${guest.lastName || ''}`.trim() || 'N/A';
+    const saved = Number(booking.discountAmount || (Number(booking.subtotal || 0) - Number(booking.total || 0)));
+
+    return `
+      <tr>
+        <td>${escapeHtml(booking.bookingId)}</td>
+        <td>${escapeHtml(fullName)}</td>
+        <td>${escapeHtml(guest.phone || 'N/A')}</td>
+        <td>${escapeHtml(booking.source || 'frontdesk')}</td>
+        <td>${escapeHtml(booking.issueDate || 'N/A')}</td>
+        <td>${escapeHtml(booking.checkin || 'N/A')}</td>
+        <td>${escapeHtml(booking.checkout || 'N/A')}</td>
+        <td>${escapeHtml(`${booking.roomNumber || ''} ${booking.roomType || ''}`.trim() || 'N/A')}</td>
+        <td>${escapeHtml(booking.occupancy || 'N/A')}</td>
+        <td>${money(booking.total)}<br><small class="muted">Bal: ${money(booking.balance || 0)}</small></td>
+        <td>${money(booking.amountPaid || 0)}<br><small class="muted">${escapeHtml(booking.paymentStatus || 'unpaid')}</small></td>
+        <td>${booking.discountPercent ? `<span class="discount-badge">${booking.discountPercent}% off</span><br><small class="muted">Saved ${money(saved)}</small>` : 'No discount'}</td>
+        <td>${statusLabel(booking.status)}</td>
+        <td>${this.renderActions(booking)}</td>
+      </tr>
+    `;
+  },
+
+  renderActions(booking) {
+    const id = escapeHtml(booking.bookingId);
+    const status = booking.status;
+    const balance = Number(booking.balance || 0);
+    const viewButton = `<button class="btn ghost" type="button" data-booking-action="view" data-booking-id="${id}">View</button>`;
+
+    if (status === 'checked_out' || status === 'expired') {
+      return `${viewButton} <span class="muted">Closed</span>`;
+    }
+
+    let buttons = `${viewButton} `;
+
+    if (status === 'pending_reservation') {
+      buttons += `<button data-no-accountant class="btn gold" type="button" data-booking-action="pay" data-booking-id="${id}">Pay</button> `;
+    }
+
+    if (status === 'partial_reservation' || (status === 'reserved' && balance > 0)) {
+      buttons += `<button data-no-accountant class="btn gold" type="button" data-booking-action="complete_payment" data-booking-id="${id}">Complete Payment</button> `;
+    }
+
+    if (status === 'reserved' && balance <= 0) {
+      buttons += `<button data-no-accountant class="btn" type="button" data-booking-action="check_in" data-booking-id="${id}">Check in</button> `;
+    }
+
+    if (status === 'checked_in') {
+      buttons += `<button data-no-accountant class="btn" type="button" data-booking-action="check_out" data-booking-id="${id}">Checkout</button> `;
+    }
+
+    return buttons;
+  },
+
+  handleAction(action, bookingId) {
+    if (action === 'view') return this.viewBooking(bookingId);
+    if (action === 'pay') return this.openPaymentModal(bookingId, 'Record Payment');
+    if (action === 'complete_payment') return this.openPaymentModal(bookingId, 'Complete Payment');
+    if (action === 'check_in') return this.updateBooking(bookingId, 'check_in');
+    if (action === 'check_out') return this.updateBooking(bookingId, 'check_out');
+  },
+
+  viewBooking(bookingId) {
+    const booking = this.records[bookingId];
+    if (!booking) return notify('Booking record was not found on this page.', 'Not Found', 'error');
+
+    const guest = booking.guest || {};
+    const saved = Number(booking.discountAmount || (Number(booking.subtotal || 0) - Number(booking.total || 0)));
+
+    showModal({
+      title: 'Guest Details',
+      html: `
+        <div class="summary modal-grid">
+          <p><b>Booking ID:</b> ${escapeHtml(booking.bookingId)}</p>
+          <p><b>Guest:</b> ${escapeHtml(`${guest.firstName || ''} ${guest.lastName || ''}`.trim() || 'N/A')}</p>
+          <p><b>Phone:</b> ${escapeHtml(guest.phone || 'N/A')}</p>
+          <p><b>Email:</b> ${escapeHtml(guest.email || 'N/A')}</p>
+          <p><b>Address:</b> ${escapeHtml(guest.address || 'N/A')}</p>
+          <p><b>ID Type:</b> ${escapeHtml(guest.idType || 'N/A')}</p>
+          <p><b>ID Number:</b> ${escapeHtml(guest.idNumber || 'N/A')}</p>
+          <p><b>Source:</b> ${escapeHtml(booking.source || 'N/A')}</p>
+          <p><b>Room:</b> ${escapeHtml(`${booking.roomNumber || 'N/A'} ${booking.roomType || ''}`)}</p>
+          <p><b>Check-in:</b> ${escapeHtml(booking.checkin || 'N/A')}</p>
+          <p><b>Check-out:</b> ${escapeHtml(booking.checkout || 'N/A')}</p>
+          <p><b>Occupancy:</b> ${escapeHtml(booking.occupancy || 'N/A')}</p>
+          <p><b>Total:</b> ${money(booking.total)}</p>
+          <p><b>Amount Paid:</b> ${money(booking.amountPaid || 0)}</p>
+          <p><b>Balance:</b> ${money(booking.balance || 0)}</p>
+          <p><b>Payment Method:</b> ${escapeHtml(booking.paymentMethod || 'N/A')}</p>
+          <p><b>Payment Status:</b> ${escapeHtml(booking.paymentStatus || 'unpaid')}</p>
+          <p><b>Status:</b> ${escapeHtml(cleanStatus(booking.status))}</p>
+          <p><b>Discount:</b> ${booking.discountPercent ? `${booking.discountPercent}% (${money(saved)} saved)` : 'No discount'}</p>
+          ${booking.expiresAt ? `<p><b>Reservation expires:</b> ${new Date(booking.expiresAt).toLocaleString()}</p>` : ''}
+          <p><b>Special Request:</b> ${escapeHtml(guest.specialRequest || 'None')}</p>
+        </div>
+      `
+    });
+  },
+
+  async openPaymentModal(bookingId, modalTitle) {
+    const booking = this.records[bookingId];
+    if (!booking) return notify('Booking record was not found on this page.', 'Not Found', 'error');
+
+    const balance = Number(booking.balance || 0);
+    if (balance <= 0) return notify('This booking has no outstanding balance.', 'No Balance Due', 'info');
+
+    const guest = booking.guest || {};
+    const values = await showFormModal({
+      title: modalTitle,
+      okText: 'Confirm Payment',
+      html: `
+        <div class="summary">
+          <p><b>Guest:</b> ${escapeHtml(`${guest.firstName || ''} ${guest.lastName || ''}`.trim() || 'N/A')}</p>
+          <p><b>Room:</b> ${escapeHtml(`${booking.roomNumber || 'N/A'} ${booking.roomType || ''}`)}</p>
+          <p><b>Total Amount:</b> ${money(booking.total)}</p>
+          <p><b>Already Paid:</b> ${money(booking.amountPaid || 0)}</p>
+          <h3>Amount Due: ${money(balance)}</h3>
+        </div>
+        <div class="form">
+          <label for="amountPaid">Amount to Pay</label>
+          <input id="amountPaid" name="amountPaid" type="number" min="1" max="${balance}" value="${balance}" placeholder="Amount paid">
+
+          <label for="paymentMethod">Mode of Payment</label>
+          <select id="paymentMethod" name="paymentMethod">
+            <option value="transfer">Transfer</option>
+            <option value="pos">POS</option>
+            <option value="card">Card</option>
+            <option value="cash">Cash</option>
+          </select>
+
+          <label for="receiptNumber">Receipt / Transaction Number</label>
+          <input id="receiptNumber" name="receiptNumber" placeholder="Receipt / Transaction Number">
+
+          <label for="posTerminalId">POS Terminal ID</label>
+          <input id="posTerminalId" name="posTerminalId" placeholder="POS Terminal ID">
+        </div>
+      `
+    });
+
+    if (!values) return;
+
+    const amount = Number(values.amountPaid || 0);
+    if (amount <= 0) return notify('Amount paid must be greater than zero.', 'Payment Error', 'error');
+    if (amount > balance) return notify('Amount paid cannot be greater than the outstanding balance.', 'Payment Error', 'error');
+
+    try {
+      const updatedBooking = await api('bookings.php', {
+        method: 'PUT',
+        body: JSON.stringify({
+          bookingId: booking.bookingId,
+          action: 'record_payment',
+          paymentMethod: values.paymentMethod,
+          amountPaid: amount,
+          receiptNumber: values.receiptNumber,
+          posTerminalId: values.posTerminalId,
+          actor: this.currentUser.username
+        })
+      });
+
+      const message = Number(updatedBooking.balance || 0) > 0
+        ? `Payment recorded successfully. Balance left: ${money(updatedBooking.balance)}. Status is now partial reservation.`
+        : 'Payment completed successfully. Booking is now reserved.';
+
+      await notify(message, 'Payment Successful', 'success');
+      await this.loadBookings();
+    } catch (error) {
+      notify(error.message, 'Payment Failed', 'error');
+    }
+  },
+
+  async updateBooking(bookingId, action) {
+    const booking = this.records[bookingId];
+    if (!booking) return notify('Booking record was not found on this page.', 'Not Found', 'error');
+
+    const guest = booking.guest || {};
+    const guestName = `${guest.firstName || ''} ${guest.lastName || ''}`.trim() || 'this guest';
+    const message = action === 'check_out'
+      ? `Confirm checkout for ${guestName}?`
+      : `Confirm check-in for ${guestName}?`;
+
+    const confirmed = await askConfirm(message);
+    if (!confirmed) return;
+
+    try {
+      await api('bookings.php', {
+        method: 'PUT',
+        body: JSON.stringify({
+          bookingId,
+          action,
+          actor: this.currentUser.username
+        })
+      });
+
+      await notify('Booking updated successfully.', 'Success', 'success');
+      await this.loadBookings();
+    } catch (error) {
+      notify(error.message, 'Action Failed', 'error');
+    }
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => BookingsPage.init());
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HMS Login</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="brand">DE-WILLIAMS HMS <small>Admin Portal</small></div>
+    <div class="booking-panel" style="max-width:460px">
+      <h2>Staff Login</h2>
+      <div class="form">
+        <input id="username" placeholder="Username" autocomplete="username">
+        <input id="password" type="password" placeholder="Password" autocomplete="current-password">
+        <button class="btn gold" id="loginBtn" type="button">Login</button>
+        <p>Demo: frontdesk/front123 · accountant/account123 · admin/admin123</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="../assets/js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (getUser()) window.location.replace('dashboard.html');
+  document.getElementById('loginBtn').addEventListener('click', login);
+});
+document.getElementById('password').addEventListener('keydown', event => {
+  if (event.key === 'Enter') login();
+});
+
+async function login() {
+  try {
+    const loggedInUser = await api('auth.php', {
+      method: 'POST',
+      body: JSON.stringify({
+        username: document.getElementById('username').value.trim(),
+        password: document.getElementById('password').value
+      })
+    });
+
+    localStorage.setItem('dw_user', JSON.stringify(loggedInUser));
+    setFlash('Login successful. Welcome to De-Williams HMS.', 'Welcome', 'success');
+    window.location.replace('dashboard.html');
+  } catch (error) {
+    notify(error.message, 'Login Failed', 'error');
+  }
+}
+</script>
+</body>
+</html>

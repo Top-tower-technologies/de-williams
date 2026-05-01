@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<div class="app">
+  <div id="side"></div>
+  <main class="main">
+    <div class="topbar">
+      <h1>Dashboard</h1>
+      <span class="pill" data-user></span>
+    </div>
+    <section class="grid cards" id="cards"></section>
+    <h2>Whitney Board</h2>
+    <section class="grid board" id="board"></section>
+  </main>
+</div>
+<script src="../assets/js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const currentUser = await loadSidebar();
+  if (!currentUser) return;
+  showFlashIfAny();
+  loadDashboard();
+});
+
+async function loadDashboard() {
+  try {
+    const data = await api('dashboard.php');
+    const cards = data.cards;
+    document.getElementById('cards').innerHTML = [
+      dashboardCard('Total Bookings', cards.totalBookings),
+      dashboardCard('Occupied Rooms', cards.occupiedRooms),
+      dashboardCard('Available Rooms', cards.availableRooms),
+      dashboardCard('Reservations Today', cards.reservationsToday),
+      dashboardCard('Checkout Today', cards.checkoutToday),
+      dashboardCard('Occupancy Rate', cards.occupancyRate + '%'),
+      dashboardCard('Daily Revenue', money(cards.dailyRevenue)),
+      dashboardCard('Total Revenue', money(cards.totalRevenue))
+    ].join('');
+
+    document.getElementById('board').innerHTML = data.rooms.map(room => `
+      <div class="board-card status ${escapeHtml(room.status)}">
+        Room ${escapeHtml(room.number)}
+        <small>${escapeHtml(room.type)}</small>
+        <small>${escapeHtml(cleanStatus(room.status))}</small>
+      </div>
+    `).join('');
+  } catch (error) {
+    notify(error.message, 'Dashboard Error', 'error');
+  }
+}
+
+function dashboardCard(title, value) {
+  return `<div class="card"><h3>${escapeHtml(title)}</h3><div class="value">${escapeHtml(value)}</div></div>`;
+}
+</script>
+</body>
+</html>

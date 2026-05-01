@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Walk-in Reservation</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<div class="app">
+  <div id="side"></div>
+
+  <main class="main">
+    <div class="topbar">
+      <h1>Walk-in Reservation</h1>
+      <span class="pill" data-user></span>
+    </div>
+
+    <div class="card">
+      <div class="form two">
+        <input type="date" id="checkin" aria-label="Check-in date">
+        <input type="date" id="checkout" aria-label="Check-out date">
+        <input id="occupancy" placeholder="2 adults">
+        <input id="promoCode" placeholder="Discount / promo code">
+        <label class="checkline"><input type="checkbox" id="groupBooking"> Group booking</label>
+        <button class="btn gold" id="searchBtn" type="button">Search Rooms</button>
+      </div>
+      <p class="muted">Reserved and pending rooms will be displayed, but only available rooms can be selected.</p>
+    </div>
+
+    <br>
+    <div id="rooms" class="room-grid"></div>
+
+    <br>
+    <div id="guestBox" class="card hidden">
+      <h2>Guest Details</h2>
+      <div id="selectedSummary" class="summary"></div>
+
+      <br>
+      <div class="form two">
+        <input id="firstName" placeholder="First name">
+        <input id="lastName" placeholder="Last name">
+        <input id="email" placeholder="Email">
+        <input id="phone" placeholder="Phone">
+        <input id="address" placeholder="Address">
+        <select id="idType">
+          <option>National ID</option>
+          <option>Passport</option>
+          <option>Driver License</option>
+        </select>
+        <input id="idNumber" placeholder="ID Number">
+        <textarea id="specialRequest" placeholder="Special request"></textarea>
+        <select id="paymentMethod">
+          <option value="pos">POS</option>
+          <option value="card">Card</option>
+          <option value="transfer">Transfer</option>
+          <option value="cash">Cash</option>
+        </select>
+        <input id="posTerminalId" placeholder="POS Terminal ID">
+        <input id="receiptNumber" placeholder="Receipt Number">
+        <input id="amountPaid" type="number" placeholder="Amount paid">
+      </div>
+
+      <br>
+      <button class="btn gold" id="reserveBtn" type="button">Book Room / Reserve</button>
+      <button class="btn" id="checkinBtn" type="button">Book Room / Check in</button>
+    </div>
+  </main>
+</div>
+
+<script src="../assets/js/app.js"></script>
+<script>
+const WalkInPage = {
+  currentUser: null,
+  rooms: [],
+  selectedRooms: [],
+  el: {},
+
+  async init() {
+    this.el = {
+      checkin: document.getElementById('checkin'),
+      checkout: document.getElementById('checkout'),
+      occupancy: document.getElementById('occupancy'),
+      promoCode: document.getElementById('promoCode'),
+      groupBooking: document.getElementById('groupBooking'),
+      rooms: document.getElementById('rooms'),
+      guestBox: document.getElementById('guestBox'),
+      selectedSummary: document.getElementById('selectedSummary'),
+      firstName: document.getElementById('firstName'),
+      lastName: document.getElementById('lastName'),
+      email: document.getElementById('email'),
+      phone: document.getElementById('phone'),
+      address: document.getElementById('address'),
+      idType: document.getElementById('idType'),
+      idNumber: document.getElementById('idNumber'),
+      specialRequest: document.getElementById('specialRequest'),
+      paymentMethod: document.getElementById('paymentMethod'),
+      posTerminalId: document.getElementById('posTerminalId'),
+      receiptNumber: document.getElementById('receiptNumber'),
+      amountPaid: document.getElementById('amountPaid'),
+      searchBtn: document.getElementById('searchBtn'),
+      reserveBtn: document.getElementById('reserveBtn'),
+      checkinBtn: document.getElementById('checkinBtn')
+    };
+
+    this.currentUser = await loadSidebar(['frontdesk', 'super_admin']);
+    if (!this.currentUser) return;
+
+    this.el.searchBtn.addEventListener('click', () => this.searchRooms());
+    this.el.reserveBtn.addEventListener('click', () => this.createBooking('reserve'));
+    this.el.checkinBtn.addEventListener('click', () => this.createBooking('check_in'));
+    this.el.groupBooking.addEventListener('change', () => this.resetSelection());
+    this.el.amountPaid.addEventListener('input', () => this.renderSelected());
+  },
+
+  nights() {
+    if (!this.el.checkin.value || !this.el.checkout.value) return 1;
+    return Math.max(1, Math.round((new Date(this.el.checkout.value) - new Date(this.el.checkin.value)) / 86400000));
+  },
+
+  async searchRooms() {
+    if (!this.el.checkin.value || !this.el.checkout.value) {
+      return notify('Please select both check-in and check-out dates.', 'Date Required', 'error');
+    }
+
+    try {
+      const query = toQuery({
+        checkin: this.el.checkin.value,
+        checkout: this.el.checkout.value,
+        promoCode: this.el.promoCode.value.trim(),
+        includeBlocked: 1
+      });
+      const data = await api('rooms.php?' + query);
+      this.rooms = data.rooms || [];
+      this.selectedRooms = [];
+      this.renderRooms();
+      this.renderSelected();
+      this.el.guestBox.classList.add('hidden');
+      notify('Room search completed.', 'Search Successful', 'success');
+    } catch (error) {
+      notify(error.message, 'Search Failed', 'error');
+    }
+  },
+
+  renderRooms() {
+    if (!this.rooms.length) {
+      this.el.rooms.innerHTML = '<p class="muted">No room found for this search.</p>';
+      return;
+    }
+
+    this.el.rooms.innerHTML = this.rooms.map(room => {
+      const isSelected = this.selectedRooms.some(selected => selected.id === room.id);
+      const isAvailable = Boolean(room.available);
+      const blockedInfo = isAvailable ? '' : `<p class="muted">Booked by: ${escapeHtml(room.blockingGuest || 'N/A')} ${room.blockingBookingId ? `(${escapeHtml(room.blockingBookingId)})` : ''}</p>`;
+      return `
+        <div class="room-card ${isAvailable ? '' : 'blocked-room'}">
+          <div class="room-img">${escapeHtml(room.type ? room.type[0] : 'R')}</div>
+          <div class="room-body">
+            <div class="split"><h2>${escapeHtml(room.type)}</h2>${statusLabel(room.availabilityStatus || room.status)}</div>
+            <p>Room ${escapeHtml(room.number)}</p>
+            <p>${room.discountPercent ? `<span class="old">${money(room.price)}</span> <b>${money(room.discountedPrice)}</b>` : money(room.price)} / night</p>
+            ${room.discountPercent ? `<p><span class="discount-badge">${escapeHtml(room.discountPercent)}% discount applied</span></p>` : ''}
+            ${blockedInfo}
+            <button class="btn ${isAvailable ? 'gold' : 'ghost'}" type="button" ${isAvailable ? '' : 'disabled'} data-room-id="${escapeHtml(room.id)}">
+              ${isAvailable ? (isSelected ? 'Unselect' : 'Select') : 'Not Available'}
+            </button>
+          </div>
+        </div>`;
+    }).join('');
+
+    this.el.rooms.querySelectorAll('[data-room-id]').forEach(button => {
+      button.addEventListener('click', () => this.pickRoom(button.dataset.roomId));
+    });
+  },
+
+  pickRoom(roomId) {
+    const room = this.rooms.find(item => item.id === roomId);
+    if (!room) return notify('Room not found.', 'Error', 'error');
+    if (!room.available) return notify('This room is already reserved, pending, occupied, or unavailable for the selected dates.', 'Room Not Available', 'error');
+
+    if (this.el.groupBooking.checked) {
+      const alreadySelected = this.selectedRooms.some(selected => selected.id === room.id);
+      this.selectedRooms = alreadySelected
+        ? this.selectedRooms.filter(selected => selected.id !== room.id)
+        : [...this.selectedRooms, room];
+    } else {
+      this.selectedRooms = this.selectedRooms.some(selected => selected.id === room.id) ? [] : [room];
+    }
+
+    this.renderRooms();
+    this.renderSelected();
+    this.el.guestBox.classList.toggle('hidden', this.selectedRooms.length < 1);
+  },
+
+  resetSelection() {
+    this.selectedRooms = [];
+    this.renderRooms();
+    this.renderSelected();
+    this.el.guestBox.classList.add('hidden');
+  },
+
+  selectedTotal() {
+    return this.selectedRooms.reduce((sum, room) => sum + (Number(room.discountedPrice || room.price) * this.nights()), 0);
+  },
+
+  renderSelected() {
+    if (!this.selectedRooms.length) {
+      this.el.selectedSummary.innerHTML = '';
+      return;
+    }
+
+    const totalNights = this.nights();
+    const subtotal = this.selectedRooms.reduce((sum, room) => sum + (Number(room.price) * totalNights), 0);
+    const total = this.selectedTotal();
+    if (!this.el.amountPaid.value) this.el.amountPaid.value = total;
+
+    this.el.selectedSummary.innerHTML = `
+      <h3>Selected Room${this.selectedRooms.length > 1 ? 's' : ''}</h3>
+      <p>${this.selectedRooms.map(room => `${escapeHtml(room.number)} ${escapeHtml(room.type)}`).join(' · ')}</p>
+      <p>${totalNights} night(s)</p>
+      <p>Subtotal: ${money(subtotal)}</p>
+      <p>Discount: ${money(subtotal - total)}</p>
+      <h2>Total: ${money(total)}</h2>
+      <p class="muted">Partial payment is allowed for single and group walk-in reservations. Partial payments become <b>Partial Reservation</b>.</p>`;
+  },
+
+  guestPayload() {
+    return {
+      firstName: this.el.firstName.value.trim(),
+      lastName: this.el.lastName.value.trim(),
+      email: this.el.email.value.trim(),
+      phone: this.el.phone.value.trim(),
+      address: this.el.address.value.trim(),
+      idType: this.el.idType.value,
+      idNumber: this.el.idNumber.value.trim(),
+      specialRequest: this.el.specialRequest.value.trim()
+    };
+  },
+
+  async createBooking(actionType) {
+    if (this.selectedRooms.length < 1) return notify('Please select at least one available room first.', 'Room Required', 'error');
+    if (!this.el.groupBooking.checked && this.selectedRooms.length > 1) return notify('Multiple rooms require group booking.', 'Group Booking Required', 'error');
+
+    const guest = this.guestPayload();
+    if (!guest.firstName || !guest.lastName || !guest.phone) return notify('First name, last name and phone number are required.', 'Guest Details Required', 'error');
+
+    const paid = Number(this.el.amountPaid.value || 0);
+    const total = this.selectedTotal();
+    if (paid <= 0) return notify('Please enter the amount paid.', 'Payment Required', 'error');
+    if (paid > total) return notify('Amount paid cannot be greater than the booking total.', 'Invalid Payment', 'error');
+
+    const payload = {
+      checkin: this.el.checkin.value,
+      checkout: this.el.checkout.value,
+      roomIds: this.selectedRooms.map(room => room.id),
+      guest,
+      paymentMethod: this.el.paymentMethod.value,
+      posTerminalId: this.el.posTerminalId.value.trim(),
+      receiptNumber: this.el.receiptNumber.value.trim(),
+      source: 'frontdesk',
+      actionType,
+      occupancy: this.el.occupancy.value.trim(),
+      promoCode: this.el.promoCode.value.trim(),
+      actor: this.currentUser.username,
+      isGroupBooking: this.el.groupBooking.checked,
+      amountPaid: paid
+    };
+
+    try {
+      const booking = await api('bookings.php', { method: 'POST', body: JSON.stringify(payload) });
+      const message = booking.status === 'partial_reservation'
+        ? `Booking created as partial reservation. Balance left: ${money(booking.balance)}. Booking ID: ${booking.bookingId}`
+        : `Booking created successfully. Booking ID: ${booking.bookingId}`;
+      setFlash(message, 'Booking Created', 'success');
+      window.location.href = 'bookings.html';
+    } catch (error) {
+      notify(error.message, 'Booking Failed', 'error');
+    }
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => WalkInPage.init());
+</script>
+</body>
+</html>

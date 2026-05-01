@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Guests</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<div class="app">
+  <div id="side"></div>
+  <main class="main">
+    <h1>Guests</h1>
+    <div class="card">
+      <input id="search" placeholder="Search by name, phone or email">
+    </div>
+    <br>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Full Name</th><th>Phone</th><th>Email</th><th>Rate</th><th>Action</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<script src="../assets/js/app.js"></script>
+<script>
+let currentUser = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  currentUser = await loadSidebar();
+  if (!currentUser) return;
+  document.getElementById('search').addEventListener('input', loadGuests);
+  loadGuests();
+});
+
+async function loadGuests() {
+  try {
+    const query = encodeURIComponent(document.getElementById('search').value.trim());
+    const guests = await api('guests.php?search=' + query);
+    document.getElementById('tbody').innerHTML = guests.length
+      ? guests.map(renderGuestRow).join('')
+      : '<tr><td colspan="5" class="muted">No guest found.</td></tr>';
+    applyRole(currentUser.role);
+  } catch (error) {
+    notify(error.message, 'Unable to Load Guests', 'error');
+  }
+}
+
+function renderGuestRow(guest) {
+  return `
+    <tr>
+      <td>${escapeHtml((guest.firstName || '') + ' ' + (guest.lastName || ''))}</td>
+      <td>${escapeHtml(guest.phone || 'N/A')}</td>
+      <td>${escapeHtml(guest.email || 'N/A')}</td>
+      <td>${escapeHtml(guest.rate || 0)}</td>
+      <td><button data-no-accountant class="btn gold" type="button" onclick="location.href='walkin.html'">Book room</button></td>
+    </tr>
+  `;
+}
+</script>
+</body>
+</html>
