@@ -111,6 +111,7 @@ body {
 
 .board {
   grid-template-columns: repeat(5, minmax(0, 1fr));
+  height: auto;
 }
 
 /* CARD */
