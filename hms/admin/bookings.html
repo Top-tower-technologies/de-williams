@@ -187,9 +187,19 @@ const BookingsPage = {
       buttons += `<button data-no-accountant class="btn" type="button" data-booking-action="check_in" data-booking-id="${id}">Check in</button> `;
     }
 
-    if (status === 'checked_in') {
-      buttons += `<button data-no-accountant class="btn" type="button" data-booking-action="check_out" data-booking-id="${id}">Checkout</button> `;
-    }
+   // Allow checkout for both checked_in and due_checkout
+if (status === 'checked_in' || status === 'due_checkout') {
+  buttons += `
+    <button 
+      data-no-accountant 
+      class="btn" 
+      type="button" 
+      data-booking-action="check_out" 
+      data-booking-id="${id}">
+      Checkout
+    </button>
+  `;
+}
 
     return buttons;
   },
