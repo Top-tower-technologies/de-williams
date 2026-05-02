@@ -265,10 +265,7 @@
     });
   }
 
-  window.addEventListener('error', event => {
-    console.error(event.error || event.message);
-    if (document.body && typeof notify === 'function') notify(event.message || 'A page error occurred.', 'Page Error', 'error');
-  });
+  
 
   window.addEventListener('unhandledrejection', event => {
     console.error(event.reason);
