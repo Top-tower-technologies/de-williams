@@ -73,6 +73,13 @@
 
 <script src="/hms/assets/js/app.js"></script>
 <script>
+
+function formatPercent(value) {
+  const num = Number(value);
+  if (isNaN(num)) return '0%';
+  return num % 1 === 0 ? num + '%' : num.toFixed(2) + '%';
+}
+
 const WalkInPage = {
   currentUser: null,
   rooms: [],
@@ -183,11 +190,11 @@ const WalkInPage = {
             } / night
           </p>
 
-          ${
-            room.discountPercent
-              ? `<p><span class="discount-badge">${escapeHtml(room.discountPercent)}% discount applied</span></p>`
-              : ''
-          }
+        ${
+  room.discountPercent
+    ? `<p><span class="discount-badge">${formatPercent(room.discountPercent)} discount applied</span></p>`
+    : ''
+}
 
           ${blockedInfo}
 

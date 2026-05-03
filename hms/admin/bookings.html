@@ -74,6 +74,13 @@
 
 <script src="/hms/assets/js/app.js"></script>
 <script>
+
+function formatPercent(value) {
+  const num = Number(value);
+  return num % 1 === 0 ? num + '%' : num.toFixed(2) + '%';
+}
+
+
 const BookingsPage = {
   records: {},
   currentUser: null,
@@ -156,8 +163,14 @@ const BookingsPage = {
         <td>${escapeHtml(booking.occupancy || 'N/A')}</td>
         <td>${money(booking.total)}<br><small class="muted">Bal: ${money(booking.balance || 0)}</small></td>
         <td>${money(booking.amountPaid || 0)}<br><small class="muted">${escapeHtml(booking.paymentStatus || 'unpaid')}</small></td>
-        <td>${booking.discountPercent ? `<span class="discount-badge">${booking.discountPercent}% off</span><br><small class="muted">Saved ${money(saved)}</small>` : 'No discount'}</td>
-        <td>${statusLabel(booking.status)}</td>
+<td>
+  ${
+    booking.discountPercent
+      ? `<span class="discount-badge">${formatPercent(booking.discountPercent)} off</span>
+         <br><small class="muted">Saved ${money(saved)}</small>`
+      : 'No discount'
+  }
+</td>        <td>${statusLabel(booking.status)}</td>
         <td>${this.renderActions(booking)}</td>
       </tr>
     `;
