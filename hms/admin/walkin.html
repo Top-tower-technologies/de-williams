@@ -146,35 +146,68 @@ const WalkInPage = {
   },
 
   renderRooms() {
-    if (!this.rooms.length) {
-      this.el.rooms.innerHTML = '<p class="muted">No room found for this search.</p>';
-      return;
-    }
+  if (!this.rooms.length) {
+    this.el.rooms.innerHTML = '<p class="muted">No room found for this search.</p>';
+    return;
+  }
 
-    this.el.rooms.innerHTML = this.rooms.map(room => {
-      const isSelected = this.selectedRooms.some(selected => selected.id === room.id);
-      const isAvailable = Boolean(room.available);
-      const blockedInfo = isAvailable ? '' : `<p class="muted">Booked by: ${escapeHtml(room.blockingGuest || 'N/A')} ${room.blockingBookingId ? `(${escapeHtml(room.blockingBookingId)})` : ''}</p>`;
-      return `
-        <div class="room-card ${isAvailable ? '' : 'blocked-room'}">
-          <div class="room-img">${escapeHtml(room.type ? room.type[0] : 'R')}</div>
-          <div class="room-body">
-            <div class="split"><h2>${escapeHtml(room.type)}</h2>${statusLabel(room.availabilityStatus || room.status)}</div>
-            <p>Room ${escapeHtml(room.number)}</p>
-            <p>${room.discountPercent ? `<span class="old">${money(room.price)}</span> <b>${money(room.discountedPrice)}</b>` : money(room.price)} / night</p>
-            ${room.discountPercent ? `<p><span class="discount-badge">${escapeHtml(room.discountPercent)}% discount applied</span></p>` : ''}
-            ${blockedInfo}
-            <button class="btn ${isAvailable ? 'gold' : 'ghost'}" type="button" ${isAvailable ? '' : 'disabled'} data-room-id="${escapeHtml(room.id)}">
-              ${isAvailable ? (isSelected ? 'Unselect' : 'Select') : 'Not Available'}
-            </button>
+  this.el.rooms.innerHTML = this.rooms.map(room => {
+    const isSelected = this.selectedRooms.some(selected => selected.id === room.id);
+    const isAvailable = Boolean(room.available);
+
+    const blockedInfo = isAvailable ? '' : `
+      <p class="muted">
+        <b>Blocked by:</b> ${escapeHtml(room.blockingGuest || 'N/A')}
+        ${room.blockingBookingId ? `<br><b>Booking ID:</b> ${escapeHtml(room.blockingBookingId)}` : ''}
+        <br><b>Status:</b> ${escapeHtml(room.availabilityStatus || room.status || 'Unavailable')}
+      </p>
+    `;
+
+    return `
+      <div class="room-card ${isAvailable ? '' : 'blocked-room'}">
+        <div class="room-img">${escapeHtml(room.type ? room.type[0] : 'R')}</div>
+
+        <div class="room-body">
+          <div class="split">
+            <h2>${escapeHtml(room.type)}</h2>
+            ${statusLabel(room.availabilityStatus || room.status)}
           </div>
-        </div>`;
-    }).join('');
 
-    this.el.rooms.querySelectorAll('[data-room-id]').forEach(button => {
-      button.addEventListener('click', () => this.pickRoom(button.dataset.roomId));
-    });
-  },
+          <p>Room ${escapeHtml(room.number)}</p>
+
+          <p>
+            ${
+              room.discountPercent
+                ? `<span class="old">${money(room.price)}</span> <b>${money(room.discountedPrice)}</b>`
+                : money(room.price)
+            } / night
+          </p>
+
+          ${
+            room.discountPercent
+              ? `<p><span class="discount-badge">${escapeHtml(room.discountPercent)}% discount applied</span></p>`
+              : ''
+          }
+
+          ${blockedInfo}
+
+          <button 
+            class="btn ${isAvailable ? 'gold' : 'ghost'}" 
+            type="button" 
+            ${isAvailable ? '' : 'disabled'} 
+            data-room-id="${escapeHtml(room.id)}"
+          >
+            ${isAvailable ? (isSelected ? 'Unselect' : 'Select') : 'Not Available'}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  this.el.rooms.querySelectorAll('[data-room-id]').forEach(button => {
+    button.addEventListener('click', () => this.pickRoom(button.dataset.roomId));
+  });
+},
 
   pickRoom(roomId) {
     const room = this.rooms.find(item => item.id === roomId);
