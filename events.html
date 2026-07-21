@@ -47,7 +47,37 @@
 
 
 <!-- home section start -->
-  <section class="home" id="home">
+ <style>
+  .home {
+    position: relative;
+    overflow: hidden;
+    /* keep your existing height/padding/etc from your current CSS */
+  }
+
+  .bg-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 1.8s ease-in-out;
+  }
+
+  .bg-slide.active {
+    opacity: 1;
+  }
+
+  .home-content {
+    position: relative;
+    z-index: 1;
+  }
+</style>
+
+<section class="home" id="home">
+  <div class="bg-slide bg-slide-a"></div>
+  <div class="bg-slide bg-slide-b"></div>
+
   <div class="home-content">
     <div class="add">
       <div>
@@ -74,14 +104,30 @@
     '/images/recep.jpg'
   ];
 
+  const slideA = document.querySelector('.bg-slide-a');
+  const slideB = document.querySelector('.bg-slide-b');
+
   let current = 0;
-  const homeSection = document.querySelector('.home');
+  let showingA = true;
+
+  // Preload images so there's no flash/lag on first swap
+  images.forEach(src => { const img = new Image(); img.src = src; });
+
+  // Set the first image immediately
+  slideA.style.backgroundImage = `url('${images[0]}')`;
+  slideA.classList.add('active');
 
   setInterval(() => {
     current = (current + 1) % images.length;
-    homeSection.style.backgroundImage = `url('${images[current]}')`;
-    homeSection.style.transition = 'background-image 1s ease-in-out';
-  }, 4000); // Change image every 4 seconds
+    const nextSlide = showingA ? slideB : slideA;
+    const currentSlide = showingA ? slideA : slideB;
+
+    nextSlide.style.backgroundImage = `url('${images[current]}')`;
+    nextSlide.classList.add('active');
+    currentSlide.classList.remove('active');
+
+    showingA = !showingA;
+  }, 4000); // change image every 4 seconds
 </script>
 <br>
 
