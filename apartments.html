@@ -131,225 +131,294 @@
 
 
 
+<section class="apartments-section" id="apartments">
+  <video autoplay muted loop playsinline class="apartments-video">
+    <source src="/images/apartment.MP4" type="video/mp4">
+  </video>
+  <div class="apartments-overlay"></div>
 
-<style>
-    :root {
-      --bg: #fffaf5;
-      --text: #2c2c2c;
-      --gold: #d4af37;
-      --muted: #6c6c6c;
-      --card-bg: #ffffff;
-      --shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
-      --radius: 18px;
-      font-family: 'Poppins', sans-serif;
-    }
+  <div class="apartments-content">
+    <div class="apartments-panel">
+      <span class="eyebrow">Extended Stay</span>
+      <h2 class="apartments-title">De-Williams<br>Luxury Apartments</h2>
+      <div class="divider"></div>
 
-  
-
-    .container1 {
-      width: 100%;
-      padding: 40px;
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 40px;
-      align-items: center;
-    }
-
-    @media(max-width: 900px) {
-      .container1 { grid-template-columns: 1fr; }
-    }
-
-    .info {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 40px;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-      animation: fadeUp 1s ease;
-    }
-
-    .info::before {
-      content: "";
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      top: -50%;
-      left: -50%;
-      background: radial-gradient(circle at center, rgba(212,175,55,0.05) 0%, transparent 70%);
-      z-index: 0;
-      animation: shimmer 8s infinite linear;
-    }
-
-    .info * { position: relative; z-index: 1; }
-
-    .title {
-      font-size: 32px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 25px;
-    }
-
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 25px;
-    }
-
-    .feature {
-      background: var(--bg);
-      border: 1px solid #f1e3c4;
-      color: var(--gold);
-      padding: 10px 16px;
-      border-radius: 12px;
-      font-weight: 600;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
-      transition: all .3s ease;
-    }
-
-    .feature:hover {
-      background: var(--gold);
-      color: #fff;
-      transform: translateY(-3px);
-    }
-
-    .specs {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .spec {
-      background: #fff9f0;
-      border: 1px solid #f1e3c4;
-      padding: 16px;
-      border-radius: 12px;
-      transition: all .3s ease;
-    }
-
-    .spec:hover { transform: translateY(-4px); }
-
-    .spec h4 {
-      margin: 0;
-      color: var(--gold);
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .spec p {
-      margin: 6px 0 0;
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .cta-row {
-      display: flex;
-      gap: 15px;
-    }
-
-    .btn {
-      background: var(--gold);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 22px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(212,175,55,0.3);
-      transition: all .3s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(212,175,55,0.4);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--gold);
-      color: var(--gold);
-    }
-
-    .btn-outline:hover {
-      background: var(--gold);
-      color: #fff;
-    }
-
-    .gallery {
-      position: relative;
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      animation: fadeIn 1s ease;
-    }
-
-    .gallery video {
-      width: 100%;
-      object-fit: cover;
-      transition: transform 1.2s ease;
-    }
-
-    .gallery:hover img {
-      transform: scale(1.05);
-    }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes shimmer { to { transform: rotate(360deg); } }
-  </style>
-  <section>
-    <div class="container1">
-    <div class="info1">
-      <h2 class="title">De‑Williams Luxury Apartments</h2>
-      <p class="subtitle">Experience refined living with elegance and class. De‑Williams Apartments offer comfort, sophistication, and warmth — all wrapped in timeless luxury.</p>
+      <p class="apartments-subtitle">
+        Experience refined living with elegance and class. De-Williams Apartments offer comfort,
+        sophistication, and warmth — all wrapped in timeless luxury.
+      </p>
 
       <div class="features">
-        <div class="feature">24/7 Power Supply</div>
-        <div class="feature">Modern Interiors</div>
-        <div class="feature">Comfortable Space</div>
-        <div class="feature">Concierge Service</div>
+        <span><i class="fa-solid fa-bolt"></i> 24/7 Power Supply</span>
+        <span><i class="fa-solid fa-couch"></i> Modern Interiors</span>
+        <span><i class="fa-solid fa-expand"></i> Comfortable Space</span>
+        <span><i class="fa-solid fa-concierge-bell"></i> Concierge Service</span>
       </div>
 
-      <div class="specs">
+      <div class="specs-row">
         <div class="spec">
           <h4>Starting Price</h4>
-          <p>₦150,000 / Night</p>
+          <p>₦150,000<small>/night</small></p>
         </div>
         <div class="spec">
           <h4>Specification</h4>
-          <p>2 Bedroom Fully Furnished</p>
+          <p>2 Bedroom<small>fully furnished</small></p>
         </div>
         <div class="spec">
-          <h4>Check‑in</h4>
-          <p>24/7</p>
+          <h4>Check-in</h4>
+          <p>24/7<small>always available</small></p>
         </div>
         <div class="spec">
           <h4>Parking</h4>
-          <p>Secure & Free</p>
+          <p>Secure<small>&amp; free</small></p>
         </div>
       </div>
 
-      
+      <div class="cta-row">
+        <a href="#" class="btn">Book Now</a>
+        <a href="#" class="btn btn-outline">View Gallery</a>
+      </div>
     </div>
+  </div>
+</section>
 
-   <div class="gallery">
-  <video autoplay muted loop playsinline>
-    <source src="/images/apartment.MP4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
-</div>
+<style>
+  .apartments-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    padding: 100px 20px;
+  }
 
-  </section>
+  .apartments-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  }
+
+  .apartments-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.6) 55%, rgba(0,0,0,0.35) 100%);
+    z-index: -1;
+  }
+
+  .apartments-content {
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .apartments-panel {
+    max-width: 620px;
+    background: rgba(15, 15, 15, 0.4);
+    border: 1px solid rgba(211, 174, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 55px 50px;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+
+  .apartments-panel.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.78rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #D3AE00;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+
+  .apartments-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.7rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+    margin-bottom: 22px;
+  }
+
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: #D3AE00;
+    margin-bottom: 26px;
+  }
+
+  .apartments-subtitle {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: #d8d8d8;
+    margin-bottom: 30px;
+  }
+
+  .features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 34px;
+  }
+
+  .features span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: #eee;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(211,174,0,0.3);
+    padding: 8px 14px;
+    border-radius: 30px;
+  }
+
+  .features i {
+    color: #D3AE00;
+  }
+
+  .specs-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-bottom: 36px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    padding: 22px 0;
+  }
+
+  .spec {
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.12);
+    padding: 0 8px;
+  }
+
+  .spec:last-child {
+    border-right: none;
+  }
+
+  .spec h4 {
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #999;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .spec p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #D3AE00;
+    line-height: 1.3;
+  }
+
+  .spec p small {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 400;
+    color: #999;
+    margin-top: 2px;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    background: #D3AE00;
+    color: #0b0b0b;
+    border: 1px solid #D3AE00;
+    border-radius: 4px;
+    padding: 13px 28px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.35s ease;
+  }
+
+  .btn:hover {
+    background: transparent;
+    color: #D3AE00;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid #D3AE00;
+    color: #D3AE00;
+  }
+
+  .btn-outline:hover {
+    background: #D3AE00;
+    color: #0b0b0b;
+  }
+
+  @media (max-width: 900px) {
+    .apartments-section {
+      min-height: auto;
+      padding: 80px 20px;
+    }
+    .apartments-overlay {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.9) 75%);
+    }
+    .apartments-panel {
+      max-width: 100%;
+      padding: 40px 30px;
+    }
+    .apartments-title {
+      font-size: 2.1rem;
+    }
+    .specs-row {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 20px;
+    }
+    .spec:nth-child(2) {
+      border-right: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .apartments-panel {
+      padding: 32px 22px;
+    }
+    .specs-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
+
+<script>
+  const apartmentsPanel = document.querySelector('.apartments-panel');
+  const apartmentsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        apartmentsObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  if (apartmentsPanel) apartmentsObserver.observe(apartmentsPanel);
+</script>
 
 
 <!-- footer section start -->
