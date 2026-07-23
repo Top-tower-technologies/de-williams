@@ -53,7 +53,7 @@
 <section class="add">
 
     <div>
-        <p><b>Email us</b> Reservations@dewilliamshotels.com</p>
+        <p><b>Email us</b> dewilliamsplacehotel@gmail.com</p>
     </div>
 
     <div>
@@ -68,333 +68,569 @@
 
 
 
-  <section class="hero">
-    <div class="hero-inner">
-     
+  <section class="hero" id="booking">
+  <div class="hero-inner">
+    <span class="eyebrow">Reserve Your Stay</span>
+    <h1>Book Your Luxury Stay With Confidence</h1>
+    <p>Search available rooms, apply promo codes, and send your reservation details directly to us on WhatsApp — we'll confirm and hold your room.</p>
 
-      <h1>Book your luxury stay with confidence.</h1>
+    <div class="booking-panel">
+      <div class="steps">
+        <div class="step active"></div>
+        <div class="step"></div>
+        <div class="step"></div>
+      </div>
 
-      <p>
-        Search available rooms, apply promo codes, reserve for 6 hours,
-        and receive your reservation slip with a check-in code.
-      </p>
-
-      <div class="booking-panel">
-        <div class="steps">
-          <div class="step active"></div>
-          <div class="step"></div>
-          <div class="step"></div>
-        </div>
-
-        <!-- Search Step -->
-        <div id="searchStep">
-          <div class="form two">
-            <div>
-              <label>Check in</label>
-              <input type="date" id="checkin">
-            </div>
-
-            <div>
-              <label>Check out</label>
-              <input type="date" id="checkout">
-            </div>
-
-            <div>
-              <label>Adults</label>
-              <input type="number" id="adults" value="1" min="1">
-            </div>
-
-            <div>
-              <label>Children</label>
-              <input type="number" id="children" value="0" min="0">
-            </div>
-
-            <div>
-              <label>Promo code</label>
-              <input id="promo" placeholder="PUT PROMO CODE HERE">
-            </div>
-
-            <div style="align-self:end">
-              <button class="btn gold" onclick="searchRooms()">Search rooms</button>
-            </div>
+      <!-- Search Step -->
+      <div id="searchStep">
+        <div class="form two">
+          <div>
+            <label>Check in</label>
+            <input type="date" id="checkin">
           </div>
-        </div>
-
-        <!-- Rooms Step -->
-        <div id="roomsStep" class="hidden" style="color: #000;">
-          <button class="btn ghost" onclick="backToSearch()">Back</button>
-
-          <h2>Available Rooms</h2>
-
-          <p id="discountNotice" class="muted"></p>
-
-          <div id="rooms" class="room-grid"></div>
-        </div>
-
-        <!-- Guest Step -->
-        <div id="guestStep" class="hidden">
-          <button class="btn ghost" onclick="showStep('roomsStep')">Back</button>
-
-          <h2>Guest Details</h2>
-
-          <div class="form two">
-            <input id="firstName" placeholder="First name">
-            <input id="lastName" placeholder="Last name">
-            <input id="email" placeholder="Email address">
-            <input id="phone" placeholder="Phone number">
-            <input id="address" placeholder="Address">
-
-            <select id="idType">
-              <option>National ID</option>
-              <option>Passport</option>
-              <option>Driver License</option>
-              <option>Voter Card</option>
-            </select>
-
-            <input id="idNumber" placeholder="ID Number">
-
-            <textarea
-              id="specialRequest"
-              placeholder="Special request, allergies or others"
-            ></textarea>
+          <div>
+            <label>Check out</label>
+            <input type="date" id="checkout">
           </div>
-
-          <br>
-
-          <div id="summary" class="summary"></div>
-
-          <br>
-
-          <button class="btn ghost" onclick="reserveNow()">Book now (Reserve)</button>
-          <!--<button class="btn gold" onclick="payNow()">Book now (Pay)</button>-->
+          <div>
+            <label>Adults</label>
+            <input type="number" id="adults" value="1" min="1">
+          </div>
+          <div>
+            <label>Children</label>
+            <input type="number" id="children" value="0" min="0">
+          </div>
+          <div>
+            <label>Promo code</label>
+            <input id="promo" placeholder="Enter promo code (optional)">
+          </div>
+          <div style="align-self:end">
+            <button class="btn gold" onclick="searchRooms()">Search Rooms</button>
+          </div>
         </div>
       </div>
+
+      <!-- Rooms Step -->
+      <div id="roomsStep" class="hidden">
+        <button class="btn ghost" onclick="backToSearch()">← Back</button>
+        <h2>Available Rooms</h2>
+        <p id="discountNotice" class="muted"></p>
+        <div id="rooms" class="room-grid"></div>
+      </div>
+
+      <!-- Guest Step -->
+      <div id="guestStep" class="hidden">
+        <button class="btn ghost" onclick="showStep('roomsStep')">← Back</button>
+        <h2>Guest Details</h2>
+
+        <div class="form two">
+          <input id="firstName" placeholder="First name">
+          <input id="lastName" placeholder="Last name">
+          <input id="email" placeholder="Email address">
+          <input id="phone" placeholder="Phone number">
+          <input id="address" placeholder="Address" style="grid-column: span 2;">
+
+          <select id="idType">
+            <option>National ID</option>
+            <option>Passport</option>
+            <option>Driver's License</option>
+            <option>Voter Card</option>
+          </select>
+          <input id="idNumber" placeholder="ID Number">
+
+          <textarea id="specialRequest" placeholder="Special request, allergies or others" style="grid-column: span 2;"></textarea>
+        </div>
+
+        <div id="summary" class="summary"></div>
+
+        <button class="btn gold" onclick="reserveNow()">
+          <i class="fa-brands fa-whatsapp"></i> Send Reservation via WhatsApp
+        </button>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <script src="/hms/assets/js/app.js"></script>
+<style>
+  .hero {
+    position: relative;
+    background: #0b0b0b;
+    color: #fff;
+    padding: 120px 20px;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+  }
 
-  <script>
-    let selectedRoom = null;
-    let availableRooms = [];
-    let currentDiscount = 0;
+  .hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
 
-    function showStep(id) {
-      ['searchStep', 'roomsStep', 'guestStep'].forEach(step => {
-        document.getElementById(step).classList.add('hidden');
-      });
+  .hero .eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #D3AE00;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
 
-      document.getElementById(id).classList.remove('hidden');
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .hero > .hero-inner > p {
+    font-size: 1rem;
+    font-weight: 300;
+    color: #ccc;
+    max-width: 600px;
+    margin: 0 auto 50px;
+    line-height: 1.7;
+  }
+
+  .booking-panel {
+    background: #141414;
+    border: 1px solid rgba(211,174,0,0.25);
+    border-radius: 14px;
+    padding: 40px 36px;
+    text-align: left;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+  }
+
+  .steps {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 34px;
+  }
+
+  .step {
+    width: 40px;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+  }
+
+  .step.active {
+    background: #D3AE00;
+  }
+
+  .hidden { display: none; }
+
+  .booking-panel h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .form {
+    display: grid;
+    gap: 16px;
+  }
+
+  .form.two {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form label {
+    display: block;
+    font-size: 0.78rem;
+    color: #aaa;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .form input,
+  .form select,
+  .form textarea {
+    width: 100%;
+    background: #1e1e1e;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff;
+    padding: 12px 14px;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .form input:focus,
+  .form select:focus,
+  .form textarea:focus {
+    border-color: #D3AE00;
+  }
+
+  .form textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    background: #1e1e1e;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 12px 26px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+
+  .btn.gold {
+    background: #D3AE00;
+    color: #0b0b0b;
+    border-color: #D3AE00;
+  }
+
+  .btn.gold:hover {
+    background: transparent;
+    color: #D3AE00;
+  }
+
+  .btn.ghost {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+
+  .btn.ghost:hover {
+    border-color: #D3AE00;
+    color: #D3AE00;
+  }
+
+  .muted {
+    color: #999;
+    font-size: 0.85rem;
+  }
+
+  .room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .room-card {
+    background: #1a1a1a;
+    border: 1px solid rgba(211,174,0,0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .room-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(211,174,0,0.55);
+  }
+
+  .room-img {
+    height: 90px;
+    background: linear-gradient(135deg, #D3AE00, #7a6400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0b0b0b;
+  }
+
+  .room-body {
+    padding: 20px;
+  }
+
+  .room-body h2 {
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+    color: #d3ae00;
+  }
+
+  .room-body p {
+    font-size: 0.85rem;
+    color: #bbb;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  .price {
+    font-family: 'Playfair Display', serif;
+    color: #D3AE00;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 10px 0 4px;
+  }
+
+  .price .old {
+    text-decoration: line-through;
+    color: #777;
+    font-size: 0.9rem;
+    margin-right: 8px;
+    font-weight: 400;
+  }
+
+  .discount-badge {
+    display: inline-block;
+    background: rgba(211,174,0,0.15);
+    color: #D3AE00;
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  .summary {
+    background: #1a1a1a;
+    border: 1px solid rgba(211,174,0,0.25);
+    border-radius: 10px;
+    padding: 22px;
+    margin: 24px 0;
+  }
+
+  .summary h3 {
+    font-family: 'Playfair Display', serif;
+    color: #D3AE00;
+    margin-bottom: 12px;
+  }
+
+  .summary p {
+    font-size: 0.9rem;
+    color: #ddd;
+    margin-bottom: 6px;
+  }
+
+  .summary h2 {
+    color: #D3AE00;
+    margin-top: 10px;
+  }
+
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 20px;
+  }
+
+  .modal-content {
+    background: #141414;
+    border: 1px solid rgba(211,174,0,0.4);
+    border-radius: 12px;
+    padding: 36px;
+    max-width: 480px;
+    width: 100%;
+    color: #fff;
+    text-align: left;
+  }
+
+  .modal-content h2 {
+    font-family: 'Playfair Display', serif;
+    color: #D3AE00;
+    margin-bottom: 14px;
+  }
+
+  .modal-content p {
+    font-size: 0.9rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 700px) {
+    .form.two { grid-template-columns: 1fr; }
+    .booking-panel { padding: 28px 22px; }
+    .hero h1 { font-size: 2rem; }
+  }
+</style>
+
+<script>
+  // ---------- MOCK DATA (no backend) ----------
+  const MOCK_ROOMS = [
+    { id: 1, type: 'Standard Room', price: 80000, maxGuests: 2, features: ['Queen Bed', 'Ensuite Bathroom', 'Free Wi-Fi'] },
+    { id: 2, type: 'Deluxe Room', price: 50000, maxGuests: 2, features: ['Queen Bed', 'Premium Bathroom', 'Free Wi-Fi'] },
+    { id: 3, type: 'Executive Room', price: 100000, maxGuests: 2, features: ['King Bed', 'Luxury Ensuite', 'High-Speed Wi-Fi'] },
+    { id: 4, type: 'Executive Twin Bed', price: 130000, maxGuests: 2, features: ['Twin Beds', 'Ensuite Bathroom', 'Wi-Fi'] },
+    { id: 5, type: 'Presidential Suite', price: 150000, maxGuests: 2, features: ['King Bed', 'Living Area', 'Luxury Bathroom'] },
+    { id: 6, type: 'Serviced Apartment', price: 150000, maxGuests: 4, features: ['2 Bedroom', 'Fully Furnished', 'Wi-Fi'] }
+  ];
+
+  // Promo codes -> discount percent. Edit these to whatever codes you actually run.
+  const PROMO_CODES = {
+    'WELCOME10': 10,
+    'VIP20': 20
+  };
+
+  const WHATSAPP_NUMBER = '2347062350574'; // no + or leading 0
+
+  let selectedRoom = null;
+  let availableRooms = [];
+  let currentDiscount = 0;
+
+  function showStep(id) {
+    ['searchStep', 'roomsStep', 'guestStep'].forEach(step => {
+      document.getElementById(step).classList.add('hidden');
+    });
+    document.getElementById(id).classList.remove('hidden');
+
+    const stepEls = document.querySelectorAll('.step');
+    const order = ['searchStep', 'roomsStep', 'guestStep'];
+    stepEls.forEach((el, i) => el.classList.toggle('active', i <= order.indexOf(id)));
+  }
+
+  function backToSearch() {
+    showStep('searchStep');
+  }
+
+  function nights() {
+    return Math.max(1, (new Date(checkout.value) - new Date(checkin.value)) / 86400000);
+  }
+
+  function money(n) {
+    return '₦' + Number(n).toLocaleString();
+  }
+
+  function notify(msg) {
+    alert(msg); // simple fallback since there's no toast system without a backend
+  }
+
+  function searchRooms() {
+    if (!checkin.value || !checkout.value) {
+      return notify('Please select check-in and check-out dates.');
     }
 
-    function backToSearch() {
-      showStep('searchStep');
-    }
+    currentDiscount = PROMO_CODES[promo.value.trim().toUpperCase()] || 0;
+    availableRooms = MOCK_ROOMS.map(r => ({
+      ...r,
+      discountPercent: currentDiscount,
+      discountedPrice: Math.round(r.price * (1 - currentDiscount / 100))
+    }));
 
-    function nights() {
-      return Math.max(
-        1,
-        (new Date(checkout.value) - new Date(checkin.value)) / 86400000
-      );
-    }
+    renderRooms();
+    showStep('roomsStep');
+  }
 
-    async function searchRooms() {
-      if (!checkin.value || !checkout.value) {
-        return notify(
-          'Please select check-in and check-out dates.',
-          'Date Required',
-          'error'
-        );
-      }
+  function renderRooms() {
+    discountNotice.textContent = currentDiscount
+      ? `${currentDiscount}% discount applied with your promo code.`
+      : '';
 
-      const q = `rooms.php?checkin=${checkin.value}&checkout=${checkout.value}&adults=${adults.value}&children=${children.value}&promoCode=${encodeURIComponent(promo.value)}`;
-
-      const d = await api(q);
-
-      availableRooms = d.rooms;
-      currentDiscount = d.discountPercent || 0;
-
-      renderRooms();
-      showStep('roomsStep');
-    }
-
-    function renderRooms() {
-      discountNotice.textContent = currentDiscount
-        ? `${currentDiscount}% discount has been applied to available rooms.`
-        : '';
-
-      rooms.innerHTML = availableRooms.map(room => {
-        const total = room.discountedPrice * nights();
-
-        return `
-          <div class="room-card">
-            <div class="room-img">${room.type[0]}</div>
-
-            <div class="room-body">
-              <h2>${room.type}</h2>
-
-              <p>${room.features.join(' · ')}</p>
-
-              <p>Max guests: <b>${room.maxGuests}</b></p>
-
-              <div class="price">
-                ${
-                  room.discountPercent
-                    ? `<span class="old">${money(room.price)}</span>${money(room.discountedPrice)}`
-                    : money(room.price)
-                } / night
-              </div>
-
-              <p class="muted">Estimated total: ${money(total)}</p>
-
-              ${
-                room.discountPercent
-                  ? `<p><span class="discount-badge">${room.discountPercent}% discount applied</span></p>`
-                  : ''
-              }
-
-              <br>
-
-              <button class="btn gold" onclick='selectRoom(${JSON.stringify(room)})'>
-                Select room
-              </button>
+    rooms.innerHTML = availableRooms.map(room => {
+      const total = room.discountedPrice * nights();
+      return `
+        <div class="room-card">
+          <div class="room-img">${room.type[0]}</div>
+          <div class="room-body">
+            <h2>${room.type}</h2>
+            <p>${room.features.join(' · ')}</p>
+            <p>Max guests: <b>${room.maxGuests}</b></p>
+            <div class="price">
+              ${room.discountPercent
+                ? `<span class="old">${money(room.price)}</span>${money(room.discountedPrice)}`
+                : money(room.price)} / night
             </div>
-          </div>
-        `;
-      }).join('') || '<p>No rooms available for this search.</p>';
-    }
-
-    function selectRoom(room) {
-      selectedRoom = room;
-
-      const n = nights();
-      const subtotal = room.price * n;
-      const discountAmount = subtotal * (currentDiscount / 100);
-      const total = subtotal - discountAmount;
-
-      summary.innerHTML = `
-        <h3>Room Summary</h3>
-        <p>${room.type} · Room ${room.number}</p>
-        <p>${n} night(s) × ${money(room.price)}</p>
-        <p>
-          Discount:
-          ${
-            currentDiscount
-              ? `${currentDiscount}% (${money(discountAmount)} saved)`
-              : 'No discount'
-          }
-        </p>
-        <h2>Total: ${money(total)}</h2>
-        <p class="muted">Reserve without payment keeps this room for only 6 hours.</p>
-      `;
-
-      showStep('guestStep');
-    }
-
-    function guestPayload() {
-      return {
-        firstName: firstName.value,
-        lastName: lastName.value,
-        email: email.value,
-        phone: phone.value,
-        address: address.value,
-        idType: idType.value,
-        idNumber: idNumber.value,
-        specialRequest: specialRequest.value
-      };
-    }
-
-    function basePayload(actionType) {
-      return {
-        checkin: checkin.value,
-        checkout: checkout.value,
-        roomId: selectedRoom.id,
-        guest: guestPayload(),
-        promoCode: promo.value,
-        paymentMethod: actionType === 'reserve_unpaid' ? '' : 'online',
-        source: 'online',
-        actionType,
-        occupancy: `${adults.value} adult(s), ${children.value} child(ren)`,
-        reference: 'PAYSTACK_DEMO_' + Date.now()
-      };
-    }
-
-    async function reserveNow() {
-      if (!selectedRoom) {
-        return notify('Please select a room first.', 'Room Required', 'error');
-      }
-
-      try {
-        const booking = await api('bookings.php', {
-          method: 'POST',
-          body: JSON.stringify(basePayload('reserve_unpaid'))
-        });
-
-        showSlip(
-          booking,
-          'Reservation Held',
-          'Your reservation is pending. It will expire after 6 hours if payment is not completed. Please contact the hotel official line or walk in to pay.'
-        );
-      } catch (error) {
-        notify(error.message, 'Reservation Failed', 'error');
-      }
-    }
-
-    async function payNow() {
-      if (!selectedRoom) {
-        return notify('Please select a room first.', 'Room Required', 'error');
-      }
-
-      // Paystack initialization should happen here in production,
-      // then verify payment on backend before final confirmation.
-      try {
-        const booking = await api('bookings.php', {
-          method: 'POST',
-          body: JSON.stringify(basePayload('reserve'))
-        });
-
-        showSlip(
-          booking,
-          'Booking Successful',
-          'Payment confirmed. Your reservation is secured.'
-        );
-      } catch (error) {
-        notify(error.message, 'Booking Failed', 'error');
-      }
-    }
-
-    function showSlip(booking, title, message) {
-      document.body.insertAdjacentHTML('beforeend', `
-        <div class="modal">
-          <div class="modal-content">
-            <h2>${title}</h2>
-
-            <p>${message}</p>
-            <p>please contact 07062350574 for payment or walking to the hotel along akala express, opposite bovas filling station, ibadan, oyo state</p>
-
-            <div class="summary">
-              <p><b>Booking ID / Check-in Code:</b> ${booking.bookingId}</p>
-              <p><b>Guest:</b> ${booking.guest.firstName} ${booking.guest.lastName}</p>
-              <p><b>Room:</b> ${booking.roomType} ${booking.roomNumber}</p>
-              <p><b>Status:</b> ${booking.status.replaceAll('_', ' ')}</p>
-              <p><b>Total:</b> ${money(booking.total)}</p>
-
-              ${
-                booking.expiresAt
-                  ? `<p><b>Expires:</b> ${new Date(booking.expiresAt).toLocaleString()}</p>`
-                  : ''
-              }
-            </div>
-
-            <br>
-
-            <button class="btn gold" onclick="print()">Print slip</button>
-            <button class="btn" onclick="location.reload()">Done</button>
+            <p class="muted">Estimated total: ${money(total)}</p>
+            ${room.discountPercent ? `<p><span class="discount-badge">${room.discountPercent}% off</span></p>` : ''}
+            <button class="btn gold" onclick='selectRoom(${JSON.stringify(room)})'>Select Room</button>
           </div>
         </div>
-      `);
+      `;
+    }).join('') || '<p>No rooms available for this search.</p>';
+  }
+
+  function selectRoom(room) {
+    selectedRoom = room;
+
+    const n = nights();
+    const subtotal = room.price * n;
+    const discountAmount = subtotal * (currentDiscount / 100);
+    const total = subtotal - discountAmount;
+
+    summary.innerHTML = `
+      <h3>Room Summary</h3>
+      <p>${room.type}</p>
+      <p>${n} night(s) × ${money(room.price)}</p>
+      <p>Discount: ${currentDiscount ? `${currentDiscount}% (${money(discountAmount)} saved)` : 'No discount'}</p>
+      <h2>Total: ${money(total)}</h2>
+      <p class="muted">This sends your details to us on WhatsApp — we'll confirm your reservation directly.</p>
+    `;
+
+    showStep('guestStep');
+  }
+
+  function reserveNow() {
+    if (!selectedRoom) {
+      return notify('Please select a room first.');
     }
-  </script>
+    if (!firstName.value || !lastName.value || !phone.value) {
+      return notify('Please fill in your name and phone number.');
+    }
+
+    const n = nights();
+    const subtotal = selectedRoom.price * n;
+    const discountAmount = subtotal * (currentDiscount / 100);
+    const total = subtotal - discountAmount;
+    const refCode = 'DWP-' + Date.now().toString().slice(-6);
+
+    const message =
+`Hello De Williams Place, I'd like to make a reservation.
+
+*Reference:* ${refCode}
+*Room:* ${selectedRoom.type}
+*Check-in:* ${checkin.value}
+*Check-out:* ${checkout.value}
+*Nights:* ${n}
+*Guests:* ${adults.value} adult(s), ${children.value} child(ren)
+*Total:* ${money(total)}${currentDiscount ? ` (${currentDiscount}% discount applied)` : ''}
+
+*Guest Details*
+Name: ${firstName.value} ${lastName.value}
+Email: ${email.value}
+Phone: ${phone.value}
+Address: ${address.value}
+ID Type: ${idType.value}
+ID Number: ${idNumber.value}
+Special Request: ${specialRequest.value || 'None'}`;
+
+    showSlip(refCode, total);
+
+    const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(waLink, '_blank');
+  }
+
+  function showSlip(refCode, total) {
+    document.body.insertAdjacentHTML('beforeend', `
+      <div class="modal">
+        <div class="modal-content">
+          <h2>Reservation Sent</h2>
+          <p>Your reservation details have been prepared and opened in WhatsApp. Please tap send to confirm — our team will respond to secure your room.</p>
+          <p>You can also reach us directly at <b>+234 706 235 0574</b> or walk in at Akala Express, Opposite Bovas Filling Station, Ibadan, Oyo State.</p>
+          <div class="summary">
+            <p><b>Reference Code:</b> ${refCode}</p>
+            <p><b>Estimated Total:</b> ${money(total)}</p>
+          </div>
+          <button class="btn gold" onclick="this.closest('.modal').remove()">Done</button>
+        </div>
+      </div>
+    `);
+  }
+</script>
 
 <section>
     <footer class="max-width">
