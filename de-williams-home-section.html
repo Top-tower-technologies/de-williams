@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De Williams Place Hotel — Home Section Preview</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     DE WILLIAMS PLACE HOTEL — HOME / HERO SECTION
+     Same branding (gold #D3AE00, contact details, gallery images)
+     redrawn as a five‑star hotel hero: cinematic slideshow, a
+     bespoke "DW" crest, restrained gold typography, and a glass
+     info panel instead of the flat gold block.
+
+     Drop this whole <section> + <style> + <script> in where the
+     old .home section lived. Two things to point at your site:
+       1. Image paths in the `images` array below (already match
+          your originals: /images/delounge.jpg etc.)
+       2. The "Reserve Your Stay" href — currently #contact,
+          point it at your real booking / contact anchor.
+     ============================================================ */
+
+  .home, .home * { box-sizing: border-box; }
+
+  .home {
+    --gold: #D3AE00;
+    --gold-soft: #E9CB53;
+    --charcoal: #0E0D0B;
+    --cream: #F6F1E4;
+
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    min-height: 640px;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    background: var(--charcoal); /* fallback while images/JS load */
+  }
+
+  /* ---------- Background slideshow ---------- */
+  .bg-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 1.8s ease-in-out;
+  }
+
+  .bg-slide.active {
+    opacity: 1;
+    animation: home-kenburns 9s ease-in-out forwards;
+  }
+
+  @keyframes home-kenburns {
+    from { transform: scale(1); }
+    to   { transform: scale(1.08); }
+  }
+
+  /* Cinematic gradient so text stays legible over any photo */
+  .home-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.58) 0%, rgba(0,0,0,.22) 32%, rgba(0,0,0,.3) 68%, rgba(0,0,0,.8) 100%);
+  }
+
+  @media (max-width: 768px) {
+    .home { background-attachment: scroll; }
+    .bg-slide.active { animation: none; } /* skip zoom on mobile: smoother scroll, less battery */
+  }
+
+  /* ---------- Content shell ---------- */
+  .home-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .home-hero-wrap {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 48px 24px 24px;
+  }
+
+  /* Bespoke crest — the one signature flourish */
+  .home-crest {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: home-fade-up .9s ease forwards .2s;
+  }
+  .home-crest::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--gold);
+    transform: rotate(45deg);
+  }
+  .home-crest span {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: 1px;
+    color: var(--gold-soft);
+  }
+
+  .home-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 400;
+    opacity: 0;
+    animation: home-fade-up .9s ease forwards .4s;
+  }
+  .home-eyebrow::before,
+  .home-eyebrow::after {
+    content: "";
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .home-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(2.6rem, 6.5vw, 5.2rem);
+    line-height: 1.05;
+    margin: 22px 0 0;
+    opacity: 0;
+    animation: home-fade-up .9s ease forwards .6s;
+  }
+
+  .home-kicker {
+    display: block;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: clamp(12px, 1.6vw, 15px);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-top: 14px;
+  }
+
+  .home-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 28px 0;
+    opacity: 0;
+    animation: home-fade-up .9s ease forwards .8s;
+  }
+  .home-divider span { width: 44px; height: 1px; background: var(--gold); }
+  .home-divider em {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    display: block;
+  }
+
+  .home-tagline {
+    max-width: 560px;
+    font-weight: 300;
+    font-size: clamp(15px, 1.9vw, 18px);
+    line-height: 1.75;
+    color: var(--cream);
+    letter-spacing: .2px;
+    margin: 0;
+    opacity: 0;
+    animation: home-fade-up .9s ease forwards 1s;
+  }
+
+  .home-cta {
+    margin-top: 36px;
+    display: inline-block;
+    padding: 15px 40px;
+    border: 1px solid var(--gold);
+    color: #fff;
+    text-decoration: none;
+    font-size: 12.5px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    transition: color .4s ease;
+    opacity: 0;
+    animation: home-fade-up .9s ease forwards 1.2s;
+  }
+  .home-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: translateX(-101%);
+    transition: transform .4s ease;
+    z-index: -1;
+  }
+  .home-cta:hover,
+  .home-cta:focus-visible { color: var(--charcoal); }
+  .home-cta:hover::before,
+  .home-cta:focus-visible::before { transform: translateX(0); }
+  .home-cta:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 4px; }
+
+  @keyframes home-fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---------- Info bar (was the flat gold block) ---------- */
+  .add {
+    width: 92%;
+    max-width: 1140px;
+    margin: 0 auto 28px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: rgba(14, 13, 11, .55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(211, 174, 0, .35);
+    border-radius: 3px;
+  }
+
+  .add > div {
+    padding: 22px 20px;
+    text-align: center;
+    border-left: 1px solid rgba(211, 174, 0, .22);
+    transition: background .3s ease;
+  }
+  .add > div:first-child { border-left: none; }
+  .add > div:hover { background: rgba(211, 174, 0, .08); }
+
+  .add-icon {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .add-icon svg { width: 100%; height: 100%; }
+
+  .add-label {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    color: var(--gold-soft);
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .add p {
+    margin: 0;
+    font-size: 14.5px;
+    font-weight: 300;
+    line-height: 1.55;
+    color: var(--cream);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 992px) {
+    .add > div { padding: 18px 14px; }
+    .add p { font-size: 13.5px; }
+  }
+
+  @media (max-width: 768px) {
+    .home { min-height: 720px; }
+    .add { grid-template-columns: 1fr; margin-bottom: 20px; }
+    .add > div { border-left: none; border-top: 1px solid rgba(211,174,0,.22); }
+    .add > div:first-child { border-top: none; }
+  }
+
+  @media (max-width: 480px) {
+    .home-eyebrow { font-size: 10.5px; letter-spacing: 2.5px; }
+    .home-kicker { letter-spacing: 6px; }
+    .home-cta { padding: 13px 30px; font-size: 11.5px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-crest, .home-eyebrow, .home-title, .home-divider,
+    .home-tagline, .home-cta {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .bg-slide.active { animation: none !important; }
+  }
+</style>
+</head>
+<body style="margin:0;">
+
+<section class="home" id="home">
+  <div class="bg-slide bg-slide-a"></div>
+  <div class="bg-slide bg-slide-b"></div>
+  <div class="home-overlay"></div>
+
+  <div class="home-content">
+    <div class="home-hero-wrap">
+
+      <div class="home-crest" aria-hidden="true"><span>DW</span></div>
+
+      <p class="home-eyebrow">Five-Star Hospitality · Ibadan, Nigeria</p>
+
+      <h1 class="home-title">
+        De Williams Place
+        <span class="home-kicker">Hotel</span>
+      </h1>
+
+      <div class="home-divider" aria-hidden="true"><span></span><em></em><span></span></div>
+
+      <p class="home-tagline">A boutique retreat on Akala Express, Ibadan — refined rooms, warm service and quiet comfort in every stay.</p>
+
+      <a href="#contact" class="home-cta">Reserve Your Stay</a>
+    </div>
+
+    <div class="add">
+      <div>
+        <span class="add-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.2"/><path d="M3.5 6.2 12 13l8.5-6.8"/></svg>
+        </span>
+        <span class="add-label">Email Us</span>
+        <p>dewilliamsplacehotel@gmail.com</p>
+      </div>
+      <div>
+        <span class="add-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </span>
+        <span class="add-label">WhatsApp</span>
+        <p>+234 706 235 0574</p>
+      </div>
+      <div>
+        <span class="add-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.3"/></svg>
+        </span>
+        <span class="add-label">Visit Us</span>
+        <p>Akala Express, Opposite Bovas Filling Station, Ibadan, Oyo State</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const images = [
+    '/images/delounge.jpg',
+    '/images/apart12.jpg',
+    '/images/cinema.jpg',
+    '/images/gym12.jpg',
+    '/images/rooms12.jpg',
+    '/images/lil.jpg',
+    '/images/recep.jpg'
+  ];
+
+  const slideA = document.querySelector('.bg-slide-a');
+  const slideB = document.querySelector('.bg-slide-b');
+
+  let current = 0;
+  let showingA = true;
+
+  images.forEach(src => { const img = new Image(); img.src = src; });
+
+  slideA.style.backgroundImage = `url('${images[0]}')`;
+  slideA.classList.add('active');
+
+  setInterval(() => {
+    current = (current + 1) % images.length;
+    const nextSlide = showingA ? slideB : slideA;
+    const currentSlide = showingA ? slideA : slideB;
+
+    nextSlide.style.backgroundImage = `url('${images[current]}')`;
+    nextSlide.classList.add('active');
+    currentSlide.classList.remove('active');
+
+    showingA = !showingA;
+  }, 4000);
+</script>
+
+</body>
+</html>

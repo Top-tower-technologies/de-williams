@@ -114,32 +114,7 @@
 
 
     <!-- home section start -->
- <style>
-  .home {
-    position: relative;
-    overflow: hidden;
-    /* keep your existing height/padding/etc from your current CSS */
-  }
-
-  .bg-slide {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    z-index: 0;
-    opacity: 0;
-    transition: opacity 1.8s ease-in-out;
-  }
-
-  .bg-slide.active {
-    opacity: 1;
-  }
-
-  .home-content {
-    position: relative;
-    z-index: 1;
-  }
-</style>
+ 
 
 <section class="home" id="home">
   <div class="bg-slide bg-slide-a"></div>
@@ -207,7 +182,8 @@
 
       <div class="column left">
         <div class="text">
-          <img src="/de-williams/images/rename.png" alt="De Williams Place" class="about-logo">
+<i class="fa-solid fa-hotel fa-spin-snap-8" style="font-size: 100px; color: #D3AE00"></i>
+<br>
           <h2>
             Essence of Luxury<br>
             <span>at De-Williams Place</span>
@@ -234,7 +210,7 @@
       <div class="column right">
         <span class="eyebrow">Who We Are</span>
         <p class="lead">
-          This is De-Williams <span class="typing"></span> — where sophistication meets ultimate comfort.
+          This is De-Williams place <span class="typing"></span> where sophistication meets ultimate comfort.
         </p>
         <p>
           Perfectly positioned in the vibrant heart of Ibadan, our luxury hotel offers a perfect blend of modern
@@ -262,7 +238,7 @@
   // Simple typing effect for "De-Williams <Place>"
   const typingEl = document.querySelector('.typing');
   if (typingEl) {
-    const word = 'Place';
+    const word = '';
     let i = 0;
     function typeLoop() {
       if (i <= word.length) {
