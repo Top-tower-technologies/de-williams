@@ -43,7 +43,6 @@
                 <li><a href="/booking/find-stay.html" class="menu-btn"  style=" background: #D3AE00; padding: 15px 30px; border: 1px solid rgb(255, 255, 255)"
                   >Find stay</a></li>
 
-                  <li><a href="/booking/find-stay.html" class="menu-btn"  style="  padding: 15px 30px; border: 1px solid #D3AE00">Join</a></li>
           </ul>
       <div class="menu-btn">
         <i class="fas fa-bars" style="font-weight: light"></i>
@@ -72,7 +71,6 @@
   <div class="hero-inner">
     <span class="eyebrow">Reserve Your Stay</span>
     <h1>Book Your Luxury Stay With Confidence</h1>
-    <p>Search available rooms, apply promo codes, and send your reservation details directly to us on WhatsApp — we'll confirm and hold your room.</p>
 
     <div class="booking-panel">
       <div class="steps">
@@ -144,7 +142,7 @@
         <div id="summary" class="summary"></div>
 
         <button class="btn gold" onclick="reserveNow()">
-          <i class="fa-brands fa-whatsapp"></i> Send Reservation via WhatsApp
+          <i class="fa-brands fa-whatsapp"></i> Confirm Reservation
         </button>
       </div>
     </div>
@@ -181,6 +179,7 @@
     font-size: 2.6rem;
     font-weight: 700;
     margin-bottom: 16px;
+    text-align: center;
     line-height: 1.3;
   }
 
@@ -463,11 +462,11 @@
 <script>
   // ---------- MOCK DATA (no backend) ----------
   const MOCK_ROOMS = [
-    { id: 1, type: 'Standard Room', price: 80000, maxGuests: 2, features: ['Queen Bed', 'Ensuite Bathroom', 'Free Wi-Fi'] },
-    { id: 2, type: 'Executive Room', price: 100000, maxGuests: 2, features: ['King Bed', 'Luxury Ensuite', 'High-Speed Wi-Fi'] },
-    { id: 3, type: 'Executive Twin Bed', price: 130000, maxGuests: 2, features: ['Twin Beds', 'Ensuite Bathroom', 'Wi-Fi'] },
-    { id: 4, type: 'Presidential Suite', price: 150000, maxGuests: 2, features: ['King Bed', 'Living Area', 'Luxury Bathroom'] },
-    { id: 5, type: 'Serviced Apartment', price: 150000, maxGuests: 4, features: ['2 Bedroom', 'Fully Furnished', 'Wi-Fi'] }
+    { id: 1, type: 'Standard Room', price: 88000, maxGuests: 2, features: ['Queen Bed', 'Ensuite Bathroom', 'Free Wi-Fi'] },
+    { id: 2, type: 'Executive Room', price: 110000, maxGuests: 2, features: ['King Bed', 'Luxury Ensuite', 'High-Speed Wi-Fi'] },
+    { id: 3, type: 'Executive Twin Bed', price: 145000, maxGuests: 2, features: ['Twin Beds', 'Ensuite Bathroom', 'Wi-Fi'] },
+    { id: 4, type: 'Presidential Suite', price: 165000, maxGuests: 2, features: ['King Bed', 'Living Area', 'Luxury Bathroom'] },
+    { id: 5, type: 'Serviced Apartment', price: 165000, maxGuests: 4, features: ['2 Bedroom', 'Fully Furnished', 'Wi-Fi'] }
   ];
 
   // Promo codes -> discount percent. Edit these to whatever codes you actually run.
@@ -567,7 +566,7 @@
       <p>${n} night(s) × ${money(room.price)}</p>
       <p>Discount: ${currentDiscount ? `${currentDiscount}% (${money(discountAmount)} saved)` : 'No discount'}</p>
       <h2>Total: ${money(total)}</h2>
-      <p class="muted">This sends your details to us on WhatsApp — we'll confirm your reservation directly.</p>
+      <p class="muted">This sends your details to us — we'll confirm your reservation directly.</p>
     `;
 
     showStep('guestStep');
