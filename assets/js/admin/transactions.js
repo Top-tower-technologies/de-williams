@@ -1,0 +1,1 @@
+(async()=>{let m=await master();staff_id.innerHTML='<option value="">All staff</option>'+opts(m.staff);async function go(){let q=new URLSearchParams(new FormData(filter));let d=await api('transactions/list.php?'+q);results.innerHTML=txTable(d.transactions)}filter.onsubmit=e=>{e.preventDefault();go()};go()})();
