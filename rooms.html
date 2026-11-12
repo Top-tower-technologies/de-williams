@@ -73,61 +73,6 @@
   }
 </style>
 
-<section class="home" id="home">
-  <div class="bg-slide bg-slide-a"></div>
-  <div class="bg-slide bg-slide-b"></div>
-
-  <div class="home-content">
-    <div class="add">
-      <div>
-        <p><b>Email us</b> dewilliamsplacehotel@gmail.com</p>
-      </div>
-      <div>
-        <p><b>Whatsapp</b> +234 706 235 0574</p>
-      </div>
-      <div>
-        <p><b>Visit us</b> Akala Express, Opposite Bovas Filling Station, Ibadan, Oyo State</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-  const images = [
-    '/images/delounge.jpg',
-    '/images/apart12.jpg',
-    '/images/cinema.jpg',
-    '/images/gym12.jpg',
-    '/images/rooms12.jpg',
-    '/images/lil.jpg',
-    '/images/recep.jpg'
-  ];
-
-  const slideA = document.querySelector('.bg-slide-a');
-  const slideB = document.querySelector('.bg-slide-b');
-
-  let current = 0;
-  let showingA = true;
-
-  // Preload images so there's no flash/lag on first swap
-  images.forEach(src => { const img = new Image(); img.src = src; });
-
-  // Set the first image immediately
-  slideA.style.backgroundImage = `url('${images[0]}')`;
-  slideA.classList.add('active');
-
-  setInterval(() => {
-    current = (current + 1) % images.length;
-    const nextSlide = showingA ? slideB : slideA;
-    const currentSlide = showingA ? slideA : slideB;
-
-    nextSlide.style.backgroundImage = `url('${images[current]}')`;
-    nextSlide.classList.add('active');
-    currentSlide.classList.remove('active');
-
-    showingA = !showingA;
-  }, 4000); // change image every 4 seconds
-</script>
 
 
 
