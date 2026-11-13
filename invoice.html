@@ -1,441 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DE-WILLIAMS PLACE HOTEL INVOICE/RECEIPT</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DE-WILLIAMS PLACE HOTEL INVOICE/RECEIPT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1f1b16; --gold:#c9a227; --gold-dark:#9a7b12; --gold-soft:#f6efd9;
+  --muted:#7a746a; --line:#e7e1d3; --bg:#f3f0e8; --card:#fff; --paid:#2f7d4f; --pending:#b3402f; --part:#b8860b;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);font-family:'Poppins',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
 
-  <!-- Poppins font (same as your design) -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+/* ---------- App shell ---------- */
+.topbar{background:var(--ink);color:#fff;padding:22px 16px;text-align:center;border-bottom:4px solid var(--gold)}
+.topbar h1{margin:0;font-family:'Cormorant Garamond',serif;font-size:30px;letter-spacing:3px;color:var(--gold);font-weight:700}
+.topbar p{margin:4px 0 0;font-size:13px;color:#cfc8b8}
+.app{max-width:1100px;margin:22px auto;padding:0 14px;display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:900px){.app{grid-template-columns:1fr}}
+.panel{background:var(--card);border-radius:14px;padding:20px;box-shadow:0 8px 28px rgba(60,45,10,.08);border:1px solid var(--line)}
+.panel h2{margin:0 0 14px;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-dark)}
+label{display:block;font-weight:500;font-size:12.5px;margin:12px 0 5px;color:var(--muted)}
+input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:14px;background:#fffdf8;color:var(--ink)}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.items-head{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+.items-head h3{margin:0;font-size:14px}
+.item{border:1px solid var(--line);border-radius:11px;padding:12px;margin-top:10px;background:#fffaf0;position:relative}
+.item label{margin-top:8px}
+.item .rm{position:absolute;top:8px;right:8px;background:none;color:var(--pending);padding:2px 8px;font-size:18px;line-height:1}
+.item .other{display:none;margin-top:8px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+button{background:var(--gold);color:#fff;border:0;padding:10px 16px;border-radius:9px;cursor:pointer;font:inherit;font-weight:600;font-size:14px}
+button:hover{background:var(--gold-dark)}
+button.ghost{background:#fff;color:var(--gold-dark);border:1px solid var(--gold)}
+button.ghost:hover{background:var(--gold-soft)}
+button.dark{background:var(--ink)}
+.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+#amountPaidContainer{display:none}
+.preview-viewport{background:#e9e4d6;border-radius:14px;padding:14px;overflow:auto;max-height:85vh;text-align:center}
+.empty{color:var(--muted);padding:80px 20px;font-size:14px}
 
-  <style>
-    :root{
-      --gold: #d4af37;
-      --gold-dark: #b58e00;
-      --muted: #777;
-      --accent-bg: #e8efea;
-      --body-bg: #f8f8f8;
-      --text: #444;
-    }
+/* ---------- Document (A4) ---------- */
+.a4{width:210mm;min-height:297mm;margin:0 auto;background:#fff;text-align:left;position:relative;overflow:hidden;
+  box-shadow:0 10px 34px rgba(0,0,0,.18);border:1px solid var(--gold);padding:0 0 12mm;display:flex;flex-direction:column}
+.a4::before{content:"";position:absolute;inset:8px;border:1.5px solid var(--gold);pointer-events:none;z-index:2}
+.a4 .wm{position:absolute;top:52%;left:50%;transform:translate(-50%,-50%) rotate(-24deg);font-family:'Cormorant Garamond',serif;
+  font-size:120px;font-weight:700;color:rgba(201,162,39,.07);letter-spacing:8px;white-space:nowrap;pointer-events:none}
+.d-head{background:var(--ink);color:#fff;padding:30px 34px 26px;display:flex;justify-content:space-between;gap:20px;border-bottom:5px solid var(--gold);margin:8px 8px 0;position:relative;z-index:1}
+.brand{display:flex;gap:14px;align-items:center}
+.logo{width:58px;height:58px;border-radius:50%;border:2px solid var(--gold);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700}
+.brand h2{margin:0;font-family:'Cormorant Garamond',serif;font-size:24px;letter-spacing:2px;color:var(--gold)}
+.brand p{margin:3px 0 0;font-size:10.5px;color:#cfc8b8;line-height:1.5}
+.doc-title{text-align:right}
+.doc-title h1{margin:0;font-family:'Cormorant Garamond',serif;font-size:40px;letter-spacing:5px;font-weight:600}
+.doc-title p{margin:4px 0 0;font-size:12px;color:#cfc8b8}
+.d-body{padding:26px 42px 0;flex:1;position:relative;z-index:1;display:flex;flex-direction:column}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.meta .k{font-size:10.5px;color:var(--muted);margin:0 0 3px}
+.meta .v{margin:0;font-weight:600;font-size:15px}
+.meta .bill .v{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold-dark);line-height:1.1}
+.meta .info p{margin:0 0 7px;font-size:12.5px;display:flex;justify-content:space-between;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.meta .info b{font-weight:600}
+table.details{width:100%;border-collapse:collapse;font-size:12.5px}
+.details th{background:var(--gold);color:#fff;text-align:left;padding:10px 9px;font-weight:600;font-size:12px}
+.details th.n,.details td.n{text-align:right}
+.details td{padding:11px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+.details tbody tr:nth-child(even) td{background:var(--gold-soft)}
+.details td small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.sum-wrap{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-top:22px}
+.status{display:inline-block;border:3px double;border-radius:8px;padding:6px 18px;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:24px;letter-spacing:3px;transform:rotate(-6deg);margin-top:6px}
+.status.PAID{color:var(--paid)} .status.PENDING{color:var(--pending)} .status.PART{color:var(--part)}
+.totals{min-width:250px;font-size:13px}
+.totals p{display:flex;justify-content:space-between;margin:0;padding:7px 0;border-bottom:1px solid var(--line)}
+.totals p.due{background:var(--ink);color:#fff;padding:11px 12px;border:0;border-radius:6px;margin-top:8px;font-weight:600}
+.totals p.due span{color:var(--gold);font-size:16px}
+.sign{margin-top:auto;padding-top:50px;text-align:center}
+.sign .h{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--gold-dark);border-bottom:1px solid var(--ink);display:inline-block;padding:0 34px 3px}
+.sign p{margin:5px 0 0;font-size:11px;color:var(--muted)}
+.d-foot{margin:18px 8px 0;text-align:center;color:var(--gold-dark);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;position:relative;z-index:1}
 
-    html,body{
-      height:100%;
-      margin:0;
-      background:var(--body-bg);
-      font-family:'Poppins',sans-serif;
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-
-    /* Page container (centered small UI area) */
-    .container {
-      width: 92%;
-      max-width: 980px;
-      margin: 24px auto;
-      background: #fff;
-      padding: 18px;
-      border-radius: 10px;
-      box-shadow: 0 6px 22px rgba(0,0,0,0.08);
-    }
-
-    h2,h3{ margin:6px 0; text-align:center; color:var(--gold); }
-
-    label{ display:block; font-weight:500; margin-top:10px; font-size:14px; }
-    input[type="text"], input[type="date"], input[type="number"], select {
-      width:100%; padding:10px; margin-top:6px; border:1px solid #ddd; border-radius:8px; font-size:14px;
-    }
-    button {
-      background:var(--gold); color:#fff; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:600;
-    }
-    button.secondary { background:#222; }
-    .buttons { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
-
-    .items-container { margin-top:12px; }
-    .item-group { display:flex; gap:10px; margin-bottom:8px; flex-wrap:wrap; }
-    .item-group input { flex:1; min-width:140px; }
-
-    #amountPaidContainer { display:none; margin-top:8px; }
-
-    /* ---------- Receipt (A4) Preview ---------- */
-    .preview-wrap { margin-top:20px; display:flex; justify-content:center; }
-    /* The A4 box */
-    .a4 {
-      width:210mm;              /* A4 width */
-      min-height:297mm;        /* A4 height */
-      box-sizing:border-box;
-      background:#fff;
-      border:10px solid var(--gold);
-      border-radius:6px;
-      padding:10px;
-      overflow:hidden;
-      box-shadow:0 8px 30px rgba(0,0,0,0.10);
-      color:var(--text);
-    }
-
-    /* Header */
-    .rw-header { display:flex; justify-content:space-between; align-items:flex-start; gap:20px; }
-    .rw-left h1 { margin:0; color:var(--gold); font-size:34px; }
-    .rw-left .address { color:var(--muted); font-size:13px; margin-top:8px; line-height:1.3; }
-    .rw-left .to { margin-top:18px; color:var(--gold-dark); font-weight:600; }
-    .rw-left .to span { display:block; color:var(--gold); font-weight:700; font-size:16px; margin-top:6px; }
-
-    .rw-right { text-align:right; }
-    .logo-circle {
-      border:2px solid var(--gold);
-      color:var(--gold);
-      display:inline-block;
-      border-radius:50%;
-      padding:12px 16px;
-      font-weight:700;
-      font-size:18px;
-      margin-bottom:8px;
-    }
-    .place-name { color:var(--gold); font-weight:600; margin:6px 0; }
-
-    /* Table */
-    .details { width:100%; border-collapse:collapse; margin:36px 0; font-size:14px; }
-    .details thead tr th {
-      background:var(--gold);
-      color:#fff;
-      text-align:left;
-      padding:10px;
-      font-weight:600;
-    }
-    .details tbody td {
-      background:var(--accent-bg);
-      padding:10px;
-      vertical-align:top;
-    }
-    .details td, .details th { border: none; }
-
-    /* Payment summary */
-    .payment-summary { display:flex; justify-content:space-between; margin-top:20px; gap:12px; font-size:14px; }
-    .payment-summary .right { text-align:right; min-width:200px; }
-    .payment-summary span { font-weight:600; color:var(--gold); }
-
-    .signature { text-align:center; margin-top:60px; }
-    .signature .sign { font-style:italic; color:var(--gold); font-weight:500; margin-bottom:6px; }
-
-    footer.a4-footer { text-align:center; margin-top:34px; color:var(--gold); font-weight:600; font-size:15px; }
-
-    /* Make the on-screen preview scroll inside the container if too tall */
-    .preview-viewport { width:100%; max-height:620px; overflow:auto; padding:12px; background:#fafafa; border-radius:6px; }
-
-    /* Print styles: ensure A4 and exact colors */
-    @media print {
-      body { background:#fff; -webkit-print-color-adjust:exact; color-adjust: exact; }
-      @page { size: A4; margin: 10mm; }
-      .container { box-shadow:none; }
-      .preview-viewport { max-height: none; overflow: visible; }
-      .a4 { box-shadow:none; border-radius: 0; margin:0; width: auto; min-height: auto; padding: 28mm; } /* keep margins via @page */
-    }
-  </style>
+/* ---------- Print ---------- */
+@media print{
+  @page{size:A4;margin:0}
+  html,body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .topbar,.panel,.empty{display:none!important}
+  .app{display:block;margin:0;padding:0;max-width:none}
+  .preview-viewport{all:unset;display:block}
+  .scaler{zoom:1!important}
+  .a4{box-shadow:none;margin:0;width:210mm;height:297mm}
+}
+</style>
 </head>
 <body>
 
-  <div class="container">
-    <h2>DE-WILLIAMS PLACE</h2>
-    <h3>Invoice & Receipt Printer</h3>
+<div class="topbar">
+  <h1>DE-WILLIAMS PLACE</h1>
+  <p>Invoice &amp; receipt printer</p>
+</div>
 
-    <label>Document Type</label>
-    <select id="docType">
-      <option value="RECEIPT">RECEIPT</option>
-      <option value="INVOICE">INVOICE</option>
-    </select>
+<div class="app">
+  <section class="panel">
+    <h2>Document details</h2>
+    <div class="row2">
+      <div>
+        <label for="docType">Document type</label>
+        <select id="docType"><option value="RECEIPT">Receipt</option><option value="INVOICE">Invoice</option></select>
+      </div>
+      <div>
+        <label for="category">Category</label>
+        <select id="category" onchange="switchCategory()">
+          <option value="hotel">Hotel</option>
+          <option value="food">Food and Beverages</option>
+        </select>
+      </div>
+    </div>
 
-    <label>Category</label>
-    <select id="category" onchange="switchCategory()">
-      <option value="hotel">Hotel</option>
-      <option value="food">Food and Beverages</option>
-    </select>
-
-    <label>Customer Name</label>
+    <label for="customerName">Customer name</label>
     <input type="text" id="customerName" placeholder="Enter customer name">
 
-    <label>Date</label>
-    <input type="date" id="receiptDate">
-
-    <label>Invoice No</label>
-    <input type="text" id="invoiceNo" placeholder="E.g., 2025/162">
-
-    <div class="items-container" id="itemsContainer">
-      <h4>Items</h4>
-    </div>
-    <div style="margin-top:8px;">
-      <button onclick="addItem()">Add Item</button>
+    <div class="row2">
+      <div>
+        <label for="receiptDate">Date</label>
+        <input type="date" id="receiptDate">
+      </div>
+      <div>
+        <label for="invoiceNo">Invoice no</label>
+        <input type="text" id="invoiceNo" placeholder="e.g. 2025/162">
+      </div>
     </div>
 
-    <label>Payment Method</label>
-    <select id="paymentMethod" onchange="toggleAmountPaid()">
-      <option value="PAID">FULLY PAID</option>
-      <option value="PENDING">PENDING</option>
-      <option value="PART">PART PAYMENT</option>
-    </select>
+    <div class="items-head">
+      <h3>Items</h3>
+      <button class="ghost" onclick="addItem()">+ Add item</button>
+    </div>
+    <div id="itemsContainer"></div>
 
-    <div id="amountPaidContainer">
-      <label>Amount Paid</label>
-      <input type="number" id="amountPaid" placeholder="Enter amount paid">
+    <div class="row2">
+      <div>
+        <label for="paymentMethod">Payment status</label>
+        <select id="paymentMethod" onchange="toggleAmountPaid()">
+          <option value="PAID">Fully paid</option>
+          <option value="PENDING">Pending</option>
+          <option value="PART">Part payment</option>
+        </select>
+      </div>
+      <div id="amountPaidContainer">
+        <label for="amountPaid">Amount paid (₦)</label>
+        <input type="number" id="amountPaid" placeholder="0" min="0" step="0.01">
+      </div>
     </div>
 
     <div class="buttons">
       <button onclick="generateReceipt()">Generate</button>
-      <button onclick="downloadReceipt()">Download / Print (A4)</button>
-      <button onclick="saveToJSON()">Save (JSON)</button>
+      <button class="dark" onclick="downloadReceipt()">Print / Save PDF</button>
+      <button class="ghost" onclick="saveToJSON()">Save JSON</button>
     </div>
+  </section>
 
-    <div class="preview-wrap">
-      <div class="preview-viewport" id="previewViewport" aria-live="polite">
-        <!-- Generated A4 receipt will be injected here -->
-      </div>
-    </div>
-  </div>
+  <section class="preview-viewport" id="previewViewport" aria-live="polite">
+    <div class="empty">Fill in the details and press Generate to preview the A4 document.</div>
+  </section>
+</div>
 
 <script>
-  // initialize
-  window.addEventListener('load', () => {
-    // set default date to today if empty
-    const d = new Date().toISOString().split('T')[0];
-    document.getElementById('receiptDate').value = d;
-    switchCategory();
+const ROOMS = ['Deluxe Room','Standard Room','Executive Room','Executive Twin Bed','Presidential Suite','2 Bedroom Service Apartment'];
+
+window.addEventListener('load', () => {
+  document.getElementById('receiptDate').value = new Date().toISOString().split('T')[0];
+  switchCategory();
+});
+window.addEventListener('resize', fitPreview);
+
+function switchCategory(){
+  document.getElementById('itemsContainer').innerHTML = '';
+  addItem();
+}
+
+function addItem(){
+  const cat = document.getElementById('category').value;
+  const div = document.createElement('div');
+  div.className = 'item';
+  const rm = '<button class="rm" title="Remove item" onclick="removeItem(this)">&times;</button>';
+  if(cat === 'hotel'){
+    div.innerHTML = rm + `
+      <label>Room type</label>
+      <select class="desc" onchange="onRoomChange(this)">
+        ${ROOMS.map(r => `<option>${r}</option>`).join('')}
+        <option value="__other">Other (type your own)…</option>
+      </select>
+      <input type="text" class="other" placeholder="Enter room / description">
+      <label>Stay dates</label>
+      <input type="text" class="duration" placeholder="e.g. 10th – 11th November 2025">
+      <div class="grid3">
+        <div><label>No. of rooms</label><input type="number" class="rooms" min="1" value="1"></div>
+        <div><label>No. of nights</label><input type="number" class="nights" min="1" value="1"></div>
+        <div><label>Price/night (₦)</label><input type="number" class="unit" step="0.01" min="0"></div>
+      </div>`;
+  } else {
+    div.innerHTML = rm + `
+      <label>Item description</label>
+      <input type="text" class="desc" placeholder="e.g. Dinner">
+      <div class="row2">
+        <div><label>Number (per head)</label><input type="number" class="number" min="1" value="1"></div>
+        <div><label>Amount per head (₦)</label><input type="number" class="amount" step="0.01" min="0"></div>
+      </div>`;
+  }
+  document.getElementById('itemsContainer').appendChild(div);
+}
+
+function removeItem(btn){
+  const c = document.getElementById('itemsContainer');
+  if(c.children.length > 1) btn.closest('.item').remove();
+}
+function onRoomChange(sel){
+  sel.parentElement.querySelector('.other').style.display = sel.value === '__other' ? 'block' : 'none';
+}
+function toggleAmountPaid(){
+  document.getElementById('amountPaidContainer').style.display =
+    document.getElementById('paymentMethod').value === 'PART' ? 'block' : 'none';
+}
+
+function formatCurrency(n){
+  n = Number(n); if(isNaN(n)) return '₦0';
+  return '₦' + (Math.round((n + Number.EPSILON) * 100) / 100).toLocaleString('en-NG', {minimumFractionDigits:0, maximumFractionDigits:2});
+}
+function prettyDate(s){
+  const d = new Date(s + 'T00:00:00');
+  return isNaN(d) ? s : d.toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+}
+function escapeHtml(str){
+  if(typeof str !== 'string') return str;
+  return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
+}
+function roomName(g){
+  const sel = g.querySelector('.desc');
+  return sel.tagName === 'SELECT' && sel.value === '__other' ? (g.querySelector('.other').value || 'Room') : sel.value;
+}
+
+function generateReceipt(){
+  const docType = document.getElementById('docType').value;
+  const category = document.getElementById('category').value;
+  const name = document.getElementById('customerName').value || 'Customer';
+  const date = document.getElementById('receiptDate').value || new Date().toISOString().split('T')[0];
+  const invoice = document.getElementById('invoiceNo').value || '0000';
+  const payment = document.getElementById('paymentMethod').value;
+  const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+
+  let rows = '', total = 0;
+  document.querySelectorAll('.item').forEach(g => {
+    const desc = category === 'hotel' ? roomName(g) : g.querySelector('.desc').value;
+    if(category === 'hotel'){
+      const dur = g.querySelector('.duration').value;
+      const rooms = parseInt(g.querySelector('.rooms').value) || 0;
+      const nights = parseInt(g.querySelector('.nights').value) || 0;
+      const unit = parseFloat(g.querySelector('.unit').value) || 0;
+      const rt = rooms * nights * unit; total += rt;
+      rows += `<tr>
+        <td>${escapeHtml(desc)}${dur ? `<small>${escapeHtml(dur)}</small>` : ''}</td>
+        <td class="n">${rooms}</td><td class="n">${nights}</td>
+        <td class="n">${formatCurrency(unit)}</td><td class="n">${formatCurrency(rt)}</td></tr>`;
+    } else {
+      const num = parseInt(g.querySelector('.number').value) || 0;
+      const amt = parseFloat(g.querySelector('.amount').value) || 0;
+      const rt = num * amt; total += rt;
+      rows += `<tr><td>${escapeHtml(desc)}</td><td class="n">${num}</td>
+        <td class="n">${formatCurrency(amt)}</td><td class="n">${formatCurrency(rt)}</td></tr>`;
+    }
   });
 
-  function switchCategory(){
-    const container = document.getElementById('itemsContainer');
-    container.innerHTML = '<h4>Items</h4>';
-    addItem();
-  }
+  const head = category === 'hotel'
+    ? '<th>Description</th><th class="n">Rooms</th><th class="n">Nights</th><th class="n">Price/night</th><th class="n">Total</th>'
+    : '<th>Description</th><th class="n">Number</th><th class="n">Per head</th><th class="n">Total</th>';
 
-  function addItem(){
-    const category = document.getElementById('category').value;
-    const container = document.getElementById('itemsContainer');
-    const div = document.createElement('div');
-    div.className = 'item-group';
+  const balance = total - amountPaid;
+  const due = payment === 'PART' ? formatCurrency(balance) : (payment === 'PENDING' ? formatCurrency(total) : 'NIL');
+  const label = {PAID:'FULLY PAID', PENDING:'PENDING', PART:'PART PAYMENT'}[payment];
+  const stamp = {PAID:'PAID', PENDING:'PENDING', PART:'PART PAID'}[payment];
 
+  const html = `
+  <div class="scaler"><div class="a4" id="a4Document">
+    <div class="wm">DW</div>
+    <div class="d-head">
+      <div class="brand">
+        <div class="logo">DW</div>
+        <div>
+          <h2>DE–WILLIAMS PLACE</h2>
+          <p>Akala Express, opposite Bovas Filling Station, Ibadan<br>+234 706 235 0574 · dewilliamsplacehotel@gmail.com</p>
+        </div>
+      </div>
+      <div class="doc-title"><h1>${escapeHtml(docType)}</h1><p>Bill statement</p></div>
+    </div>
+
+    <div class="d-body">
+      <div class="meta">
+        <div class="bill"><p class="k">${escapeHtml(docType)} to</p><p class="v">${escapeHtml(name)}</p></div>
+        <div class="info">
+          <p><span>Date</span><b>${escapeHtml(prettyDate(date))}</b></p>
+          <p><span>${escapeHtml(docType)} no</span><b>${escapeHtml(invoice)}</b></p>
+          <p><span>Payment</span><b>${label}</b></p>
+        </div>
+      </div>
+
+      <table class="details"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table>
+
+      <div class="sum-wrap">
+        <div><span class="status ${payment}">${stamp}</span></div>
+        <div class="totals">
+          <p><span>Total</span><b>${formatCurrency(total)}</b></p>
+          ${payment === 'PART' ? `<p><span>Amount paid</span><b>${formatCurrency(amountPaid)}</b></p>` : ''}
+          <p class="due"><span style="color:#fff;font-size:13px">Amount due</span><span>${due}</span></p>
+        </div>
+      </div>
+
+      <div class="sign">
+        <div class="h">@dewilliamsplaceibadan</div>
+        <p>Authorized digital signature</p>
+      </div>
+    </div>
+    <div class="d-foot">Thanks for your patronage!</div>
+  </div></div>`;
+
+  document.getElementById('previewViewport').innerHTML = html;
+  fitPreview();
+}
+
+// Shrink the A4 preview to fit narrow screens (print is unaffected)
+function fitPreview(){
+  const vp = document.getElementById('previewViewport');
+  const s = vp.querySelector('.scaler');
+  if(!s) return;
+  const a4px = 210 * 96 / 25.4;
+  const z = Math.min(1, (vp.clientWidth - 28) / a4px);
+  s.style.zoom = z;
+}
+
+// Prints only the document (form is hidden by print CSS); choose "Save as PDF" in the print dialog to download
+function downloadReceipt(){
+  generateReceipt();
+  setTimeout(() => window.print(), 150);
+}
+
+function saveToJSON(){
+  const category = document.getElementById('category').value;
+  const record = {
+    docType: document.getElementById('docType').value,
+    category,
+    name: document.getElementById('customerName').value,
+    date: document.getElementById('receiptDate').value,
+    invoice: document.getElementById('invoiceNo').value,
+    paymentMethod: document.getElementById('paymentMethod').value,
+    amountPaid: document.getElementById('amountPaid').value || '0',
+    items: []
+  };
+  document.querySelectorAll('.item').forEach(g => {
     if(category === 'hotel'){
-      div.innerHTML = `
-        <input type="text" class="desc" placeholder="Description (e.g., Standard room)">
-        <input type="text" class="duration" placeholder="Date Range (e.g., 10th – 11th November 2025)">
-        <input type="number" class="nights" placeholder="No. of Nights" min="1" value="1">
-        <input type="number" class="unit" placeholder="Unit Price (₦)" step="0.01">
-      `;
+      record.items.push({
+        roomType: roomName(g),
+        duration: g.querySelector('.duration').value,
+        rooms: g.querySelector('.rooms').value || '0',
+        nights: g.querySelector('.nights').value || '0',
+        unitPrice: g.querySelector('.unit').value || '0'
+      });
     } else {
-      div.innerHTML = `
-        <input type="text" class="desc" placeholder="Item Description (e.g., Dinner)">
-        <input type="number" class="number" placeholder="Number (per head)" min="1" value="1">
-        <input type="number" class="amount" placeholder="Amount (per head ₦)" step="0.01">
-      `;
-    }
-    container.appendChild(div);
-  }
-
-  function formatCurrency(n){
-    if (isNaN(n) || n === null) return '₦0';
-    // ensure two decimals then format thousands
-    const v = Number(n);
-    const fixed = Math.round((v + Number.EPSILON) * 100) / 100;
-    // use toLocaleString for thousands separator
-    return '₦' + fixed.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2});
-  }
-
-  function toggleAmountPaid(){
-    const m = document.getElementById('paymentMethod').value;
-    document.getElementById('amountPaidContainer').style.display = m === 'PART' ? 'block' : 'none';
-  }
-
-  function generateReceipt(){
-    const docType = document.getElementById('docType').value;
-    const category = document.getElementById('category').value;
-    const name = document.getElementById('customerName').value || 'Customer';
-    const date = document.getElementById('receiptDate').value || new Date().toISOString().split('T')[0];
-    const invoice = document.getElementById('invoiceNo').value || '0000';
-    const payment = document.getElementById('paymentMethod').value;
-    const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
-
-    const groups = Array.from(document.querySelectorAll('.item-group'));
-    let rows = '';
-    let total = 0;
-
-    if(groups.length === 0){
-      // ensure at least one row shown
-      rows = `<tr><td colspan="4">No items</td></tr>`;
-    } else {
-      groups.forEach(g => {
-        const desc = (g.querySelector('.desc') && g.querySelector('.desc').value) || '';
-        if(category === 'hotel'){
-          const duration = (g.querySelector('.duration') && g.querySelector('.duration').value) || '';
-          const nights = parseInt((g.querySelector('.nights') && g.querySelector('.nights').value) || 0);
-          const unit = parseFloat((g.querySelector('.unit') && g.querySelector('.unit').value) || 0);
-          const rowTotal = nights * unit;
-          total += rowTotal;
-          rows += `<tr>
-            <td>${escapeHtml(desc)}</td>
-            <td>${escapeHtml(duration)}</td>
-            <td>${formatCurrency(unit)}</td>
-            <td>${formatCurrency(rowTotal)}</td>
-          </tr>`;
-        } else {
-          const number = parseInt((g.querySelector('.number') && g.querySelector('.number').value) || 0);
-          const amount = parseFloat((g.querySelector('.amount') && g.querySelector('.amount').value) || 0);
-          const rowTotal = number * amount;
-          total += rowTotal;
-          rows += `<tr>
-            <td>${escapeHtml(desc)}</td>
-            <td>${number}</td>
-            <td>${formatCurrency(amount)}</td>
-            <td>${formatCurrency(rowTotal)}</td>
-          </tr>`;
-        }
+      record.items.push({
+        description: g.querySelector('.desc').value,
+        number: g.querySelector('.number').value || '0',
+        amountPerHead: g.querySelector('.amount').value || '0'
       });
     }
-
-    const balance = total - amountPaid;
-    const amountDue = payment === 'PART' ? formatCurrency(balance) : (payment === 'PENDING' ? formatCurrency(total) : 'NIL');
-
-    // Build table headers exactly like your design
-    const tableHeaders = category === 'hotel'
-      ? `<thead><tr><th>Description</th><th>Date</th><th>Unit Price</th><th>Total Price</th></tr></thead>`
-      : `<thead><tr><th>Description</th><th>Date</th><th>Unit Price</th><th>Total Price</th></tr></thead>`; // your example used same columns visually
-
-    // final HTML (matches your provided design)
-    const html = `
-      <div class="a4" id="a4Document">
-        <div class="rw-header">
-          <div class="rw-left">
-            <h1>${escapeHtml(docType)}</h1>
-            <p class="address">DE–WILLIAMS PLACE HOTEL, AKALA EXPRESS,<br>OPPOSITE BOVAS FILLING STATION, IBADAN</p>
-            <p class="to"><strong>${escapeHtml(docType)} to:</strong><br><span>${escapeHtml(name)}</span><br>BILL STATEMENT</p>
-          </div>
-
-          <div class="rw-right">
-            <div class="logo-circle">DW</div>
-            <p class="place-name">DE–WILLIAMS PLACE HOTEL</p>
-            <p>Date: <span>${escapeHtml(date)}</span></p>
-            <p>${escapeHtml(docType)} No: <span>${escapeHtml(invoice)}</span></p>
-            <p>Phone Number: +234 706 235 0574</p>
-            <p>Email: dewilliamsplacehotel@gmail.com</p>
-
-          </div>
-        </div>
-
-        <table class="details" role="table" aria-label="items table">
-          ${tableHeaders}
-          <tbody>
-            ${rows}
-          </tbody>
-        </table>
-
-        <div class="payment-summary">
-          <div class="left">
-            <p><strong>Payment Method:</strong> ${escapeHtml(payment === 'PAID' ? 'FULLY PAID' : (payment === 'PENDING' ? 'PENDING' : 'PART PAYMENT'))}</p>
-          </div>
-          <div class="right">
-            <p>Total: <span>${formatCurrency(total)}</span></p>
-            ${payment === 'PART' ? `<p>Amount Paid: <span>${formatCurrency(amountPaid)}</span></p>` : ''}
-            <p>Amount Due: <span>${amountDue}</span></p>
-          </div>
-        </div>
-
-        <div class="signature">
-          <p class="sign">@dewilliamsplaceibadan</p>
-          <p><strong>Authorized digital Signature</strong></p>
-        </div>
-
-        <footer class="a4-footer">
-          <p>Thanks for your patronage!</p>
-        </footer>
-      </div>
-    `;
-
-    // inject into preview viewport
-    const preview = document.getElementById('previewViewport');
-    preview.innerHTML = html;
-
-    // ensure print color adjust
-    document.body.style.webkitPrintColorAdjust = 'exact';
-  }
-
-  // Open a new window with A4 print-ready content (keeps same layout)
-  function downloadReceipt(){
-    // ensure receipt is generated
-    const preview = document.getElementById('previewViewport');
-    if(!preview.innerHTML.trim()){
-      generateReceipt();
-    }
-
-    // open popup and print with A4 settings and inline styles
-    const docHtml = preview.innerHTML;
-    const win = window.open('', '_blank', 'width=900,height=700');
-    const css = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'))
-      .map(n => n.outerHTML).join('\n');
-
-    // Add explicit @page A4 to ensure printer uses A4
-    const extra = `<style>
-      @page { size: A4; margin: 10mm; }
-      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; margin:0; font-family:'Poppins',sans-serif;}
-      /* keep same a4 wrapper sizing but let page margin handle whitespace */
-      .a4 { width: auto; min-height: auto; border:10px solid ${getComputedStyle(document.documentElement).getPropertyValue('--gold') || '#d4af37'}; box-sizing:border-box; padding:28mm; }
-    </style>`;
-
-    win.document.open();
-    win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Print - De-Williams</title>${css}${extra}</head><body>`);
-    win.document.write(docHtml);
-    win.document.write('</body></html>');
-    win.document.close();
-
-    // Give the new window a moment to render then trigger print
-    win.focus();
-    // Some browsers block immediate print; but we call print now
-    setTimeout(()=> { win.print(); /* don't close - let user decide */ }, 500);
-  }
-
-  // Save current invoice/receipt as JSON
-  function saveToJSON(){
-    const category = document.getElementById('category').value;
-    const record = {
-      docType: document.getElementById('docType').value,
-      category,
-      name: document.getElementById('customerName').value,
-      date: document.getElementById('receiptDate').value,
-      invoice: document.getElementById('invoiceNo').value,
-      paymentMethod: document.getElementById('paymentMethod').value,
-      amountPaid: document.getElementById('amountPaid').value || '0',
-      items: []
-    };
-
-    document.querySelectorAll('.item-group').forEach(group => {
-      if(category === 'hotel'){
-        record.items.push({
-          description: (group.querySelector('.desc') && group.querySelector('.desc').value) || '',
-          duration: (group.querySelector('.duration') && group.querySelector('.duration').value) || '',
-          nights: (group.querySelector('.nights') && group.querySelector('.nights').value) || '0',
-          unitPrice: (group.querySelector('.unit') && group.querySelector('.unit').value) || '0'
-        });
-      } else {
-        record.items.push({
-          description: (group.querySelector('.desc') && group.querySelector('.desc').value) || '',
-          number: (group.querySelector('.number') && group.querySelector('.number').value) || '0',
-          amountPerHead: (group.querySelector('.amount') && group.querySelector('.amount').value) || '0'
-        });
-      }
-    });
-
-    const blob = new Blob([JSON.stringify(record, null, 2)], {type:'application/json'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    const invoiceNo = record.invoice || 'unnamed';
-    a.download = `${record.docType}-${invoiceNo}.json`;
-    a.click();
-  }
-
-  // simple HTML escape for inserted user strings
-  function escapeHtml(str){
-    if(typeof str !== 'string') return str;
-    return str.replace(/[&<>"']/g, function(m){
-      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m];
-    });
-  }
+  });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(record, null, 2)], {type:'application/json'}));
+  a.download = `${record.docType}-${record.invoice || 'unnamed'}.json`;
+  a.click();
+}
 </script>
-
 </body>
 </html>
