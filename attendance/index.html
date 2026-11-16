@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>De-Williams Place | Staff Attendance</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">DW</div><div><strong>DE-WILLIAMS PLACE</strong><small>SUPERMARKET · STAFF ATTENDANCE</small></div></div>
+    <div class="date-chip" id="todayLabel">Loading date…</div>
+  </header>
+
+  <main class="shell">
+    <nav class="tabs">
+      <button class="tab active" data-view="checkin">Staff Check-in</button>
+      <button class="tab" data-view="admin">Admin Dashboard</button>
+    </nav>
+
+    <section id="checkinView" class="view">
+      <div class="hero">
+        <span class="eyebrow">DAILY ATTENDANCE</span>
+        <h1>Good day. Sign in for work.</h1>
+        <p>Select your registered name below to record your arrival.</p>
+      </div>
+      <div class="checkin-card">
+        <label for="staffSelect">Your registered name</label>
+        <select id="staffSelect"><option value="">Loading staff…</option></select>
+        <button id="checkinBtn" class="primary-btn">Mark me present <span>→</span></button>
+        <div id="checkinMessage" class="message" aria-live="polite"></div>
+        <p class="small-note">Your attendance is recorded using the official server time.</p>
+      </div>
+    </section>
+
+    <section id="adminView" class="view hidden">
+      <div id="loginPanel" class="login-card">
+        <span class="eyebrow">RESTRICTED AREA</span><h2>Admin sign in</h2>
+        <p>Enter your attendance administrator password.</p>
+        <form id="loginForm"><input id="adminPassword" type="password" placeholder="Admin password" required><button class="primary-btn">Sign in</button></form>
+        <div id="loginMessage" class="message"></div>
+      </div>
+
+      <div id="adminPanel" class="hidden">
+        <div class="admin-heading"><div><span class="eyebrow">OVERVIEW</span><h1>Attendance dashboard</h1><p id="periodCaption">Monitor staff punctuality and attendance.</p></div><button id="logoutBtn" class="ghost-btn">Sign out</button></div>
+        <div class="filters">
+          <div><label for="periodSelect">Report period</label><select id="periodSelect"><option value="week">This week</option><option value="month" selected>This month</option><option value="all">All records</option><option value="custom">Custom dates</option></select></div>
+          <div id="customDates" class="custom-dates hidden"><div><label for="fromDate">From</label><input type="date" id="fromDate"></div><div><label for="toDate">To</label><input type="date" id="toDate"></div></div>
+          <button id="applyFilter" class="secondary-btn">Apply</button>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><span>Staff registered</span><strong id="statStaff">—</strong></article>
+          <article class="stat-card"><span>Check-ins in period</span><strong id="statPresent">—</strong></article>
+          <article class="stat-card"><span>Late arrivals</span><strong id="statLate">—</strong></article>
+          <article class="stat-card"><span>Average minutes late</span><strong id="statAverage">—</strong></article>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel"><div class="panel-head"><div><h3>Staff punctuality</h3><p>Late frequency and total minutes late</p></div></div><div class="table-wrap"><table><thead><tr><th>Staff member</th><th>Present</th><th>Late days</th><th>Late rate</th><th>Minutes late</th></tr></thead><tbody id="staffSummary"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></section>
+          <section class="panel"><div class="panel-head"><div><h3>Manage staff</h3><p>Add staff using their registered name</p></div></div><form id="addStaffForm" class="inline-form"><input id="newStaffName" placeholder="Full name" required><button class="secondary-btn">Add staff</button></form><div id="staffList" class="staff-list"></div></section>
+        </div>
+        <section class="panel attendance-panel"><div class="panel-head"><div><h3>Attendance records</h3><p>Individual arrival times and lateness</p></div><button id="exportBtn" class="ghost-btn">Export CSV ↓</button></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Staff member</th><th>Check-in time</th><th>Status</th><th>Minutes late</th></tr></thead><tbody id="attendanceRows"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></section>
+        <section class="panel settings-panel"><div class="panel-head"><div><h3>Attendance settings</h3><p>Set the expected arrival time and grace period</p></div></div><form id="settingsForm" class="settings-form"><div><label for="openingTime">Opening / resumption time</label><input type="time" id="openingTime" required></div><div><label for="graceMinutes">Grace period (minutes)</label><input type="number" id="graceMinutes" min="0" max="180" required></div><button class="secondary-btn">Save settings</button></form><div id="settingsMessage" class="message"></div></section>
+      </div>
+    </section>
+  </main>
+  <footer>De-Williams Place · Staff Attendance System</footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>
