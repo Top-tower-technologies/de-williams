@@ -87,7 +87,7 @@ loadPublicStaff();
    Face verification (face-api.js, runs in the browser; the server makes
    the final accept/reject decision and keeps the reference data)
    ===================================================================== */
-const MODEL_URL = "assets/models";
+const MODEL_URL = "/attendance/assets/models";
 const CHECKIN_LABEL = 'Verify face &amp; mark me present <span>→</span>';
 let modelsReady = null;
 
