@@ -37,7 +37,9 @@ function write_store($name,$data) {
 }
 function settings_data() {
     $s=read_store('settings',['opening_time'=>'08:00','grace_minutes'=>10]);
-    return ['opening_time'=>$s['opening_time']??'08:00','grace_minutes'=>(int)($s['grace_minutes']??10)];
+    $thr=isset($s['face_threshold'])?(float)$s['face_threshold']:0.5;
+    if($thr<0.35||$thr>0.6) $thr=0.5;
+    return ['opening_time'=>$s['opening_time']??'08:00','grace_minutes'=>(int)($s['grace_minutes']??10),'face_threshold'=>$thr];
 }
 function admin_required() {
     $header=$_SERVER['HTTP_AUTHORIZATION']??'';
@@ -53,4 +55,57 @@ function make_token() {
 }
 function active_staff() {
     return array_values(array_filter(read_store('staff',[]),fn($s)=>!empty($s['active'])));
+}
+
+/* ---------- Face verification helpers ---------- */
+// A face descriptor is a list of 128 numbers produced in the browser by face-api.js.
+function parse_descriptor($d) {
+    if(!is_array($d)||count($d)!==128) return null;
+    $out=[];
+    foreach($d as $v) {
+        if(!is_int($v)&&!is_float($v)) return null;
+        $f=(float)$v;
+        if(!is_finite($f)||abs($f)>5) return null;
+        $out[]=round($f,5);
+    }
+    return $out;
+}
+function face_distance($a,$b) {
+    $sum=0.0;
+    for($i=0;$i<128;$i++){$x=$a[$i]-$b[$i];$sum+=$x*$x;}
+    return sqrt($sum);
+}
+function best_face_distance($live,$person) {
+    $best=null;
+    foreach(($person['face']['descriptors']??[]) as $d) {
+        $x=face_distance($live,$d);
+        if($best===null||$x<$best) $best=$x;
+    }
+    return $best;
+}
+function has_face($s) { return !empty($s['face']['descriptors']); }
+// Never send descriptors back to the browser, not even to the admin.
+function staff_view($s) {
+    return ['id'=>$s['id'],'name'=>$s['name'],'active'=>!empty($s['active']),'created_at'=>$s['created_at']??null,
+            'face_enrolled'=>has_face($s),'face_enrolled_at'=>$s['face']['enrolled_at']??null];
+}
+function photos_dir() {
+    $dir=DATA_DIR.'/photos';
+    if(!is_dir($dir)&&!mkdir($dir,0750,true)) throw new Exception('Cannot create photo directory.');
+    return $dir;
+}
+function save_photo($dataUrl,$filename) {
+    $prefix='data:image/jpeg;base64,';
+    if(!is_string($dataUrl)||strpos($dataUrl,$prefix)!==0) return false;
+    $b64=substr($dataUrl,strlen($prefix));
+    if($b64===''||strlen($b64)>600000) return false;
+    $bin=base64_decode($b64,true);
+    if($bin===false||substr($bin,0,3)!=="\xFF\xD8\xFF") return false;
+    $info=@getimagesizefromstring($bin);
+    if(!$info||$info[2]!==IMAGETYPE_JPEG||$info[0]>2000||$info[1]>2000) return false;
+    return file_put_contents(photos_dir().'/'.$filename,$bin,LOCK_EX)!==false;
+}
+function delete_photo($filename) {
+    $f=DATA_DIR.'/photos/'.$filename;
+    if(is_file($f)) @unlink($f);
 }

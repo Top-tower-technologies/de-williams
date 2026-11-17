@@ -4,7 +4,8 @@ A standalone attendance web app (HTML/CSS/JavaScript) with a PHP + JSON API back
 The frontend and API can be hosted on different domains.
 
 ## Included
-- Staff check-in by selecting/entering their registered name.
+- **Face verification**: the admin registers each staff member's face; at check-in the staff member selects their name, snaps a photo, and attendance is recorded only if the face matches the registered one.
+- Staff check-in by selecting their registered name (plus face check).
 - One attendance record per staff member per workday.
 - Configurable opening time and grace period (admin settings).
 - Late status and exact minutes late shown immediately.
@@ -29,6 +30,19 @@ The frontend and API can be hosted on different domains.
    `const API_BASE = "https://your-api-domain.com/api";`
 7. Open the frontend. Sign in to the Admin tab with your configured password.
 
+## Face verification
+**How it works**
+1. Admin Dashboard → *Manage staff* → **Register face** (up to 3 samples; one is enough). The browser converts each face into a 128-number descriptor using face-api.js (bundled locally in `assets/vendor` and `assets/models`, about 7 MB, no CDN needed).
+2. Descriptors are stored in `data/staff.json`; the reference photo is stored in `data/photos/`. Descriptors are never sent back to any browser.
+3. At check-in the staff member picks their name and opens the camera. The browser detects one face, creates a descriptor and sends it to the server with a small snapshot.
+4. **The server** compares it to that person's registered descriptors and rejects the request if the distance is above the threshold. Only then is the time recorded. The snapshot is saved with the record so the admin can review it (Attendance records → *Photo → View*).
+
+**Rules enforced by the server:** staff with no registered face cannot check in; one face cannot be registered to two staff; a face sample set must be consistent; deactivating a staff member deletes their face data (check-in photos stay as attendance evidence).
+
+**Tuning:** Admin → Attendance settings → *Face match strictness* (Strict 0.45 / Balanced 0.50 / Lenient 0.55). If genuine staff are rejected often, register 2–3 samples in the same lighting as the check-in point, or move to Lenient. If look-alikes get through, use Strict.
+
+**Requirements:** the page must be served over **HTTPS** (browsers block the camera otherwise; `localhost` works for testing). `data/photos/` must be writable. `data/.htaccess` blocks web access on Apache; on Nginx add an equivalent `deny` rule for `/data/`.
+
 ## Default attendance policy
 - Opening time: 08:00
 - Grace period: 10 minutes
@@ -40,8 +54,8 @@ The frontend and API can be hosted on different domains.
 All endpoints return JSON: `{ "success": true|false, ... }`
 
 Public:
-- `GET /api/staff.php` — list active staff names for the check-in screen.
-- `POST /api/attendance.php` — check in: `{ "staff_id": 1 }`
+- `GET /api/staff.php` — list active staff names (and whether a face is registered) for the check-in screen.
+- `POST /api/attendance.php` — check in: `{ "staff_id": 1, "descriptor": [128 numbers], "photo": "data:image/jpeg;base64,..." }` (403 `face_mismatch`, 409 `no_face`)
 
 Admin (send `Authorization: Bearer <token>`):
 - `POST /api/login.php` — `{ "password": "..." }`
@@ -50,12 +64,16 @@ Admin (send `Authorization: Bearer <token>`):
 - `POST /api/admin.php?action=staff` — `{ "name": "..." }`
 - `DELETE /api/admin.php?action=staff&id=1`
 - `GET /api/admin.php?action=attendance&from=YYYY-MM-DD&to=YYYY-MM-DD`
+- `POST /api/admin.php?action=face` — register a face: `{ "staff_id": 1, "descriptors": [[128 numbers], ...], "photo": "data:image/jpeg;base64,..." }`
+- `DELETE /api/admin.php?action=face&id=1` — remove a registered face
+- `GET /api/admin.php?action=photo&file=checkin_12.jpg` — fetch a saved photo (`enroll_<id>.jpg` or `checkin_<id>.jpg`)
 - `GET /api/admin.php?action=settings`
-- `POST /api/admin.php?action=settings` — `{ "opening_time": "08:00", "grace_minutes": 10 }`
+- `POST /api/admin.php?action=settings` — `{ "opening_time": "08:00", "grace_minutes": 10, "face_threshold": 0.5 }`
 
 ## Production notes
 - JSON storage is suitable for a small single-location team and low traffic. For heavy concurrent usage or multiple branches, move to MySQL/PostgreSQL.
 - HTTPS is required in production.
 - Use a strong admin password and restrict CORS to your actual frontend origin.
-- Consider adding staff PINs/QR codes if impersonation becomes a concern. Name-only check-in is convenient but cannot verify identity.
+- **Limits of face matching:** there is no liveness detection, so a clear photo of a colleague held up to the camera could fool it. The saved check-in photo lets the admin spot this afterwards; place the check-in device where a supervisor can see it. Treat the match as strong evidence, not proof.
+- **Privacy:** face data is biometric (sensitive) personal data. Tell staff what is stored and why, and get their written consent before registering them (see the Nigeria Data Protection Act 2023).
 - The API stores a single daily check-in per staff member; duplicate attempts return the existing record rather than creating another.

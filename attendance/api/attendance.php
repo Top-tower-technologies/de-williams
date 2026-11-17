@@ -20,7 +20,21 @@ foreach($records as $record) {
         respond(['success'=>true,'attendance'=>$record,'already_checked_in'=>true,'message'=>'Attendance was already recorded for today.']);
     }
 }
-$entry=['id'=>count($records)?max(array_column($records,'id'))+1:1,'staff_id'=>$id,'staff_name'=>$person['name'],'date'=>$date,'checked_in_at'=>$now->format(DateTimeInterface::ATOM),'time'=>$now->format('h:i A'),'status'=>$status,'minutes_late'=>$minutesLate];
+
+/* ---- Face verification: the live face must match the face the admin registered ---- */
+if(!has_face($person)) respond(['success'=>false,'message'=>'Your face has not been registered yet. Please ask the administrator to register it.','code'=>'no_face'],409);
+$live=parse_descriptor($body['descriptor']??null);
+if(!$live) respond(['success'=>false,'message'=>'No face data received. Please capture your face again.','code'=>'bad_face'],422);
+$distance=best_face_distance($live,$person);
+if($distance===null||$distance>$settings['face_threshold']) {
+    respond(['success'=>false,'message'=>'Face not recognised. Make sure you selected your own name, face the camera in good light and try again.','code'=>'face_mismatch'],403);
+}
+
+$entryId=count($records)?max(array_column($records,'id'))+1:1;
+$photoName='checkin_'.$entryId.'.jpg';
+if(!save_photo($body['photo']??null,$photoName)) respond(['success'=>false,'message'=>'Could not read the captured photo. Please try again.','code'=>'bad_photo'],422);
+
+$entry=['id'=>$entryId,'staff_id'=>$id,'staff_name'=>$person['name'],'date'=>$date,'checked_in_at'=>$now->format(DateTimeInterface::ATOM),'time'=>$now->format('h:i A'),'status'=>$status,'minutes_late'=>$minutesLate,'face_verified'=>true,'face_distance'=>round($distance,3),'photo'=>$photoName];
 $records[]=$entry;
-try { write_store('attendance',$records); } catch(Throwable $e) { respond(['success'=>false,'message'=>'Could not save attendance'],500); }
+try { write_store('attendance',$records); } catch(Throwable $e) { delete_photo($photoName); respond(['success'=>false,'message'=>'Could not save attendance'],500); }
 respond(['success'=>true,'attendance'=>$entry,'already_checked_in'=>false]);
